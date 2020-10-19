@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_detalles"
+        android:name="es.unex.giis.zuni.ui.detalles.DetallesFragment"
+        android:label="@string/menu_detalles"
+        tools:layout="@layout/fragment_detalles" />
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="es.unex.giis.zuni.ui.previsiones.PrevisionesFragment"
+        android:label="@string/menu_previsiones"
+        tools:layout="@layout/fragment_previsiones" />
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="es.unex.giis.zuni.ui.historico.HistoricoFragment"
+        android:label="@string/menu_historico"
+        tools:layout="@layout/fragment_historico" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="es.unex.giis.zuni.ui.eventos.EventosFragment"
+        android:label="@string/menu_eventos"
+        tools:layout="@layout/fragment_slideshow" />
+</navigation>

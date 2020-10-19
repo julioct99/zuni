@@ -1,129 +1,63 @@
 package es.unex.giis.zuni;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.os.StrictMode;
-import android.widget.TextView;
+import android.view.Menu;
+import android.view.View;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
-    double latt, longt;
-
-    private static String convertStreamToString(InputStream is) {
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-
-        String line = null;
-        try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return sb.toString();
-    }
+    private AppBarConfiguration mAppBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
-        StrictMode.setThreadPolicy(policy);
-
-        TextView texto = findViewById(R.id.texto);
-        String respuesta = "";
-        double lat=0, lng=0;
-
-        try {
-            String webService = "https://geocode.xyz/Puerto%20hurraco?json=1";
-            URL url = new URL(webService);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
-
-            // System.out.println(conn.getResponseCode());
-
-            if (conn.getResponseCode() == 200)
-            {
-
-
-                InputStream instream = conn.getInputStream();
-                String result = convertStreamToString(instream);
-
-
-                JSONObject obj = new JSONObject(result);
-
-                latt = Double.parseDouble(obj.getString("latt"));
-                longt = Double.parseDouble(obj.getString("longt"));
-
-                String webService1 = "https://api.openweathermap.org/data/2.5/weather?lat="+ latt+ "&lon="+longt+"&appid=55ab2d28aad932680b93bf96e8e44f6e";
-                URL url1 = new URL(webService1);
-                HttpURLConnection conn1 = (HttpURLConnection) url1.openConnection();
-                conn1.setRequestMethod("GET");
-                conn1.setRequestProperty("Accept", "application/json");
-
-                if (conn1.getResponseCode() == 200) {
-
-
-                    InputStream instream1 = conn1.getInputStream();
-                    String result1 = convertStreamToString(instream1);
-                    texto.setText(result1);
-
-                }
-                else{
-                    texto.setText("mal");
-                }
-
-
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
+        });
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_detalles)
+                .setDrawerLayout(drawer)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
-
-           // System.out.println("lat: " + lat);
-           // System.out.println("lng: " + lng);
-
-
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-//        HttpClient client = HttpClient.newHttpClient();
-//        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://api.openweathermap.org/data/2.5/weather?q="+ciudad+"&appid=55ab2d28aad932680b93bf96e8e44f6e")).build();
-//        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-//                .thenApply(HttpResponse::body)
-//                .thenAccept(Prueba::copia)
-//                .join();
-
-
-
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
     }
 }
