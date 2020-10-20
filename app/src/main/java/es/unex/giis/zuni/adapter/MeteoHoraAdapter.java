@@ -7,6 +7,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 
 import es.unex.giis.zuni.MeteoHora;
@@ -48,6 +50,11 @@ public class MeteoHoraAdapter extends BaseAdapter {
         TextView hora = view.findViewById(R.id.h_hora);
         TextView condicion = view.findViewById(R.id.h_condicion);
         TextView descripcion = view.findViewById(R.id.h_descripcion);
+        TextView humedad = view.findViewById(R.id.h_humedad);
+        TextView viento = view.findViewById(R.id.h_viento);
+        TextView presion = view.findViewById(R.id.h_presion);
+        TextView st = view.findViewById(R.id.h_st);
+        TextView temp = view.findViewById(R.id.h_temp);
 
         MeteoHora mh = models.get(i);
         switch (mh.getCondicion()){
@@ -69,9 +76,23 @@ public class MeteoHoraAdapter extends BaseAdapter {
                 break;
         }
 
+        DecimalFormatSymbols simbolos = new DecimalFormatSymbols();
+        simbolos.setDecimalSeparator('.');
+
+        DecimalFormat df = new DecimalFormat("0",simbolos);
+        DecimalFormat df1 = new DecimalFormat("0.0",simbolos);
+        DecimalFormat df2 = new DecimalFormat("0.00",simbolos);
+
         hora.setText(Integer.toString(mh.getHora()).concat(":00"));
+
         condicion.setText(mh.getCondicion());
         descripcion.setText(mh.getDescripcion());
+
+        humedad.setText("H: ".concat(df.format(mh.getHumedad())).concat("%"));
+        presion.setText("P: ".concat(df1.format(mh.getPresion())).concat(" hPa"));
+        viento.setText("WS: ".concat(df2.format(mh.getViento())).concat(" m/s"));
+        st.setText("T: ".concat(df2.format(mh.getSensacion_termica())).concat(" ºC"));
+        temp.setText("FL:".concat(df2.format(mh.getTemperatura())).concat(" ºC"));
 
         return view;
     }

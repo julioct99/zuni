@@ -53,9 +53,9 @@ public class DetallesFragment extends Fragment {
         max.setText("Max: ".concat(Float.toString(dia.getMax()).concat(" ºC")));
 
 
-        viento.setText("Viento: ".concat(Float.toString(dia.getViento())));
-        humedad.setText("Humedad: ".concat(Float.toString(dia.getHumedad())));
-        presion.setText("Presion: ".concat(Float.toString(dia.getPresion())));
+        viento.setText("WS: ".concat(Float.toString(dia.getViento())).concat(" m/s"));
+        humedad.setText("H: ".concat(Float.toString(dia.getHumedad())).concat("%"));
+        presion.setText("P: ".concat(Float.toString(dia.getPresion())).concat(" hPa"));
 
 
 

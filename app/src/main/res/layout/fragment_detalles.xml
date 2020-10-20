@@ -24,7 +24,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
                 android:layout_width="360dp"
-                android:layout_height="225dp">
+                android:layout_height="225dp"
+                android:background="#9C27B0">
 
                 <TextView
                     android:id="@+id/max"
@@ -35,6 +36,7 @@
                     android:layout_marginBottom="24dp"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/min"
                     app:layout_constraintEnd_toStartOf="@+id/image"
                     app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +51,7 @@
                     android:layout_marginRight="12dp"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@+id/image"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/max" />
@@ -62,6 +65,7 @@
                     android:layout_marginRight="12dp"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@+id/image"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/min" />
@@ -75,6 +79,7 @@
                     android:layout_marginRight="12dp"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@+id/image"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/humedad" />
@@ -88,6 +93,7 @@
                     android:layout_marginRight="12dp"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@+id/condicion"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/viento" />
@@ -112,6 +118,7 @@
                     android:layout_marginTop="8dp"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/viento"
                     app:layout_constraintTop_toBottomOf="@+id/image" />
 
@@ -124,10 +131,17 @@
                     android:layout_marginTop="8dp"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/presion"
                     app:layout_constraintTop_toBottomOf="@+id/condicion" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
             <ListView
                 android:id="@+id/list_items"
