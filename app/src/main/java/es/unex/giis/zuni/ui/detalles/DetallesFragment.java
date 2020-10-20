@@ -5,14 +5,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import java.util.ArrayList;
+
 import es.unex.giis.zuni.MeteoDia;
+import es.unex.giis.zuni.MeteoHora;
 import es.unex.giis.zuni.R;
+import es.unex.giis.zuni.adapter.MeteoHoraAdapter;
 import es.unex.giis.zuni.ui.eventos.SlideshowViewModel;
 
 public class DetallesFragment extends Fragment {
@@ -53,6 +58,7 @@ public class DetallesFragment extends Fragment {
         presion.setText("Presion: ".concat(Float.toString(dia.getPresion())));
 
 
+
         switch (dia.getCondicion()){
             case "Thunderstorm":
                 image.setImageResource(R.drawable.tormenta);
@@ -71,8 +77,13 @@ public class DetallesFragment extends Fragment {
                 image.setImageResource(R.drawable.nube);
                 break;
         }
+        ListView listView;
+        MeteoHoraAdapter adapter;
 
+        listView = (ListView) root.findViewById(R.id.list_items);
 
+        adapter = new MeteoHoraAdapter(getActivity(), (ArrayList<MeteoHora>) dia.getHoras());
+        listView.setAdapter(adapter);
 /*
         final TextView textView = root.findViewById(R.id.text_slideshow);
         slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {

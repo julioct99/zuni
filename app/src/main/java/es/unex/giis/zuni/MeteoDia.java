@@ -113,19 +113,41 @@ public class MeteoDia {
         this.viento = viento;
     }
 
-    public void setDatosEjemplo(){
-        condicion="Clear";
-        descripcion="clear sky";
-        max=23.5f;
-        min=10f;
-        humedad=10;
-        viento=23.5f;
-        presion=1017f;
+    public void setDatosEjemplo() {
+
+        condicion = "Clear";
+        descripcion = "clear sky";
+        max = 23.5f;
+        min = 10f;
+        humedad = 10;
+        viento = 23.5f;
+        presion = 1017f;
         Calendar today = Calendar.getInstance();
         today.set(Calendar.HOUR_OF_DAY, 0);
-        fecha=today.getTime();
+        fecha = today.getTime();
 
-        for(int i=0;i<24;i++)
-            horas.add(new MeteoHora("Clear","clear sky", i+0.1f*i, i+0.1f*i-0.3f,10+i/2,i,100*i,i));
+        for (int i = 0; i < 24; i++) {
+            String _condicion =null;
+            switch (i%6){
+                case 0:
+                    _condicion="Thunderstorm";
+                    break;
+                case 1:
+                case 2:
+                    _condicion="Rain";
+                    break;
+                case 3:
+                    _condicion="Snow";
+                    break;
+                case 4:
+                    _condicion="Clear";
+                    break;
+                case 5:
+                    _condicion="Clouds";
+                    break;
+            }
+            horas.add(new MeteoHora(_condicion, "clear sky", i + 0.1f * i, i + 0.1f * i - 0.3f, 10 + i / 2, i, 100 * i, i));
+
+        }
     }
 }
