@@ -8,10 +8,11 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_previsiones">Previsiones</string>
-    <string name="menu_historico">Historico</string>
-    <string name="menu_eventos">Eventos</string>
-    <string name="menu_detalles">Detalles</string>
+    <string name="menu_previsiones">Daily Forecast</string>
+    <string name="menu_historico">Historical weather</string>
+    <string name="menu_eventos">Events</string>
+    <string name="menu_detalles">Today Forecast</string>
+    <string name="menu_settings">Settings</string>
 
     <string name="img_description1">Imagen de la condicion meteorologica</string>
 </resources>

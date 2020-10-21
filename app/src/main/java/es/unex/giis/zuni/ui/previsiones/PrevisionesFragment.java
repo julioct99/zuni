@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import es.unex.giis.zuni.R;
@@ -65,13 +68,19 @@ https://api.openweathermap.org/data/2.5/onecall?lat=38.59758&lon=-5.43701&exclud
  */
 public class PrevisionesFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private PrevisionesViewModel homeViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        homeViewModel = ViewModelProviders.of(this).get(PrevisionesViewModel.class);
         View root = inflater.inflate(R.layout.fragment_previsiones, container, false);
-
+        final TextView textView = root.findViewById(R.id.text_previsiones);
+        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                textView.setText(s);
+            }
+        });
 
         /*
         Lista de posibles condiciones:

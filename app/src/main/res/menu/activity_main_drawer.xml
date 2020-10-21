@@ -8,13 +8,16 @@
             android:id="@+id/nav_detalles"
             android:title="@string/menu_detalles" />
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_previsiones"
             android:title="@string/menu_previsiones" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_historical"
             android:title="@string/menu_historico" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_eventos"
             android:title="@string/menu_eventos" />
+        <item
+            android:id="@+id/nav_settings"
+            android:title="@string/menu_settings" />
     </group>
 </menu>

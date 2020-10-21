@@ -12,20 +12,26 @@
         tools:layout="@layout/fragment_detalles" />
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_previsiones"
         android:name="es.unex.giis.zuni.ui.previsiones.PrevisionesFragment"
         android:label="@string/menu_previsiones"
         tools:layout="@layout/fragment_previsiones" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_historical"
         android:name="es.unex.giis.zuni.ui.historico.HistoricoFragment"
         android:label="@string/menu_historico"
         tools:layout="@layout/fragment_historico" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_eventos"
         android:name="es.unex.giis.zuni.ui.eventos.EventosFragment"
         android:label="@string/menu_eventos"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_eventos" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="es.unex.giis.zuni.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

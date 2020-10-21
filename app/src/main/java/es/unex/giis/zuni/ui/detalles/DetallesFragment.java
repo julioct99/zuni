@@ -18,16 +18,16 @@ import es.unex.giis.zuni.MeteoDia;
 import es.unex.giis.zuni.MeteoHora;
 import es.unex.giis.zuni.R;
 import es.unex.giis.zuni.adapter.MeteoHoraAdapter;
-import es.unex.giis.zuni.ui.eventos.SlideshowViewModel;
+import es.unex.giis.zuni.ui.eventos.EventosViewModel;
 
 public class DetallesFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private EventosViewModel slideshowViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
+                ViewModelProviders.of(this).get(EventosViewModel.class);
         View root = inflater.inflate(R.layout.fragment_detalles, container, false);
 
         final MeteoDia dia = new MeteoDia();

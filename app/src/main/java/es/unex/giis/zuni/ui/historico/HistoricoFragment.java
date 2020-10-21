@@ -16,12 +16,12 @@ import es.unex.giis.zuni.R;
 
 public class HistoricoFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private HistoricoViewModel galleryViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
+                ViewModelProviders.of(this).get(HistoricoViewModel.class);
         View root = inflater.inflate(R.layout.fragment_historico, container, false);
         final TextView textView = root.findViewById(R.id.text_historico);
         galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
