@@ -1,4 +1,4 @@
-package es.unex.giis.zuni;
+package es.unex.giis.zuni.utils;
 
 import androidx.room.Entity;
 

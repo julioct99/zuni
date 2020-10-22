@@ -1,5 +1,5 @@
 
-package es.unex.giis.zuni;
+package es.unex.giis.zuni.utils;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

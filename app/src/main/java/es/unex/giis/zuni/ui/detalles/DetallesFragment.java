@@ -15,16 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import es.unex.giis.zuni.Hourly;
-import es.unex.giis.zuni.MeteoDia;
 import es.unex.giis.zuni.R;
 import es.unex.giis.zuni.adapter.MeteoHoraAdapter;
 import es.unex.giis.zuni.openweather.AppExecutors;
 import es.unex.giis.zuni.openweather.MeteoHoraNetworkLoaderRunnable;
 import es.unex.giis.zuni.ui.eventos.EventosViewModel;
+import es.unex.giis.zuni.utils.Current;
+import es.unex.giis.zuni.utils.Hourly;
+import es.unex.giis.zuni.utils.MeteoDia;
 
 public class DetallesFragment extends Fragment {
-
+    private TextView condicion, descripcion, min, max, viento, humedad, presion, sdia;
+    private ImageView image;
     private EventosViewModel slideshowViewModel;
     private RecyclerView.LayoutManager layoutManager;
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -36,8 +38,7 @@ public class DetallesFragment extends Fragment {
         final MeteoDia dia = new MeteoDia();
         dia.setDatosEjemplo();
 
-        TextView condicion, descripcion, min, max, viento, humedad, presion, sdia;
-        ImageView image;
+
         condicion=root.findViewById(R.id.condicion);
 
         descripcion = root.findViewById(R.id.descripcion);
@@ -49,37 +50,7 @@ public class DetallesFragment extends Fragment {
         image=root.findViewById(R.id.image);
 
 
-        condicion.setText(dia.getCondicion());
 
-        descripcion.setText(dia.getDescripcion());
-        min.setText("Min: ".concat(Float.toString(dia.getMin()).concat(" ºC")));
-        max.setText("Max: ".concat(Float.toString(dia.getMax()).concat(" ºC")));
-
-
-        viento.setText("WS: ".concat(Float.toString(dia.getViento())).concat(" m/s"));
-        humedad.setText("H: ".concat(Float.toString(dia.getHumedad())).concat("%"));
-        presion.setText("P: ".concat(Float.toString(dia.getPresion())).concat(" hPa"));
-
-
-
-        switch (dia.getCondicion()){
-            case "Thunderstorm":
-                image.setImageResource(R.drawable.tormenta);
-                break;
-            case "Drizzle":
-            case "Rain":
-                image.setImageResource(R.drawable.lluvia);
-                break;
-            case "Snow":
-                image.setImageResource(R.drawable.nieve);
-                break;
-            case "Clear":
-                image.setImageResource(R.drawable.sol);
-                break;
-            case "Clouds":
-                image.setImageResource(R.drawable.nube);
-                break;
-        }
 
         // AQUI EMPIEZA LA LISTA DE HORAS
 
@@ -90,12 +61,19 @@ public class DetallesFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(layoutManager);
+         Current curr = null;
         adapter=new MeteoHoraAdapter(new ArrayList<Hourly>());
-        //adapter = new MeteoHoraAdapter(getActivity(), (ArrayList<MeteoHora>) dia.getHoras());
+
+
         AppExecutors.getInstance().networkIO().execute(new MeteoHoraNetworkLoaderRunnable(
-                listHoras -> adapter.swap(listHoras),38.59758,-5.43701
+                adapter::swap,38.59758,-5.43701
         ));
         recyclerView.setAdapter(adapter);
+
+        // AQUI EMPIEZA CURRENT
+        /*
+
+*/
 /*
         final TextView textView = root.findViewById(R.id.text_slideshow);
         slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {

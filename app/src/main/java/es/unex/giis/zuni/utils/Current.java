@@ -1,17 +1,22 @@
 
-package es.unex.giis.zuni;
+package es.unex.giis.zuni.utils;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
 import java.util.List;
 
-public class Hourly {
+public class Current {
 
     @SerializedName("dt")
     @Expose
     private Integer dt;
+    @SerializedName("sunrise")
+    @Expose
+    private Integer sunrise;
+    @SerializedName("sunset")
+    @Expose
+    private Integer sunset;
     @SerializedName("temp")
     @Expose
     private Double temp;
@@ -27,6 +32,9 @@ public class Hourly {
     @SerializedName("dew_point")
     @Expose
     private Double dewPoint;
+    @SerializedName("uvi")
+    @Expose
+    private Double uvi;
     @SerializedName("clouds")
     @Expose
     private Integer clouds;
@@ -39,30 +47,39 @@ public class Hourly {
     @SerializedName("wind_deg")
     @Expose
     private Integer windDeg;
+    @SerializedName("wind_gust")
+    @Expose
+    private Double windGust;
     @SerializedName("weather")
     @Expose
     private List<Weather> weather = null;
-    @SerializedName("pop")
-    @Expose
-    private Double pop;
-    @SerializedName("rain")
-    @Expose
-    private Rain rain;
 
     public Integer getDt() {
         return dt;
-    }
-
-    public Date getDate(){
-        return new Date(dt*1000);
     }
 
     public void setDt(Integer dt) {
         this.dt = dt;
     }
 
+    public Integer getSunrise() {
+        return sunrise;
+    }
+
+    public void setSunrise(Integer sunrise) {
+        this.sunrise = sunrise;
+    }
+
+    public Integer getSunset() {
+        return sunset;
+    }
+
+    public void setSunset(Integer sunset) {
+        this.sunset = sunset;
+    }
+
     public Double getTemp() {
-        return temp-273.15;
+        return temp;
     }
 
     public void setTemp(Double temp) {
@@ -70,7 +87,7 @@ public class Hourly {
     }
 
     public Double getFeelsLike() {
-        return feelsLike-273.15;
+        return feelsLike;
     }
 
     public void setFeelsLike(Double feelsLike) {
@@ -99,6 +116,14 @@ public class Hourly {
 
     public void setDewPoint(Double dewPoint) {
         this.dewPoint = dewPoint;
+    }
+
+    public Double getUvi() {
+        return uvi;
+    }
+
+    public void setUvi(Double uvi) {
+        this.uvi = uvi;
     }
 
     public Integer getClouds() {
@@ -133,6 +158,14 @@ public class Hourly {
         this.windDeg = windDeg;
     }
 
+    public Double getWindGust() {
+        return windGust;
+    }
+
+    public void setWindGust(Double windGust) {
+        this.windGust = windGust;
+    }
+
     public List<Weather> getWeather() {
         return weather;
     }
@@ -140,21 +173,4 @@ public class Hourly {
     public void setWeather(List<Weather> weather) {
         this.weather = weather;
     }
-
-    public double getPop() {
-        return pop;
-    }
-
-    public void setPop(double pop) {
-        this.pop = pop;
-    }
-
-    public Rain getRain() {
-        return rain;
-    }
-
-    public void setRain(Rain rain) {
-        this.rain = rain;
-    }
-
 }

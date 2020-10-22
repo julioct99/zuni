@@ -14,10 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
-import es.unex.giis.zuni.Hourly;
 import es.unex.giis.zuni.R;
+import es.unex.giis.zuni.utils.Hourly;
 
 public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyViewHolder> {
     private List<Hourly> mDataset;
@@ -69,6 +71,7 @@ public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyVi
         mDataset = myDataset;
     }
 
+
     @Override
     public MeteoHoraAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                             int viewType) {
@@ -113,7 +116,12 @@ public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyVi
         DecimalFormat df1 = new DecimalFormat("0.0",simbolos);
         DecimalFormat df2 = new DecimalFormat("0.00",simbolos);
 
-        holder.hora.setText(Integer.toString(holder.mItem.getDate().getHours()).concat(":00"));
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(holder.mItem.getDt()*1000);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH");
+        String dateString = sdf.format(c.getTime());
+
+        holder.hora.setText(dateString.concat(":00"));
 
         holder.condicion.setText(holder.mItem.getWeather().get(0).getMain());
         holder.descripcion.setText(holder.mItem.getWeather().get(0).getDescription());
