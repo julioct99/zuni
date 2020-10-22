@@ -1,2 +1,8 @@
+include ':okio-1.13.0'
+include ':okhttp-3.9.0'
+include ':okhttp-3.0.0-RC1'
+include ':converter-gson-2.9.0'
+include ':gson-2.8.0'
+include ':retrofit-2.9.0'
 include ':app'
 rootProject.name = "Zuni"

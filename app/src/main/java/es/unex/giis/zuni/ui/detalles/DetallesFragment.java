@@ -5,25 +5,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import es.unex.giis.zuni.Hourly;
 import es.unex.giis.zuni.MeteoDia;
-import es.unex.giis.zuni.MeteoHora;
 import es.unex.giis.zuni.R;
 import es.unex.giis.zuni.adapter.MeteoHoraAdapter;
+import es.unex.giis.zuni.openweather.AppExecutors;
+import es.unex.giis.zuni.openweather.MeteoHoraNetworkLoaderRunnable;
 import es.unex.giis.zuni.ui.eventos.EventosViewModel;
 
 public class DetallesFragment extends Fragment {
 
     private EventosViewModel slideshowViewModel;
-
+    private RecyclerView.LayoutManager layoutManager;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         slideshowViewModel =
@@ -77,13 +80,22 @@ public class DetallesFragment extends Fragment {
                 image.setImageResource(R.drawable.nube);
                 break;
         }
-        ListView listView;
+
+        // AQUI EMPIEZA LA LISTA DE HORAS
+
+        RecyclerView recyclerView;
         MeteoHoraAdapter adapter;
 
-        listView = (ListView) root.findViewById(R.id.list_items);
-
-        adapter = new MeteoHoraAdapter(getActivity(), (ArrayList<MeteoHora>) dia.getHoras());
-        listView.setAdapter(adapter);
+        recyclerView = (RecyclerView) root.findViewById(R.id.list_items);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(root.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        adapter=new MeteoHoraAdapter(new ArrayList<Hourly>());
+        //adapter = new MeteoHoraAdapter(getActivity(), (ArrayList<MeteoHora>) dia.getHoras());
+        AppExecutors.getInstance().networkIO().execute(new MeteoHoraNetworkLoaderRunnable(
+                listHoras -> adapter.swap(listHoras),38.59758,-5.43701
+        ));
+        recyclerView.setAdapter(adapter);
 /*
         final TextView textView = root.findViewById(R.id.text_slideshow);
         slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {

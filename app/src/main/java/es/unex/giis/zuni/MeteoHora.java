@@ -1,105 +1,67 @@
+
 package es.unex.giis.zuni;
 
-import androidx.room.Entity;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.List;
 
-@Entity
 public class MeteoHora {
 
-    private String condicion;
-    private String descripcion;
-    private float temperatura;
-    private float sensacion_termica;
-    private float humedad;
-    private float viento;
-    private float presion;
-    private int hora;
+    @SerializedName("lat")
+    @Expose
+    private Double lat;
+    @SerializedName("lon")
+    @Expose
+    private Double lon;
+    @SerializedName("timezone")
+    @Expose
+    private String timezone;
+    @SerializedName("timezone_offset")
+    @Expose
+    private Integer timezoneOffset;
+    @SerializedName("hourly")
+    @Expose
+    private List<Hourly> hourly = null;
 
-    public MeteoHora(){
-        condicion="";
-        descripcion="";
-        temperatura=0;
-        sensacion_termica=0;
-        humedad=0;
-        viento=0;
-        presion=0;
-        hora=0;
+    public Double getLat() {
+        return lat;
     }
 
-    public MeteoHora(String cond, String desc, float temp, float sens, float hum, float vien, float pres, int h){
-        condicion=cond;
-        descripcion=desc;
-        temperatura=temp;
-        sensacion_termica=sens;
-        humedad=hum;
-        viento=vien;
-        presion=pres;
-        hora=h;
+    public void setLat(Double lat) {
+        this.lat = lat;
     }
 
-    public String getCondicion() {
-        return condicion;
+    public Double getLon() {
+        return lon;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public void setLon(Double lon) {
+        this.lon = lon;
     }
 
-    public float getTemperatura() {
-        return temperatura;
+    public String getTimezone() {
+        return timezone;
     }
 
-    public float getSensacion_termica() {
-        return sensacion_termica;
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
     }
 
-    public float getHumedad() {
-        return humedad;
+    public Integer getTimezoneOffset() {
+        return timezoneOffset;
     }
 
-    public float getViento() {
-        return viento;
+    public void setTimezoneOffset(Integer timezoneOffset) {
+        this.timezoneOffset = timezoneOffset;
     }
 
-    public float getPresion() {
-        return presion;
+    public List<Hourly> getHourly() {
+        return hourly;
     }
 
-    public void setCondicion(String condicion) {
-        this.condicion = condicion;
+    public void setHourly(List<Hourly> hourly) {
+        this.hourly = hourly;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public void setTemperatura(float temperatura) {
-        this.temperatura = temperatura;
-    }
-
-    public void setSensacion_termica(float sensacion_termica) {
-        this.sensacion_termica = sensacion_termica;
-    }
-
-    public void setHumedad(float humedad) {
-        this.humedad = humedad;
-    }
-
-    public void setViento(float viento) {
-        this.viento = viento;
-    }
-
-    public void setPresion(float presion) {
-        this.presion = presion;
-    }
-
-    public int getHora(){
-        return hora;
-    }
-
-    public void setHora(Timestamp ts){
-        hora = new Date(ts.getTime()).getHours();
-    }
 }

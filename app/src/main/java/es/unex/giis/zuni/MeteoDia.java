@@ -2,7 +2,6 @@ package es.unex.giis.zuni;
 
 import androidx.room.Entity;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +18,7 @@ public class MeteoDia {
     private float presion;
     private Date fecha;
 
-    private List<MeteoHora> horas;
+    private MeteoHora horas;
 
     public MeteoDia(){
         condicion="";
@@ -30,7 +29,7 @@ public class MeteoDia {
         viento=0;
         presion=0;
         fecha=new Date();
-        horas=new ArrayList<MeteoHora>();
+        horas=new MeteoHora();
     }
 
     public String getCondicion(){
@@ -66,8 +65,8 @@ public class MeteoDia {
         return viento;
     }
 
-    public List<MeteoHora> getHoras() {
-        return horas;
+    public List<Hourly> getHoras() {
+        return horas.getHourly();
     }
 
     public void setCondicion(String condicion) {
@@ -82,15 +81,12 @@ public class MeteoDia {
         this.fecha = d;
     }
 
-    public void setHoras(List<MeteoHora> horas) {
+    public void setHoras(MeteoHora horas) {
         this.horas = horas;
     }
 
-    public boolean addHoras(MeteoHora hora){
-        if(horas.size()<24)
-            horas.add(hora);
-        else return false;
-        return true;
+    public void setListaHoras(List<Hourly> list){
+        this.horas.setHourly(list);
     }
 
     public void setHumedad(float humedad) {
@@ -126,7 +122,7 @@ public class MeteoDia {
         today.set(Calendar.HOUR_OF_DAY, 0);
         fecha = today.getTime();
 
-        for (int i = 0; i < 24; i++) {
+        /*for (int i = 0; i < 24; i++) {
             String _condicion =null;
             switch (i%6){
                 case 0:
@@ -145,9 +141,9 @@ public class MeteoDia {
                 case 5:
                     _condicion="Clouds";
                     break;
-            }
-            horas.add(new MeteoHora(_condicion, "clear sky", i + 0.1f * i, i + 0.1f * i - 0.3f, 10 + i / 2, i, 100 * i, i));
+            }*/
+            //horas.add(new MeteoHora(_condicion, "clear sky", i + 0.1f * i, i + 0.1f * i - 0.3f, 10 + i / 2, i, 100 * i, i));
 
-        }
+
     }
 }
