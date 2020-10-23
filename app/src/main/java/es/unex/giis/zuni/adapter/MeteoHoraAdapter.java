@@ -1,7 +1,3 @@
-
-
-// ---------------------------------------------------------------
-
 package es.unex.giis.zuni.adapter;
 
 import android.view.LayoutInflater;
@@ -25,13 +21,7 @@ import es.unex.giis.zuni.porhoras.Hourly;
 public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyViewHolder> {
     private List<Hourly> mDataset;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-       /* public TextView mTextView;
-        public TextView mDateView; */
 
        public ImageView image;
         public TextView hora;
@@ -59,11 +49,6 @@ public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyVi
 
             st = v.findViewById(R.id.h_st);
             temp = v.findViewById(R.id.h_temp);
-
-            /*
-            mTextView = v.findViewById(R.id.textView);
-            mDateView = v.findViewById(R.id.dateView);
-            */
         }
     }
 
@@ -76,8 +61,7 @@ public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyVi
     @Override
     public MeteoHoraAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                             int viewType) {
-        // create a new view
-        // Create new views (invoked by the layout manager)
+
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_meteohoras, parent, false);
 
@@ -88,8 +72,6 @@ public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyVi
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         holder.mItem = mDataset.get(position);
-        /*holder.mTextView.setText(mDataset.get(position).getName());
-        holder.mDateView.setText(mDataset.get(position).getCreatedAt());*/
 
         switch (holder.mItem.getWeather().get(0).getMain()){
             case "Thunderstorm":
