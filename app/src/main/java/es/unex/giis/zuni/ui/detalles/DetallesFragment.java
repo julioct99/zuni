@@ -33,20 +33,6 @@ public class DetallesFragment extends Fragment {
                 ViewModelProviders.of(this).get(DetallesViewModel.class);
         View root = inflater.inflate(R.layout.fragment_detalles, container, false);
 
-        // ----------------------------- HORAS -----------------------------
-
-        RecyclerView recyclerView;
-        MeteoHoraAdapter adapter;
-        recyclerView = (RecyclerView) root.findViewById(R.id.list_items);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(root.getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        adapter=new MeteoHoraAdapter(new ArrayList<Hourly>());
-        AppExecutors.getInstance().networkIO().execute(new MeteoHoraNetworkLoaderRunnable(
-                adapter::swap,38.59758,-5.43701
-        ));
-        recyclerView.setAdapter(adapter);
-
         // ----------------------------- CURRENT -----------------------------
 
         CurrentAdapter currentAdapter = new CurrentAdapter(new ArrayList<Current>());
@@ -61,6 +47,22 @@ public class DetallesFragment extends Fragment {
                 adapter1::swap,38.59758,-5.43701
         ));
         recyclerView1.setAdapter(adapter1);
+
+        // ----------------------------- HORAS -----------------------------
+
+        RecyclerView recyclerView;
+        MeteoHoraAdapter adapter;
+        recyclerView = (RecyclerView) root.findViewById(R.id.list_items);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(root.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        adapter=new MeteoHoraAdapter(new ArrayList<Hourly>());
+        AppExecutors.getInstance().networkIO().execute(new MeteoHoraNetworkLoaderRunnable(
+                adapter::swap,38.59758,-5.43701
+        ));
+        recyclerView.setAdapter(adapter);
+
+
 
         return root;
 

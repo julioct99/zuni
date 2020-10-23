@@ -30,9 +30,11 @@ public class CurrentNetworkLoaderRunnable implements Runnable {
 
             Current current = service.listCurrent(Double.toString(latt),Double.toString(longt),"55ab2d28aad932680b93bf96e8e44f6e").execute().body();
             List<Current> listCurrent = new ArrayList<Current>();
-            listCurrent.add(current);
+            if(current!=null){
+                listCurrent.add(current);
+                AppExecutors.getInstance().mainThread().execute(()->mOnCurrentLoadedListener.onCurrentLoaded(listCurrent));
+            }
 
-            AppExecutors.getInstance().mainThread().execute(()->mOnCurrentLoadedListener.onCurrentLoaded(listCurrent));
         } catch (IOException e) {
             e.printStackTrace();
         }

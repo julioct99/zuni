@@ -43,6 +43,8 @@ public class PrevisionesFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
+
+        
         return root;
     }
 }

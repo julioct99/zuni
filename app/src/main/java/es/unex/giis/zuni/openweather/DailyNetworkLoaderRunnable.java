@@ -27,8 +27,11 @@ public class DailyNetworkLoaderRunnable implements Runnable {
         try {
             String exclude[] = {"current","minutely","hourly","alerts"};
             MainDaily mainDaily = service.listDaily(Double.toString(latt),Double.toString(longt),exclude,"55ab2d28aad932680b93bf96e8e44f6e").execute().body();
-
-            AppExecutors.getInstance().mainThread().execute(()->mOnDailyLoadedListener.onDailyLoaded(mainDaily.getDaily()));
+            if(mainDaily!=null) {
+                if(mainDaily.getDaily()!=null) {
+                    AppExecutors.getInstance().mainThread().execute(() -> mOnDailyLoadedListener.onDailyLoaded(mainDaily.getDaily()));
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
