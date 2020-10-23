@@ -1,5 +1,5 @@
 
-package es.unex.giis.zuni.utils;
+package es.unex.giis.zuni.porhoras;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -20,9 +20,6 @@ public class MeteoHora {
     @SerializedName("timezone_offset")
     @Expose
     private Integer timezoneOffset;
-    @SerializedName("current")
-    @Expose
-    private Current current;
     @SerializedName("hourly")
     @Expose
     private List<Hourly> hourly = null;
@@ -57,14 +54,6 @@ public class MeteoHora {
 
     public void setTimezoneOffset(Integer timezoneOffset) {
         this.timezoneOffset = timezoneOffset;
-    }
-
-    public Current getCurrent() {
-        return current;
-    }
-
-    public void setCurrent(Current current) {
-        this.current = current;
     }
 
     public List<Hourly> getHourly() {

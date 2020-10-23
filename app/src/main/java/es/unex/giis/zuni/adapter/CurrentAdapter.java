@@ -15,15 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import es.unex.giis.zuni.R;
-import es.unex.giis.zuni.porhoras.Hourly;
+import es.unex.giis.zuni.current.Current;
 
-public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyViewHolder> {
-    private List<Hourly> mDataset;
+public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.MyViewHolder> {
+    private List<Current> mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -35,30 +34,28 @@ public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyVi
 
        public ImageView image;
         public TextView hora;
-
+        public TextView condicion;
         public TextView descripcion;
         public TextView humedad;
         public TextView viento;
-
+        public TextView presion;
         public TextView st;
         public TextView temp;
         public View mView;
-
-        public Hourly mItem;
+        public Current mItem;
 
         public MyViewHolder(View v) {
             super(v);
             mView=v;
 
-            image = v.findViewById(R.id.h_image);
-            hora = v.findViewById(R.id.h_hora);
-
-            descripcion = v.findViewById(R.id.h_descripcion);
-            humedad = v.findViewById(R.id.h_humedad);
-            viento = v.findViewById(R.id.h_viento);
-
-            st = v.findViewById(R.id.h_st);
-            temp = v.findViewById(R.id.h_temp);
+            image = v.findViewById(R.id.image);
+            condicion = v.findViewById(R.id.condicion);
+            descripcion = v.findViewById(R.id.descripcion);
+            humedad = v.findViewById(R.id.humedad);
+            viento = v.findViewById(R.id.viento);
+            presion = v.findViewById(R.id.presion);
+            st = v.findViewById(R.id.max);
+            temp = v.findViewById(R.id.min);
 
             /*
             mTextView = v.findViewById(R.id.textView);
@@ -68,18 +65,18 @@ public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyVi
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MeteoHoraAdapter(ArrayList<Hourly> myDataset) {
+    public CurrentAdapter(List<Current> myDataset) {
         mDataset = myDataset;
     }
 
 
     @Override
-    public MeteoHoraAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                            int viewType) {
+    public CurrentAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
+                                                          int viewType) {
         // create a new view
         // Create new views (invoked by the layout manager)
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_meteohoras, parent, false);
+                .inflate(R.layout.current, parent, false);
 
         return new MyViewHolder(v);
     }
@@ -122,17 +119,15 @@ public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyVi
         SimpleDateFormat sdf = new SimpleDateFormat("HH");
         String dateString = sdf.format(c.getTime());
 
-        holder.hora.setText(dateString.concat(":00"));
 
-        String input = holder.mItem.getWeather().get(0).getDescription();
-        String output = input.substring(0, 1).toUpperCase() + input.substring(1);
-        holder.descripcion.setText(output);
+        holder.condicion.setText(holder.mItem.getWeather().get(0).getMain());
+        holder.descripcion.setText(holder.mItem.getWeather().get(0).getDescription());
 
-        holder.humedad.setText("H: ".concat(df.format(holder.mItem.getHumidity())).concat("%"));
-
-        holder.viento.setText("WS: ".concat(df2.format(holder.mItem.getWindSpeed())).concat(" m/s"));
-        holder.st.setText("T: ".concat(df2.format(holder.mItem.getFeelsLike())).concat(" ºC"));
-        holder.temp.setText("FL:".concat(df2.format(holder.mItem.getTemp())).concat(" ºC"));
+        holder.humedad.setText("H: ".concat(df.format(holder.mItem.getMain().getHumidity())).concat("%"));
+        holder.presion.setText("P: ".concat(df1.format(holder.mItem.getMain().getPressure())).concat(" hPa"));
+        holder.viento.setText("WS: ".concat(df2.format(holder.mItem.getWind().getSpeed())).concat(" m/s"));
+        holder.st.setText("T: ".concat(df2.format(holder.mItem.getMain().getFeelsLike())).concat(" ºC"));
+        holder.temp.setText("FL:".concat(df2.format(holder.mItem.getMain().getTemp())).concat(" ºC"));
 
     }
 
@@ -142,7 +137,7 @@ public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyVi
     }
 
 
-    public void swap(List<Hourly> dataset){
+    public void swap(List<Current> dataset){
         mDataset = dataset;
         notifyDataSetChanged();
     }

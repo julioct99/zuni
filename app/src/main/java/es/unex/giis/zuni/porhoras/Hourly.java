@@ -1,22 +1,16 @@
 
-package es.unex.giis.zuni.utils;
+package es.unex.giis.zuni.porhoras;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Current {
+public class Hourly {
 
     @SerializedName("dt")
     @Expose
     private Integer dt;
-    @SerializedName("sunrise")
-    @Expose
-    private Integer sunrise;
-    @SerializedName("sunset")
-    @Expose
-    private Integer sunset;
     @SerializedName("temp")
     @Expose
     private Double temp;
@@ -32,9 +26,6 @@ public class Current {
     @SerializedName("dew_point")
     @Expose
     private Double dewPoint;
-    @SerializedName("uvi")
-    @Expose
-    private Double uvi;
     @SerializedName("clouds")
     @Expose
     private Integer clouds;
@@ -47,12 +38,12 @@ public class Current {
     @SerializedName("wind_deg")
     @Expose
     private Integer windDeg;
-    @SerializedName("wind_gust")
-    @Expose
-    private Double windGust;
     @SerializedName("weather")
     @Expose
     private List<Weather> weather = null;
+    @SerializedName("pop")
+    @Expose
+    private double pop;
 
     public Integer getDt() {
         return dt;
@@ -62,24 +53,8 @@ public class Current {
         this.dt = dt;
     }
 
-    public Integer getSunrise() {
-        return sunrise;
-    }
-
-    public void setSunrise(Integer sunrise) {
-        this.sunrise = sunrise;
-    }
-
-    public Integer getSunset() {
-        return sunset;
-    }
-
-    public void setSunset(Integer sunset) {
-        this.sunset = sunset;
-    }
-
     public Double getTemp() {
-        return temp;
+        return temp-273.15;
     }
 
     public void setTemp(Double temp) {
@@ -87,7 +62,7 @@ public class Current {
     }
 
     public Double getFeelsLike() {
-        return feelsLike;
+        return feelsLike-273.15;
     }
 
     public void setFeelsLike(Double feelsLike) {
@@ -116,14 +91,6 @@ public class Current {
 
     public void setDewPoint(Double dewPoint) {
         this.dewPoint = dewPoint;
-    }
-
-    public Double getUvi() {
-        return uvi;
-    }
-
-    public void setUvi(Double uvi) {
-        this.uvi = uvi;
     }
 
     public Integer getClouds() {
@@ -158,14 +125,6 @@ public class Current {
         this.windDeg = windDeg;
     }
 
-    public Double getWindGust() {
-        return windGust;
-    }
-
-    public void setWindGust(Double windGust) {
-        this.windGust = windGust;
-    }
-
     public List<Weather> getWeather() {
         return weather;
     }
@@ -173,4 +132,13 @@ public class Current {
     public void setWeather(List<Weather> weather) {
         this.weather = weather;
     }
+
+    public double getPop() {
+        return pop;
+    }
+
+    public void setPop(double pop) {
+        this.pop = pop;
+    }
+
 }

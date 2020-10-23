@@ -1,5 +1,5 @@
 
-package es.unex.giis.zuni.utils;
+package es.unex.giis.zuni.porhoras;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
