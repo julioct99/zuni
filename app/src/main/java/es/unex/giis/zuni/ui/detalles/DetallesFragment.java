@@ -62,11 +62,6 @@ public class DetallesFragment extends Fragment {
         ));
         recyclerView.setAdapter(adapter);
 
-
-
         return root;
-
-
-
     }
 }

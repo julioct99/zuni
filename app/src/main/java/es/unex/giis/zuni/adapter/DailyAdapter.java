@@ -16,17 +16,17 @@ import java.util.Date;
 import java.util.List;
 
 import es.unex.giis.zuni.R;
-import es.unex.giis.zuni.daily.Daily;
+import es.unex.giis.zuni.daily.Datum;
 
 public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.MyViewHolder> {
-    private List<Daily> mDataset;
+    private List<Datum> mDataset;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
        public ImageView image_condition, image_sunrise, image_sunset;
        public TextView tv_day, tv_description, tv_sunrise, tv_sunset;
         public View mView;
 
-        public Daily mItem;
+        public Datum mItem;
 
         public MyViewHolder(View v) {
             super(v);
@@ -44,7 +44,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.MyViewHolder
         }
     }
 
-    public DailyAdapter(ArrayList<Daily> myDataset) {
+    public DailyAdapter(ArrayList<Datum> myDataset) {
         mDataset = myDataset;
     }
 
@@ -64,44 +64,36 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.MyViewHolder
         holder.mItem = mDataset.get(position);
 
 
-        switch (holder.mItem.getWeather().get(0).getMain()){
-            case "Thunderstorm":
-                holder.image_condition.setImageResource(R.drawable.tormenta);
-                break;
-            case "Drizzle":
-            case "Rain":
-                holder.image_condition.setImageResource(R.drawable.lluvia);
-                break;
-            case "Snow":
+        if(holder.mItem.getWeather().getDescription().contains("thunder") || holder.mItem.getWeather().getDescription().contains("storm") )
+            holder.image_condition.setImageResource(R.drawable.tormenta);
+        else if(holder.mItem.getWeather().getDescription().contains("drizzle") || holder.mItem.getWeather().getDescription().contains("rain") )
+            holder.image_condition.setImageResource(R.drawable.lluvia);
+        else if(holder.mItem.getWeather().getDescription().contains("Snow") || holder.mItem.getWeather().getDescription().contains("snow"))
                 holder.image_condition.setImageResource(R.drawable.nieve);
-                break;
-            case "Clear":
+        else if(holder.mItem.getWeather().getDescription().contains("Clear") || holder.mItem.getWeather().getDescription().contains("clear"))
                 holder.image_condition.setImageResource(R.drawable.sol);
-                break;
-            case "Clouds":
+        else if(holder.mItem.getWeather().getDescription().contains("Clouds") || holder.mItem.getWeather().getDescription().contains("cloud"))
                 holder.image_condition.setImageResource(R.drawable.nube);
-                break;
-        }
 
         DecimalFormatSymbols simbolos = new DecimalFormatSymbols();
         simbolos.setDecimalSeparator('.');
 
         Calendar c1 = Calendar.getInstance();
-        c1.setTimeInMillis(holder.mItem.getSunrise()*1000);
+        c1.setTimeInMillis(holder.mItem.getSunriseTs()*1000);
         SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm:ss");
         String dateSunrise = sdf1.format(c1.getTime());
         holder.tv_sunrise.setText(dateSunrise);
 
         Calendar c2 = Calendar.getInstance();
-        c2.setTimeInMillis(holder.mItem.getSunset()*1000);
+        c2.setTimeInMillis(holder.mItem.getMoonriseTs()*1000);
         SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");
         String dateSunset = sdf2.format(c2.getTime());
         holder.tv_sunset.setText(dateSunset);
 
         holder.tv_day.setText(new SimpleDateFormat("yyyy-MM-dd")
-                .format(new Date(holder.mItem.getDt() * 1000L)));
+                .format(new Date(holder.mItem.getTs() * 1000L)));
 
-        holder.tv_description.setText(holder.mItem.getWeather().get(0).getDescription());
+        holder.tv_description.setText(holder.mItem.getWeather().getDescription());
 
         holder.image_sunset.setImageResource(R.drawable.sol);
         holder.image_sunrise.setImageResource(R.drawable.sol);
@@ -114,7 +106,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.MyViewHolder
         return mDataset.size();
     }
 
-    public void swap(List<Daily> dataset){
+    public void swap(List<Datum> dataset){
         mDataset = dataset;
         notifyDataSetChanged();
     }

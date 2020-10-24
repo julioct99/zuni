@@ -1,35 +1,48 @@
 
 package es.unex.giis.zuni.daily;
 
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class MainDaily {
 
-    @SerializedName("lat")
+    @SerializedName("data")
     @Expose
-    private Double lat;
+    private List<Datum> data = null;
+    @SerializedName("city_name")
+    @Expose
+    private String cityName;
     @SerializedName("lon")
     @Expose
     private Double lon;
     @SerializedName("timezone")
     @Expose
     private String timezone;
-    @SerializedName("timezone_offset")
+    @SerializedName("lat")
     @Expose
-    private Integer timezoneOffset;
-    @SerializedName("daily")
+    private Double lat;
+    @SerializedName("country_code")
     @Expose
-    private List<Daily> daily = null;
+    private String countryCode;
+    @SerializedName("state_code")
+    @Expose
+    private String stateCode;
 
-    public Double getLat() {
-        return lat;
+    public List<Datum> getData() {
+        return data;
     }
 
-    public void setLat(Double lat) {
-        this.lat = lat;
+    public void setData(List<Datum> data) {
+        this.data = data;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     public Double getLon() {
@@ -48,20 +61,28 @@ public class MainDaily {
         this.timezone = timezone;
     }
 
-    public Integer getTimezoneOffset() {
-        return timezoneOffset;
+    public Double getLat() {
+        return lat;
     }
 
-    public void setTimezoneOffset(Integer timezoneOffset) {
-        this.timezoneOffset = timezoneOffset;
+    public void setLat(Double lat) {
+        this.lat = lat;
     }
 
-    public List<Daily> getDaily() {
-        return daily;
+    public String getCountryCode() {
+        return countryCode;
     }
 
-    public void setDaily(List<Daily> daily) {
-        this.daily = daily;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getStateCode() {
+        return stateCode;
+    }
+
+    public void setStateCode(String stateCode) {
+        this.stateCode = stateCode;
     }
 
 }

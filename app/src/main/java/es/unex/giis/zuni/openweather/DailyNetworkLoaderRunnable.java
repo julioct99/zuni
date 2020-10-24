@@ -19,17 +19,17 @@ public class DailyNetworkLoaderRunnable implements Runnable {
     @Override
     public void run() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.openweathermap.org/data/2.5/")
+                .baseUrl("https://api.weatherbit.io/v2.0/forecast/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         OpenWeatherMapService service = retrofit.create(OpenWeatherMapService.class);
         try {
-            String exclude[] = {"current","minutely","hourly","alerts"};
-            MainDaily mainDaily = service.listDaily(Double.toString(latt),Double.toString(longt),exclude,"55ab2d28aad932680b93bf96e8e44f6e").execute().body();
+
+            MainDaily mainDaily = service.listDaily(Double.toString(latt),Double.toString(longt),"5a03135617514e24ad8e588aca207439").execute().body();
             if(mainDaily!=null) {
-                if(mainDaily.getDaily()!=null) {
-                    AppExecutors.getInstance().mainThread().execute(() -> mOnDailyLoadedListener.onDailyLoaded(mainDaily.getDaily()));
+                if(mainDaily.getData()!=null) {
+                    AppExecutors.getInstance().mainThread().execute(() -> mOnDailyLoadedListener.onDailyLoaded(mainDaily.getData()));
                 }
             }
         } catch (IOException e) {

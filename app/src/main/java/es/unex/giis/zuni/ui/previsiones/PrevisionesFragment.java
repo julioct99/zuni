@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import es.unex.giis.zuni.R;
 import es.unex.giis.zuni.adapter.DailyAdapter;
-import es.unex.giis.zuni.daily.Daily;
+import es.unex.giis.zuni.daily.Datum;
 import es.unex.giis.zuni.openweather.AppExecutors;
 import es.unex.giis.zuni.openweather.DailyNetworkLoaderRunnable;
 
@@ -35,7 +35,7 @@ public class PrevisionesFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(layoutManager);
-        adapter=new DailyAdapter(new ArrayList<Daily>());
+        adapter=new DailyAdapter(new ArrayList<Datum>());
 
         AppExecutors.getInstance().networkIO().execute(new DailyNetworkLoaderRunnable(
                 adapter::swap,38.59758,-5.43701
