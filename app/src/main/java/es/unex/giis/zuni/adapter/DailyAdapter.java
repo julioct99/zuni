@@ -80,9 +80,8 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.MyViewHolder
         simbolos.setDecimalSeparator('.');
 
         Calendar c1 = Calendar.getInstance();
-        c1.setTimeInMillis((holder.mItem.getSunriseTs()-(7200))*1000l);
+        c1.setTimeInMillis(((holder.mItem.getSunriseTs())*1000l));
         SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm:ss");
-
         String dateSunrise = sdf1.format(c1.getTime());
         holder.tv_sunrise.setText(dateSunrise);
 
@@ -90,13 +89,13 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.MyViewHolder
 
 
         Calendar c2 = Calendar.getInstance();
-        c2.setTimeInMillis(holder.mItem.getMoonriseTs()*1000l);
+        c2.setTimeInMillis(((holder.mItem.getSunsetTs())*1000l));
         SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");
         String dateSunset = sdf2.format(c2.getTime());
         holder.tv_sunset.setText(dateSunset);
 
         holder.tv_day.setText(new SimpleDateFormat("E, dd MMM yyyy", Locale.ENGLISH)
-                .format(new Date(holder.mItem.getTs() * 1000L)));
+                .format(new Date((holder.mItem.getTs()) * 1000l)));
 
         holder.tv_description.setText(holder.mItem.getWeather().getDescription());
 

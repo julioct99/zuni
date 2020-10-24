@@ -26,7 +26,6 @@ import java.util.List;
 import es.unex.giis.zuni.R;
 import es.unex.giis.zuni.adapter.DailyAdapter;
 import es.unex.giis.zuni.countrycodes.CountryCode;
-import es.unex.giis.zuni.daily.Datum;
 import es.unex.giis.zuni.openweather.AppExecutors;
 import es.unex.giis.zuni.openweather.DailyNetworkLoaderRunnable;
 
@@ -43,6 +42,7 @@ public class PrevisionesFragment extends Fragment {
 
     public void act2(){
         seleccion = city.getText().toString();
+        adapter=new DailyAdapter(new ArrayList<>());
         AppExecutors.getInstance().networkIO().execute(new DailyNetworkLoaderRunnable(
                 adapter::swap,seleccion,spinner2.getSelectedItem().toString().substring(0,2)
         ));
@@ -51,8 +51,7 @@ public class PrevisionesFragment extends Fragment {
 
     public void act1(){
         seleccion = spinner.getSelectedItem().toString();
-        adapter=new DailyAdapter(new ArrayList<Datum>());
-
+        adapter=new DailyAdapter(new ArrayList<>());
         switch(seleccion){
             case "Monterrubio de la Serena":
                 lat=38.59758;
@@ -62,15 +61,17 @@ public class PrevisionesFragment extends Fragment {
                 lat=39.47649;
                 lon=-6.37224;
                 break;
+            case "Nueva York":
+                lat=40.71427;
+                lon=-74.00597;
+                break;
             default:
                 lat=0;
                 lon=0;
         }
-
         AppExecutors.getInstance().networkIO().execute(new DailyNetworkLoaderRunnable(
                 adapter::swap,lat,lon
         ));
-
         recyclerView.setAdapter(adapter);
     }
 
@@ -88,30 +89,24 @@ public class PrevisionesFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(layoutManager);
-        adapter=new DailyAdapter(new ArrayList<Datum>());
 
-
-
-        String [] opciones = {"Monterrubio de la Serena","Caceres"};
+        String [] opciones = {"Monterrubio de la Serena","Caceres","Nueva York"};
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,opciones);
         spinner.setAdapter(spinnerAdapter);
-
+        spinner.setSelection(0);
 
         JsonReader reader = new JsonReader(new InputStreamReader(getResources().openRawResource(R.raw.country_codes)));
         List<CountryCode> countryCodes = Arrays.asList(new Gson().fromJson(reader, CountryCode[].class));
-
-        ArrayAdapter<CountryCode> spinnerAdapter2 = new ArrayAdapter<CountryCode>(getContext(),android.R.layout.simple_spinner_item,countryCodes);
+        ArrayAdapter<CountryCode> spinnerAdapter2 = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,countryCodes);
         spinner2.setAdapter(spinnerAdapter2);
-
-        spinner.setSelection(0);
-        act1();
-
         spinner2.setSelection(0);
 
+        act1();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                act1();
+                    act1();
+
             }
         });
 

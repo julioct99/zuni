@@ -10,16 +10,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DailyNetworkLoaderRunnable implements Runnable {
 
     private final OnDailyLoadedListener mOnDailyLoadedListener;
+
     private double longt, latt;
     private String city, country;
     public DailyNetworkLoaderRunnable(OnDailyLoadedListener onDailyLoadedListener, double latt, double longt){
         mOnDailyLoadedListener= onDailyLoadedListener;
         this.latt=latt;
         this.longt=longt;
+        city=null;
+        country=null;
     }
 
-    public DailyNetworkLoaderRunnable(OnDailyLoadedListener onDailyLoadedListener, String city, String country){
+    public DailyNetworkLoaderRunnable(OnDailyLoadedListener onDailyLoadedListener,String city, String country){
         mOnDailyLoadedListener= onDailyLoadedListener;
+
         this.city=city;
         this.country=country;
     }
