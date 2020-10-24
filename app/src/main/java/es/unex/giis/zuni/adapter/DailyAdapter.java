@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import es.unex.giis.zuni.R;
 import es.unex.giis.zuni.daily.Datum;
@@ -90,13 +91,13 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.MyViewHolder
         String dateSunset = sdf2.format(c2.getTime());
         holder.tv_sunset.setText(dateSunset);
 
-        holder.tv_day.setText(new SimpleDateFormat("yyyy-MM-dd")
+        holder.tv_day.setText(new SimpleDateFormat("E, dd MMM yyyy", Locale.ENGLISH)
                 .format(new Date(holder.mItem.getTs() * 1000L)));
 
         holder.tv_description.setText(holder.mItem.getWeather().getDescription());
 
-        holder.image_sunset.setImageResource(R.drawable.sol);
-        holder.image_sunrise.setImageResource(R.drawable.sol);
+        holder.image_sunset.setImageResource(R.drawable.moonrise);
+        holder.image_sunrise.setImageResource(R.drawable.sunrise);
 
 
     }

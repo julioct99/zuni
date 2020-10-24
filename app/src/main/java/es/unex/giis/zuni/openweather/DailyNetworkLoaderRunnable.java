@@ -11,11 +11,18 @@ public class DailyNetworkLoaderRunnable implements Runnable {
 
     private final OnDailyLoadedListener mOnDailyLoadedListener;
     private double longt, latt;
+    private String city;
     public DailyNetworkLoaderRunnable(OnDailyLoadedListener onDailyLoadedListener, double latt, double longt){
         mOnDailyLoadedListener= onDailyLoadedListener;
         this.latt=latt;
         this.longt=longt;
     }
+
+    public DailyNetworkLoaderRunnable(OnDailyLoadedListener onDailyLoadedListener, String city){
+        mOnDailyLoadedListener= onDailyLoadedListener;
+        this.city=city;
+    }
+
     @Override
     public void run() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -26,10 +33,22 @@ public class DailyNetworkLoaderRunnable implements Runnable {
         OpenWeatherMapService service = retrofit.create(OpenWeatherMapService.class);
         try {
 
-            MainDaily mainDaily = service.listDaily(Double.toString(latt),Double.toString(longt),"5a03135617514e24ad8e588aca207439").execute().body();
-            if(mainDaily!=null) {
-                if(mainDaily.getData()!=null) {
-                    AppExecutors.getInstance().mainThread().execute(() -> mOnDailyLoadedListener.onDailyLoaded(mainDaily.getData()));
+            if(city!=null){
+                if(!city.equals("")){
+                    MainDaily mainDaily = service.listDailyCity(city,"5a03135617514e24ad8e588aca207439").execute().body();
+                    if(mainDaily!=null) {
+                        if(mainDaily.getData()!=null) {
+                            AppExecutors.getInstance().mainThread().execute(() -> mOnDailyLoadedListener.onDailyLoaded(mainDaily.getData()));
+                        }
+                    }
+                }
+            }
+            else{
+                MainDaily mainDaily = service.listDaily(Double.toString(latt),Double.toString(longt),"5a03135617514e24ad8e588aca207439").execute().body();
+                if(mainDaily!=null) {
+                    if(mainDaily.getData()!=null) {
+                        AppExecutors.getInstance().mainThread().execute(() -> mOnDailyLoadedListener.onDailyLoaded(mainDaily.getData()));
+                    }
                 }
             }
         } catch (IOException e) {

@@ -8,13 +8,13 @@ public class Datum {
 
     @SerializedName("moonrise_ts")
     @Expose
-    private Integer moonriseTs;
+    private long moonriseTs;
     @SerializedName("wind_cdir")
     @Expose
     private String windCdir;
     @SerializedName("rh")
     @Expose
-    private Integer rh;
+    private double rh;
     @SerializedName("pres")
     @Expose
     private Double pres;
@@ -23,7 +23,7 @@ public class Datum {
     private Object highTemp;
     @SerializedName("sunset_ts")
     @Expose
-    private Integer sunsetTs;
+    private long sunsetTs;
     @SerializedName("ozone")
     @Expose
     private Double ozone;
@@ -35,16 +35,16 @@ public class Datum {
     private Double windGustSpd;
     @SerializedName("snow_depth")
     @Expose
-    private Integer snowDepth;
+    private double snowDepth;
     @SerializedName("clouds")
     @Expose
-    private Integer clouds;
+    private double clouds;
     @SerializedName("ts")
     @Expose
-    private Integer ts;
+    private long ts;
     @SerializedName("sunrise_ts")
     @Expose
-    private Integer sunriseTs;
+    private long sunriseTs;
     @SerializedName("app_min_temp")
     @Expose
     private Double appMinTemp;
@@ -53,7 +53,7 @@ public class Datum {
     private Double windSpd;
     @SerializedName("pop")
     @Expose
-    private Integer pop;
+    private double pop;
     @SerializedName("wind_cdir_full")
     @Expose
     private String windCdirFull;
@@ -77,7 +77,7 @@ public class Datum {
     private Double dewpt;
     @SerializedName("snow")
     @Expose
-    private Integer snow;
+    private double snow;
     @SerializedName("uv")
     @Expose
     private double uv;
@@ -86,13 +86,13 @@ public class Datum {
     private Weather weather;
     @SerializedName("wind_dir")
     @Expose
-    private Integer windDir;
+    private double windDir;
     @SerializedName("max_dhi")
     @Expose
     private Object maxDhi;
     @SerializedName("clouds_hi")
     @Expose
-    private Integer cloudsHi;
+    private double cloudsHi;
     @SerializedName("precip")
     @Expose
     private double precip;
@@ -104,7 +104,7 @@ public class Datum {
     private Double maxTemp;
     @SerializedName("moonset_ts")
     @Expose
-    private Integer moonsetTs;
+    private long moonsetTs;
     @SerializedName("datetime")
     @Expose
     private String datetime;
@@ -116,16 +116,16 @@ public class Datum {
     private Double minTemp;
     @SerializedName("clouds_mid")
     @Expose
-    private Integer cloudsMid;
+    private double cloudsMid;
     @SerializedName("clouds_low")
     @Expose
-    private Integer cloudsLow;
+    private double cloudsLow;
 
-    public Integer getMoonriseTs() {
+    public long getMoonriseTs() {
         return moonriseTs;
     }
 
-    public void setMoonriseTs(Integer moonriseTs) {
+    public void setMoonriseTs(long moonriseTs) {
         this.moonriseTs = moonriseTs;
     }
 
@@ -137,11 +137,11 @@ public class Datum {
         this.windCdir = windCdir;
     }
 
-    public Integer getRh() {
+    public double getRh() {
         return rh;
     }
 
-    public void setRh(Integer rh) {
+    public void setRh(double rh) {
         this.rh = rh;
     }
 
@@ -161,11 +161,11 @@ public class Datum {
         this.highTemp = highTemp;
     }
 
-    public Integer getSunsetTs() {
+    public long getSunsetTs() {
         return sunsetTs;
     }
 
-    public void setSunsetTs(Integer sunsetTs) {
+    public void setSunsetTs(long sunsetTs) {
         this.sunsetTs = sunsetTs;
     }
 
@@ -193,35 +193,35 @@ public class Datum {
         this.windGustSpd = windGustSpd;
     }
 
-    public Integer getSnowDepth() {
+    public double getSnowDepth() {
         return snowDepth;
     }
 
-    public void setSnowDepth(Integer snowDepth) {
+    public void setSnowDepth(double snowDepth) {
         this.snowDepth = snowDepth;
     }
 
-    public Integer getClouds() {
+    public double getClouds() {
         return clouds;
     }
 
-    public void setClouds(Integer clouds) {
+    public void setClouds(double clouds) {
         this.clouds = clouds;
     }
 
-    public Integer getTs() {
+    public long getTs() {
         return ts;
     }
 
-    public void setTs(Integer ts) {
+    public void setTs(long ts) {
         this.ts = ts;
     }
 
-    public Integer getSunriseTs() {
+    public long getSunriseTs() {
         return sunriseTs;
     }
 
-    public void setSunriseTs(Integer sunriseTs) {
+    public void setSunriseTs(long sunriseTs) {
         this.sunriseTs = sunriseTs;
     }
 
@@ -241,11 +241,11 @@ public class Datum {
         this.windSpd = windSpd;
     }
 
-    public Integer getPop() {
+    public double getPop() {
         return pop;
     }
 
-    public void setPop(Integer pop) {
+    public void setPop(double pop) {
         this.pop = pop;
     }
 
@@ -305,11 +305,11 @@ public class Datum {
         this.dewpt = dewpt;
     }
 
-    public Integer getSnow() {
+    public double getSnow() {
         return snow;
     }
 
-    public void setSnow(Integer snow) {
+    public void setSnow(double snow) {
         this.snow = snow;
     }
 
@@ -329,11 +329,11 @@ public class Datum {
         this.weather = weather;
     }
 
-    public Integer getWindDir() {
+    public double getWindDir() {
         return windDir;
     }
 
-    public void setWindDir(Integer windDir) {
+    public void setWindDir(double windDir) {
         this.windDir = windDir;
     }
 
@@ -345,11 +345,11 @@ public class Datum {
         this.maxDhi = maxDhi;
     }
 
-    public Integer getCloudsHi() {
+    public double getCloudsHi() {
         return cloudsHi;
     }
 
-    public void setCloudsHi(Integer cloudsHi) {
+    public void setCloudsHi(double cloudsHi) {
         this.cloudsHi = cloudsHi;
     }
 
@@ -377,11 +377,11 @@ public class Datum {
         this.maxTemp = maxTemp;
     }
 
-    public Integer getMoonsetTs() {
+    public long getMoonsetTs() {
         return moonsetTs;
     }
 
-    public void setMoonsetTs(Integer moonsetTs) {
+    public void setMoonsetTs(long moonsetTs) {
         this.moonsetTs = moonsetTs;
     }
 
@@ -409,19 +409,19 @@ public class Datum {
         this.minTemp = minTemp;
     }
 
-    public Integer getCloudsMid() {
+    public double getCloudsMid() {
         return cloudsMid;
     }
 
-    public void setCloudsMid(Integer cloudsMid) {
+    public void setCloudsMid(double cloudsMid) {
         this.cloudsMid = cloudsMid;
     }
 
-    public Integer getCloudsLow() {
+    public double getCloudsLow() {
         return cloudsLow;
     }
 
-    public void setCloudsLow(Integer cloudsLow) {
+    public void setCloudsLow(double cloudsLow) {
         this.cloudsLow = cloudsLow;
     }
 

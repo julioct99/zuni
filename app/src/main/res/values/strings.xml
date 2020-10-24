@@ -15,4 +15,12 @@
     <string name="menu_settings">Settings</string>
     <string name="CURRENT">CURRENT</string>
     <string name="img_description1">Imagen de la condicion meteorologica</string>
+    <string name="GO">GO!</string>
+    <string-array name="cities">
+        <item>Monterrubio de la Serena</item>
+        <item>Caceres</item>
+        <item>Badajoz</item>
+        <item>Abuya</item>
+        <item>Reikiavik</item>
+    </string-array>
 </resources>
