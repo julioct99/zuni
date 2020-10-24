@@ -11,16 +11,17 @@ public class DailyNetworkLoaderRunnable implements Runnable {
 
     private final OnDailyLoadedListener mOnDailyLoadedListener;
     private double longt, latt;
-    private String city;
+    private String city, country;
     public DailyNetworkLoaderRunnable(OnDailyLoadedListener onDailyLoadedListener, double latt, double longt){
         mOnDailyLoadedListener= onDailyLoadedListener;
         this.latt=latt;
         this.longt=longt;
     }
 
-    public DailyNetworkLoaderRunnable(OnDailyLoadedListener onDailyLoadedListener, String city){
+    public DailyNetworkLoaderRunnable(OnDailyLoadedListener onDailyLoadedListener, String city, String country){
         mOnDailyLoadedListener= onDailyLoadedListener;
         this.city=city;
+        this.country=country;
     }
 
     @Override
@@ -35,7 +36,7 @@ public class DailyNetworkLoaderRunnable implements Runnable {
 
             if(city!=null){
                 if(!city.equals("")){
-                    MainDaily mainDaily = service.listDailyCity(city,"5a03135617514e24ad8e588aca207439").execute().body();
+                    MainDaily mainDaily = service.listDailyCity(city,country,"5a03135617514e24ad8e588aca207439").execute().body();
                     if(mainDaily!=null) {
                         if(mainDaily.getData()!=null) {
                             AppExecutors.getInstance().mainThread().execute(() -> mOnDailyLoadedListener.onDailyLoaded(mainDaily.getData()));

@@ -18,5 +18,5 @@ public interface OpenWeatherMapService {
     Call<MainDaily> listDaily(@Query("lat") String lat, @Query("lon") String lon, @Query("key") String key);
 
     @GET("daily?")
-    Call<MainDaily> listDailyCity(@Query("city") String city, @Query("key") String key);
+    Call<MainDaily> listDailyCity(@Query("city") String city,@Query("country") String country,  @Query("key") String key);
 }
