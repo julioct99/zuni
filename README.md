@@ -5,5 +5,5 @@ Proyecto Android de la asignatura ASEE
 
 * Daniel Merino Cortés
 * Julio Casallo Tamayo
-* Moises Gaitán Hernández
+* Moises Gaitán Fernández
 * Raúl Calderón Álvarez
