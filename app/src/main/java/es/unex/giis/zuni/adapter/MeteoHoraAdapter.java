@@ -110,7 +110,7 @@ public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyVi
         String output = input.substring(0, 1).toUpperCase() + input.substring(1);
         holder.descripcion.setText(output);
 
-        holder.humedad.setText("H: ".concat(df.format(holder.mItem.getHumidity())).concat("%"));
+        holder.humedad.setText("PoP: ".concat(df.format(holder.mItem.getPop())).concat("%"));
 
         holder.viento.setText("WS: ".concat(df2.format(holder.mItem.getWindSpeed())).concat(" m/s"));
         holder.st.setText("T: ".concat(df2.format(holder.mItem.getFeelsLike())).concat(" ºC"));
