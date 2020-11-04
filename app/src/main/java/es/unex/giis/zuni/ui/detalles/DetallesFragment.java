@@ -145,8 +145,9 @@ public class DetallesFragment extends Fragment {
         JsonReader reader = new JsonReader(new InputStreamReader(getResources().openRawResource(R.raw.country_codes)));
         List<CountryCode> countryCodes = Arrays.asList(new Gson().fromJson(reader, CountryCode[].class));
         ArrayAdapter<CountryCode> spinnerAdapter2 = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,countryCodes);
+
         spinner2.setAdapter(spinnerAdapter2);
-        spinner2.setSelection(0);
+        spinner2.setSelection(208);
 
         act1();
         button.setOnClickListener(new View.OnClickListener() {

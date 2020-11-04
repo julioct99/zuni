@@ -43,10 +43,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
                 android:background="#FFFFFF"
-                android:dropDownSelector="@color/background"
-                android:popupBackground="@color/colorPrimaryDark"
-                android:scrollbarTrackHorizontal="@color/design_default_color_error"
-                android:scrollbarTrackVertical="@android:color/holo_purple" />
+                android:dropDownSelector="@color/background" />
 
             <Button
                 android:id="@+id/button2"
