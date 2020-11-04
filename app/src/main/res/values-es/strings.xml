@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Zuni</string>
+    <string name="title_activity_main">Zuni</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Configuracion</string>
+
+    <string name="menu_previsiones">Tiempo diario</string>
+    <string name="menu_historico">Tiempo historico</string>
+    <string name="menu_eventos">Eventos</string>
+    <string name="menu_detalles">Tiempo de hoy</string>
+    <string name="menu_settings">Configuracion</string>
+    <string name="CURRENT">ACTUAL</string>
+    <string name="img_description1">Imagen de la condicion meteorologica</string>
+    <string name="GO">IR!</string>
+    <string name="H">Precip.:</string>
+    <string name="WS">Vel. viento:</string>
+    <string name="introduceCity">Introduce una ciudad...</string>
+
+</resources>

@@ -13,11 +13,23 @@ public class CurrentNetworkLoaderRunnable implements Runnable {
 
     private final OnCurrentLoadedListener mOnCurrentLoadedListener;
     private double longt, latt;
+    String city, country;
     public CurrentNetworkLoaderRunnable(OnCurrentLoadedListener onCurrentLoadedListener, double latt, double longt){
         mOnCurrentLoadedListener= onCurrentLoadedListener;
         this.latt=latt;
         this.longt=longt;
+        city=null;
+        country=null;
     }
+
+    public CurrentNetworkLoaderRunnable(OnCurrentLoadedListener onCurrentLoadedListener, String city, String country){
+        mOnCurrentLoadedListener= onCurrentLoadedListener;
+
+        this.city=city;
+        this.country=country;
+    }
+
+
     @Override
     public void run() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -25,6 +37,35 @@ public class CurrentNetworkLoaderRunnable implements Runnable {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        OpenWeatherMapService service = retrofit.create(OpenWeatherMapService.class);
+        try {
+
+            if(city!=null){
+                if(!city.equals("")){
+                    Current current = service.listCurrentCity(city,"55ab2d28aad932680b93bf96e8e44f6e").execute().body();
+                    if(current!=null) {
+                        List<Current> listCurrent = new ArrayList<Current>();
+                        listCurrent.add(current);
+                        AppExecutors.getInstance().mainThread().execute(()->mOnCurrentLoadedListener.onCurrentLoaded(listCurrent));
+                    }
+                }
+            }
+            else{
+                Current current = service.listCurrent(Double.toString(latt),Double.toString(longt),"55ab2d28aad932680b93bf96e8e44f6e").execute().body();
+
+                if(current!=null) {
+                    List<Current> listCurrent = new ArrayList<Current>();
+                    listCurrent.add(current);
+                    AppExecutors.getInstance().mainThread().execute(()->mOnCurrentLoadedListener.onCurrentLoaded(listCurrent));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        /*
         OpenWeatherMapService service = retrofit.create(OpenWeatherMapService.class);
         try {
 
@@ -38,5 +79,6 @@ public class CurrentNetworkLoaderRunnable implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+         */
     }
 }

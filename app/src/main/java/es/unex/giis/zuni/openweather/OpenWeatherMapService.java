@@ -11,8 +11,14 @@ public interface OpenWeatherMapService {
     @GET("onecall?")
     Call<MeteoHora> listHoras(@Query("lat") String latt, @Query("lon") String longt, @Query("exclude") String s[], @Query("appid") String appid);
 
+    @GET("onecall?")
+    Call<MeteoHora> listHorasCity(@Query("q") String city, @Query("exclude") String s[], @Query("appid") String appid);
+
     @GET("weather?")
     Call<Current> listCurrent(@Query("lat") String latt, @Query("lon") String longt, @Query("appid") String appid);
+
+    @GET("weather?")
+    Call<Current> listCurrentCity(@Query("q") String city, @Query("appid") String appid);
 
     @GET("daily?")
     Call<MainDaily> listDaily(@Query("lat") String lat, @Query("lon") String lon, @Query("key") String key);

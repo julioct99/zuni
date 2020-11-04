@@ -16,6 +16,11 @@
     <string name="CURRENT">CURRENT</string>
     <string name="img_description1">Imagen de la condicion meteorologica</string>
     <string name="GO">GO!</string>
+    <string name="Max" translatable="false">Max:</string>
+    <string name="Min" translatable="false">Min:</string>
+    <string name="H">Precip:</string>
+    <string name="WS">Wind Speed:</string>
+    <string name="introduceCity">Introduce a city...</string>
     <string-array name="cities">
         <item>Monterrubio de la Serena</item>
         <item>Caceres</item>

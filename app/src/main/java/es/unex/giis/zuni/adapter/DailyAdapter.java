@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.MyViewHolder
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
        public ImageView image_condition, image_sunrise, image_sunset;
-       public TextView tv_day, tv_description, tv_sunrise, tv_sunset;
+       public TextView tv_day, tv_description, tv_sunrise, tv_sunset, tv_max,tv_min,tv_humidity,tv_ws;
         public View mView;
 
         public Datum mItem;
@@ -41,7 +42,10 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.MyViewHolder
             tv_description = v.findViewById(R.id.tv_description);
             tv_sunrise = v.findViewById(R.id.tv_sunrise);
             tv_sunset = v.findViewById(R.id.tv_sunset);
-
+            tv_max = v.findViewById(R.id.textMax);
+            tv_min = v.findViewById(R.id.textMin);
+            tv_humidity = v.findViewById(R.id.textH);
+            tv_ws = v.findViewById(R.id.textWS);
         }
     }
 
@@ -102,6 +106,11 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.MyViewHolder
         holder.image_sunset.setImageResource(R.drawable.moonrise);
         holder.image_sunrise.setImageResource(R.drawable.sunrise);
 
+        holder.tv_max.setText(Double.toString(holder.mItem.getMaxTemp()).concat(" ºC"));
+        holder.tv_min.setText(Double.toString(holder.mItem.getMinTemp()).concat(" ºC"));
+
+        holder.tv_humidity.setText(Double.toString(holder.mItem.getPop()).concat("%"));
+        holder.tv_ws.setText(new DecimalFormat("###.##").format(holder.mItem.getWindSpd()).concat(" m/s"));
 
     }
 
