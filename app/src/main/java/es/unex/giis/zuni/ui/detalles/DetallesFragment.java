@@ -39,7 +39,6 @@ import static android.view.View.VISIBLE;
 
 public class DetallesFragment extends Fragment {
     private RecyclerView recyclerView, recyclerView1;
-    private DetallesViewModel detallesshowViewModel;
     private RecyclerView.LayoutManager layoutManager, layoutManager1;
     private EditText city;
     MeteoHoraAdapter adapter;
@@ -114,8 +113,7 @@ public class DetallesFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        detallesshowViewModel =
-                ViewModelProviders.of(this).get(DetallesViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_detalles, container, false);
 
         spinner = (Spinner) root.findViewById(R.id.spinner);

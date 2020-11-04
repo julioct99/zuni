@@ -16,20 +16,14 @@ import es.unex.giis.zuni.R;
 
 public class HistoricoFragment extends Fragment {
 
-    private HistoricoViewModel galleryViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(HistoricoViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_historico, container, false);
         final TextView textView = root.findViewById(R.id.text_historico);
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
+        textView.setText("This is historico fragment");
         return root;
     }
 }

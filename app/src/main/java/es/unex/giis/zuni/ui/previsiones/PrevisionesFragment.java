@@ -31,7 +31,6 @@ import es.unex.giis.zuni.openweather.DailyNetworkLoaderRunnable;
 
 public class PrevisionesFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
-    private PrevisionesViewModel previsionesViewModel;
     private EditText city;
     private DailyAdapter adapter;
     private RecyclerView recyclerView;
@@ -77,7 +76,6 @@ public class PrevisionesFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        previsionesViewModel = ViewModelProviders.of(this).get(PrevisionesViewModel.class);
         View root = inflater.inflate(R.layout.fragment_previsiones, container, false);
         spinner = (Spinner) root.findViewById(R.id.spinner);
         spinner2 = (Spinner) root.findViewById(R.id.spinner2);
