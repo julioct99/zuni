@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,11 +27,11 @@ import es.unex.giis.zuni.R;
 import es.unex.giis.zuni.adapter.CurrentAdapter;
 import es.unex.giis.zuni.adapter.MeteoHoraAdapter;
 import es.unex.giis.zuni.countrycodes.CountryCode;
-import es.unex.giis.zuni.current.Current;
+import es.unex.giis.zuni.api.current.Current;
 import es.unex.giis.zuni.openweather.AppExecutors;
 import es.unex.giis.zuni.openweather.CurrentNetworkLoaderRunnable;
 import es.unex.giis.zuni.openweather.MeteoHoraNetworkLoaderRunnable;
-import es.unex.giis.zuni.porhoras.Hourly;
+import es.unex.giis.zuni.api.porhoras.Hourly;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;

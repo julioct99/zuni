@@ -19,7 +19,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import es.unex.giis.zuni.R;
-import es.unex.giis.zuni.current.Current;
+import es.unex.giis.zuni.api.current.Current;
 
 public class CurrentAdapter extends RecyclerView.Adapter<CurrentAdapter.MyViewHolder> {
     private List<Current> mDataset;

@@ -1,5 +1,5 @@
 
-package es.unex.giis.zuni.daily;
+package es.unex.giis.zuni.api.daily;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
