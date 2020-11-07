@@ -16,12 +16,11 @@ import java.util.Date;
 import java.util.Locale;
 
 /* --------------------------------
-    Clase Evento: Version 1.0
+    Clase Evento: Version 1.1
     ToDo:
         Ubicacion
 -------------------------------- */
 public class Evento {
-
     public static final String ITEM_SEP = System.getProperty("line.separator");
 
     /* CONSTANTES --------------------------------------------------------------------------------*/
@@ -29,6 +28,10 @@ public class Evento {
     public final static String TITULO = "titulo";
     public final static String DESCRIPCION = "descripcion";
     public final static String FECHA = "fecha";
+    public final static String ALERTA = "alerta";
+    public final static String UBICACION = "ubicacion";
+    public final static String LAT = "lat";
+    public final static String LON = "lon";
 
 
     /* FORMATO DE LA FECHA -----------------------------------------------------------------------*/
@@ -38,24 +41,43 @@ public class Evento {
 
 
     /* ATRIBUTOS -------------------------------------------------------------------------------- */
+    // Nivel de alerta del evento. Por defecto sera BAJA
+    public enum Alerta {
+        BAJA, MEDIA, ALTA
+    }
+
     private long id;
     private String titulo;
     private String descripcion;
     private Date fecha = new Date();
+    private Alerta alerta = Alerta.BAJA;
+    private String ubicacion;
+    private Double lat;     // Latitud
+    private Double lon;     // Longitud
 
 
     /* CONSTRUCTORES ---------------------------------------------------------------------------- */
 
-    public Evento(String titulo, String descripcion, Date fecha){
+    public Evento(String titulo, String descripcion, Date fecha, Alerta alerta, String ubicacion,
+                  Double lat, Double lon){
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fecha = fecha;
+        this.alerta = alerta;
+        this.ubicacion = ubicacion;
+        this.lat = lat;
+        this.lon = lon;
     }
 
-    public Evento(long id, String titulo, String descripcion, String fecha){
+    public Evento(long id, String titulo, String descripcion, String fecha, String alerta,
+                  String ubicacion, Double lat, Double lon){
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
+        this.alerta = Alerta.valueOf(alerta);
+        this.ubicacion = ubicacion;
+        this.lat = lat;
+        this.lon = lon;
 
         // Se intenta parsear el String con la fecha
         try {
@@ -69,6 +91,10 @@ public class Evento {
         id = intent.getLongExtra(Evento.ID, 0);
         titulo = intent.getStringExtra(Evento.TITULO);
         descripcion = intent.getStringExtra(Evento.DESCRIPCION);
+        alerta = Alerta.valueOf(intent.getStringExtra(Evento.ALERTA));
+        ubicacion = intent.getStringExtra(Evento.UBICACION);
+        lat = intent.getDoubleExtra(Evento.LAT, 0);
+        lon = intent.getDoubleExtra(Evento.LON, 0);
 
         // Se intenta parsear el String con la fecha
         try {
@@ -92,16 +118,34 @@ public class Evento {
     public Date getFecha() { return this.fecha; }
     public void setFecha(Date fecha) { this.fecha = fecha; }
 
+    public Alerta getAlerta() { return this.alerta; }
+    public void setAlerta(Alerta alerta) { this.alerta = alerta; }
+
+    public String getUbicacion() { return this.ubicacion; }
+    public void setUbicacion(String ubicacion) { this.ubicacion = ubicacion; }
+
+    public Double getLat() { return this.lat; }
+    public void setLat(Double lat) { this.lat = lat; }
+
+    public Double getLon() { return this.lon; }
+    public void setLon(Double lon) { this.lon = lon; }
 
     /* METODOS ADICIONALES ---------------------------------------------------------------------- */
-    public static void packageIntent(Intent intent, String titulo, String descripcion, String fecha){
+    public static void packageIntent(Intent intent, String titulo, String descripcion, String fecha,
+                                     Alerta alerta, String ubicacion, Double lat, Double lon){
         intent.putExtra(Evento.TITULO, titulo);
         intent.putExtra(Evento.DESCRIPCION, descripcion);
         intent.putExtra(Evento.FECHA, fecha);
+        intent.putExtra(Evento.ALERTA, alerta.toString());
+        intent.putExtra(Evento.UBICACION, ubicacion);
+        intent.putExtra(Evento.LAT, lat);
+        intent.putExtra(Evento.LON, lon);
     }
 
     public String toString(){
         return "ID: " + id + ITEM_SEP + "Titulo: " + titulo + ITEM_SEP + "Descripcion" + descripcion
-                + ITEM_SEP + "Fecha: " + FORMAT.format(fecha);
+                + ITEM_SEP + "Fecha: " + FORMAT.format(fecha) + ITEM_SEP + "Alerta: " + alerta
+                + ITEM_SEP + "Ubicacion: " + ubicacion + ITEM_SEP + "Lat: " + lat + ITEM_SEP
+                + "Lon: " + lon;
     }
 }
