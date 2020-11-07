@@ -24,7 +24,9 @@ public class Evento {
     @Ignore
     public static final String ITEM_SEP = System.getProperty("line.separator");
 
+
     /* CONSTANTES --------------------------------------------------------------------------------*/
+
     @Ignore
     public final static String ID = "ID";
     @Ignore
@@ -51,6 +53,7 @@ public class Evento {
 
 
     /* ATRIBUTOS -------------------------------------------------------------------------------- */
+
     // Nivel de alerta del evento. Por defecto sera BAJA
     public enum Alerta {
         BAJA, MEDIA, ALTA
@@ -134,6 +137,7 @@ public class Evento {
 
 
     /* GET + SET  ------------------------------------------------------------------------------- */
+
     public long getId() { return this.id; }
     public void setId(long id) { this.id = id; }
 
@@ -158,7 +162,9 @@ public class Evento {
     public Double getLon() { return this.lon; }
     public void setLon(Double lon) { this.lon = lon; }
 
+
     /* METODOS ADICIONALES ---------------------------------------------------------------------- */
+
     public static void packageIntent(Intent intent, String titulo, String descripcion, String fecha,
                                      Alerta alerta, String ubicacion, Double lat, Double lon){
         intent.putExtra(Evento.TITULO, titulo);

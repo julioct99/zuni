@@ -17,7 +17,7 @@ public interface EventoDao {
     @Insert
     public long insert(Evento item);
 
-    @Query("DELETE FROM eventos WHERE id=:eventoId")
+    @Query("DELETE FROM eventos WHERE id = :eventoId")
     public void delete(long eventoId);
 
     @Query("DELETE FROM eventos")
