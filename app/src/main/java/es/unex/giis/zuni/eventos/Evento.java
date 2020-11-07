@@ -1,12 +1,9 @@
 package es.unex.giis.zuni.eventos;
 
-import androidx.room.Ignore;
-
 import android.content.Intent;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -15,27 +12,40 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import es.unex.giis.zuni.eventos.db.AlertaConverter;
+import es.unex.giis.zuni.eventos.db.FechaConverter;
+
 /* --------------------------------
-    Clase Evento: Version 1.1
-    ToDo:
-        Ubicacion
+    Clase Evento: Version 2.0
 -------------------------------- */
+@Entity(tableName = "eventos")
 public class Evento {
+
+    @Ignore
     public static final String ITEM_SEP = System.getProperty("line.separator");
 
     /* CONSTANTES --------------------------------------------------------------------------------*/
+    @Ignore
     public final static String ID = "ID";
+    @Ignore
     public final static String TITULO = "titulo";
+    @Ignore
     public final static String DESCRIPCION = "descripcion";
+    @Ignore
     public final static String FECHA = "fecha";
+    @Ignore
     public final static String ALERTA = "alerta";
+    @Ignore
     public final static String UBICACION = "ubicacion";
+    @Ignore
     public final static String LAT = "lat";
+    @Ignore
     public final static String LON = "lon";
 
 
     /* FORMATO DE LA FECHA -----------------------------------------------------------------------*/
 
+    @Ignore
     public final static SimpleDateFormat FORMAT = new SimpleDateFormat(
             "yyyy-MM-dd HH:mm:ss", Locale.US);
 
@@ -46,10 +56,13 @@ public class Evento {
         BAJA, MEDIA, ALTA
     }
 
+    @PrimaryKey(autoGenerate = true)
     private long id;
     private String titulo;
     private String descripcion;
+    @TypeConverters(FechaConverter.class)
     private Date fecha = new Date();
+    @TypeConverters(AlertaConverter.class)
     private Alerta alerta = Alerta.BAJA;
     private String ubicacion;
     private Double lat;     // Latitud
@@ -58,8 +71,9 @@ public class Evento {
 
     /* CONSTRUCTORES ---------------------------------------------------------------------------- */
 
-    public Evento(String titulo, String descripcion, Date fecha, Alerta alerta, String ubicacion,
-                  Double lat, Double lon){
+    public Evento(long id, String titulo, String descripcion, Date fecha, Alerta alerta,
+                  String ubicacion, Double lat, Double lon){
+        this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fecha = fecha;
@@ -69,6 +83,19 @@ public class Evento {
         this.lon = lon;
     }
 
+    @Ignore
+    Evento(String titulo, String descripcion, Date fecha, Alerta alerta, String ubicacion,
+           Double lat, Double lon){
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.fecha = fecha;
+        this.alerta = alerta;
+        this.ubicacion = ubicacion;
+        this.lat = lat;
+        this.lon = lon;
+    }
+
+    @Ignore
     public Evento(long id, String titulo, String descripcion, String fecha, String alerta,
                   String ubicacion, Double lat, Double lon){
         this.id = id;
@@ -87,6 +114,7 @@ public class Evento {
         }
     }
 
+    @Ignore
     Evento(Intent intent){
         id = intent.getLongExtra(Evento.ID, 0);
         titulo = intent.getStringExtra(Evento.TITULO);
@@ -143,6 +171,13 @@ public class Evento {
     }
 
     public String toString(){
+        return "ID: " + id + ITEM_SEP + "Titulo: " + titulo + ITEM_SEP + "Descripcion" + descripcion
+                + ITEM_SEP + "Fecha: " + FORMAT.format(fecha) + ITEM_SEP + "Alerta: " + alerta
+                + ITEM_SEP + "Ubicacion: " + ubicacion + ITEM_SEP + "Lat: " + lat + ITEM_SEP
+                + "Lon: " + lon;
+    }
+
+    public String toLog() {
         return "ID: " + id + ITEM_SEP + "Titulo: " + titulo + ITEM_SEP + "Descripcion" + descripcion
                 + ITEM_SEP + "Fecha: " + FORMAT.format(fecha) + ITEM_SEP + "Alerta: " + alerta
                 + ITEM_SEP + "Ubicacion: " + ubicacion + ITEM_SEP + "Lat: " + lat + ITEM_SEP
