@@ -37,7 +37,7 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.ViewHolder
 
         // Se infla la vista para cada elemento
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.evento, parent, false);
+                .inflate(R.layout.current, parent, false);
 
         return new ViewHolder(mContext, v);
     }

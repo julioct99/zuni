@@ -16,14 +16,12 @@ import es.unex.giis.zuni.R;
 
 public class EventosFragment extends Fragment {
 
-
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_eventos, container, false);
-        final TextView textView = root.findViewById(R.id.text_eventos);
-        textView.setText("This is Eventos fragment");
+        // final TextView textView = root.findViewById(R.id.text_eventos);
+        // textView.setText("This is Eventos fragment");
 
         return root;
     }
