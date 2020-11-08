@@ -27,14 +27,13 @@ import es.unex.giis.zuni.R;
 import es.unex.giis.zuni.adapter.CurrentAdapter;
 import es.unex.giis.zuni.adapter.MeteoHoraAdapter;
 import es.unex.giis.zuni.countrycodes.CountryCode;
+import es.unex.giis.zuni.geocode.GeoCode;
 import es.unex.giis.zuni.api.current.Current;
 import es.unex.giis.zuni.openweather.AppExecutors;
 import es.unex.giis.zuni.openweather.CurrentNetworkLoaderRunnable;
+import es.unex.giis.zuni.openweather.GeoCodeNetworkLoaderRunnable;
 import es.unex.giis.zuni.openweather.MeteoHoraNetworkLoaderRunnable;
 import es.unex.giis.zuni.api.porhoras.Hourly;
-
-import static android.view.View.INVISIBLE;
-import static android.view.View.VISIBLE;
 
 public class DetallesFragment extends Fragment {
     private RecyclerView recyclerView, recyclerView1;
@@ -47,10 +46,14 @@ public class DetallesFragment extends Fragment {
     private static String seleccion;
     private double lat, lon;
     private TextView textViewError;
+
+
+
     public void act2(){
         seleccion = city.getText().toString();
 
         // ----------------------------- CURRENT -----------------------------
+
 
         adapter1=new CurrentAdapter(new ArrayList<Current>());
         AppExecutors.getInstance().networkIO().execute(new CurrentNetworkLoaderRunnable(
@@ -60,13 +63,18 @@ public class DetallesFragment extends Fragment {
 
         // ----------------------------- HORAS -----------------------------
 
-        adapter=new MeteoHoraAdapter(new ArrayList<Hourly>());
-        recyclerView.setAdapter(adapter);
+        AppExecutors.getInstance().networkIO().execute(new GeoCodeNetworkLoaderRunnable(
+                this::act3,seleccion.replace(" ","%20"),spinner2.getSelectedItem().toString().substring(0,2)
+        ));
+    }
 
-        textViewError.setVisibility(VISIBLE);
-        textViewError.setTextSize(16f);
-        textViewError.setText("Debido a restricciones de la api, no podemos consultar el tiempo por horas introduciendo un nombre." +
-                "Debes ir a la pestaña de lista de ubicaciones y añadirla desde ahí. Gracias!");
+    private void act3(GeoCode geoCode) {
+
+        adapter=new MeteoHoraAdapter(new ArrayList<Hourly>());
+        AppExecutors.getInstance().networkIO().execute(new MeteoHoraNetworkLoaderRunnable(
+                adapter::swap,Double.parseDouble(geoCode.getLatt()),Double.parseDouble(geoCode.getLongt())
+        ));
+        recyclerView.setAdapter(adapter);
 
     }
 
@@ -92,6 +100,7 @@ public class DetallesFragment extends Fragment {
         }
         // ----------------------------- CURRENT -----------------------------
 
+
         adapter1=new CurrentAdapter(new ArrayList<Current>());
         AppExecutors.getInstance().networkIO().execute(new CurrentNetworkLoaderRunnable(
                 adapter1::swap,lat,lon
@@ -99,9 +108,7 @@ public class DetallesFragment extends Fragment {
         recyclerView1.setAdapter(adapter1);
 
         // ----------------------------- HORAS -----------------------------
-        textViewError.setVisibility(INVISIBLE);
-        textViewError.setTextSize(0f);
-        textViewError.setText("");
+
         adapter=new MeteoHoraAdapter(new ArrayList<Hourly>());
         AppExecutors.getInstance().networkIO().execute(new MeteoHoraNetworkLoaderRunnable(
                 adapter::swap,lat,lon
@@ -121,7 +128,6 @@ public class DetallesFragment extends Fragment {
         button = (Button) root.findViewById(R.id.button);
         button2 = (Button) root.findViewById(R.id.button2);
 
-        textViewError = root.findViewById(R.id.texterror);
 
         recyclerView = (RecyclerView) root.findViewById(R.id.list_items);
         recyclerView.setHasFixedSize(true);
@@ -151,7 +157,6 @@ public class DetallesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 act1();
-
             }
         });
 
