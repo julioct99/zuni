@@ -65,6 +65,9 @@ public class EventosFragment extends Fragment {
             public void onItemClick(Evento item) {
 
                 Intent intent = new Intent(getActivity(), DetallesEventoActivity.class);
+
+                Evento.packageIntent(intent, item);
+
                 startActivity(intent);
 
                 // ToDo ... Detalles del evento
