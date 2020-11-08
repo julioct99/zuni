@@ -8,6 +8,24 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Configuracion</string>
 
+    <!-- Eventos   ***************************************************************************** -->
+    <string name="fecha_evento_string">Fecha:</string>
+
+    <string name="cancel_string">Cancelar</string>
+    <string name="reset_string">Reset</string>
+    <string name="submit_string">Guardar</string>
+    <string name="e_ubicacion_string">Ubicacion</string>
+    <string name="e_title_string">Titulo</string>
+    <string name="e_descripcion_string">Descripcion</string>
+    <string name="e_enter_description_string">Introduce descripcion</string>
+    <string name="e_time_and_date_string">Fecha y hora</string>
+    <string name="e_no_date_set_string">0000-00-00</string>
+    <string name="e_no_time_set_string">00:00:00</string>
+    <string name="e_choose_date_string">Elige fecha</string>
+    <string name="e_choose_time_string">Elige hora</string>
+    <string name="e_enter_title_string">Introduce titulo</string>
+    <!-- *************************************************************************************** -->
+
     <string name="menu_previsiones">Tiempo diario</string>
     <string name="menu_historico">Tiempo historico</string>
     <string name="menu_eventos">Eventos</string>
