@@ -16,20 +16,15 @@ import es.unex.giis.zuni.R;
 
 public class EventosFragment extends Fragment {
 
-    private EventosViewModel slideshowViewModel;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                ViewModelProviders.of(this).get(EventosViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_eventos, container, false);
         final TextView textView = root.findViewById(R.id.text_eventos);
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        textView.setText("This is Eventos fragment");
+
         return root;
     }
 }

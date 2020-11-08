@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 import es.unex.giis.zuni.R;
-import es.unex.giis.zuni.daily.Datum;
+import es.unex.giis.zuni.api.daily.Datum;
 
 public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.MyViewHolder> {
     private List<Datum> mDataset;
@@ -83,6 +83,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.MyViewHolder
         DecimalFormatSymbols simbolos = new DecimalFormatSymbols();
         simbolos.setDecimalSeparator('.');
 
+        //Esto es para hacer el cambio de Timestamp a HH:MM:SS para que sea bonito
         Calendar c1 = Calendar.getInstance();
         c1.setTimeInMillis(((holder.mItem.getSunriseTs())*1000l));
         SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm:ss");
@@ -91,7 +92,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.MyViewHolder
 
         //holder.tv_sunrise.setText(Long.toString(holder.mItem.getSunriseTs()));
 
-
+        //Esto es para hacer el cambio de Timestamp a HH:MM:SS para que sea bonito
         Calendar c2 = Calendar.getInstance();
         c2.setTimeInMillis(((holder.mItem.getSunsetTs())*1000l));
         SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");

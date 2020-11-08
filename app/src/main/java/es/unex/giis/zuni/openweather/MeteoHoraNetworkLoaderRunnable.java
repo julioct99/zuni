@@ -2,7 +2,7 @@ package es.unex.giis.zuni.openweather;
 
         import java.io.IOException;
 
-import es.unex.giis.zuni.porhoras.MeteoHora;
+import es.unex.giis.zuni.api.porhoras.MeteoHora;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

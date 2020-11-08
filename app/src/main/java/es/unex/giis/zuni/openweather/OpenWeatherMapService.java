@@ -1,10 +1,10 @@
 package es.unex.giis.zuni.openweather;
 
-import es.unex.giis.zuni.current.Current;
-import es.unex.giis.zuni.daily.MainDaily;
 import es.unex.giis.zuni.geocode.GeoCode;
 import es.unex.giis.zuni.historical.Historical;
-import es.unex.giis.zuni.porhoras.MeteoHora;
+import es.unex.giis.zuni.api.current.Current;
+import es.unex.giis.zuni.api.daily.MainDaily;
+import es.unex.giis.zuni.api.porhoras.MeteoHora;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

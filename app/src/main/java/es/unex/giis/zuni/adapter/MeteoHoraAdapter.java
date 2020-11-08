@@ -18,14 +18,14 @@ import java.util.List;
 import java.util.Locale;
 
 import es.unex.giis.zuni.R;
-import es.unex.giis.zuni.porhoras.Hourly;
+import es.unex.giis.zuni.api.porhoras.Hourly;
 
 public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyViewHolder> {
     private List<Hourly> mDataset;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-       public ImageView image;
+        public ImageView image;
         public TextView hora;
 
         public TextView descripcion;
