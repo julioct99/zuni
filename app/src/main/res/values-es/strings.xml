@@ -16,6 +16,9 @@
     <string name="CURRENT">ACTUAL</string>
     <string name="img_description1">Imagen de la condicion meteorologica</string>
     <string name="GO">IR!</string>
+    <string name="Save">Guardar</string>
+    <string name="Historical_save_msg">Se ha añadido el historico (ayer) de</string>
+    <string name="Historical_save_err1_msg">Debes introducir un nombre en el Cuadro de Texto</string>
     <string name="H">Precip.:</string>
     <string name="WS">Vel. viento:</string>
     <string name="introduceCity">Introduce una ciudad...</string>
