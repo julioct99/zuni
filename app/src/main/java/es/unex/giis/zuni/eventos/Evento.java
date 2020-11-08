@@ -176,6 +176,17 @@ public class Evento {
         intent.putExtra(Evento.LON, lon);
     }
 
+    @Ignore
+    public static void packageIntent(Intent intent, Evento e){
+        intent.putExtra(Evento.TITULO, e.getTitulo());
+        intent.putExtra(Evento.DESCRIPCION, e.getDescripcion());
+        intent.putExtra(Evento.FECHA, e.getFecha().toString());
+        intent.putExtra(Evento.ALERTA, e.getAlerta().toString());
+        intent.putExtra(Evento.UBICACION, e.getUbicacion());
+        intent.putExtra(Evento.LAT, e.getLat());
+        intent.putExtra(Evento.LON, e.getLon());
+    }
+
     public String toString(){
         return "ID: "
                 + id + ITEM_SEP + "Titulo: " + titulo + ITEM_SEP + "Descripcion: " + descripcion
