@@ -5,8 +5,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +40,7 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.ViewHolder
 
         // Se infla la vista para cada elemento
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.current, parent, false);
+                .inflate(R.layout.evento, parent, false);
 
         return new ViewHolder(mContext, v);
     }
@@ -84,7 +87,9 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.ViewHolder
         private Context mContext;
 
         /* Elementos del layout de cada item */
-        // ToDo ...
+        private TextView titulo;
+        private TextView fecha;
+        private TextView ubicacion;
 
         public ViewHolder(Context context, View itemView){
             super(itemView);
@@ -92,13 +97,17 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.ViewHolder
             mContext = context;
 
             // Obtener las referencias de cada widget de la vista del elemento
-            // ToDo ...
+            titulo = itemView.findViewById(R.id.tituloEvento);
+            fecha = itemView.findViewById(R.id.fechaEvento);
+            ubicacion = itemView.findViewById(R.id.ubicacionEvento);
         }
 
         public void bind(final Evento evento, final OnItemClickListener listener) {
 
             /* Configurar los widgets del elemento */
-            // ToDo ...
+            titulo.setText(evento.getTitulo());
+            fecha.setText(Evento.FORMAT.format(evento.getFecha()));
+            ubicacion.setText(evento.getUbicacion());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

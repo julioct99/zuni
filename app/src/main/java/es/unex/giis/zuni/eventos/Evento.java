@@ -118,7 +118,7 @@ public class Evento {
     }
 
     @Ignore
-    Evento(Intent intent){
+    public Evento(Intent intent){
         id = intent.getLongExtra(Evento.ID, 0);
         titulo = intent.getStringExtra(Evento.TITULO);
         descripcion = intent.getStringExtra(Evento.DESCRIPCION);
@@ -177,7 +177,8 @@ public class Evento {
     }
 
     public String toString(){
-        return "ID: " + id + ITEM_SEP + "Titulo: " + titulo + ITEM_SEP + "Descripcion" + descripcion
+        return "ID: "
+                + id + ITEM_SEP + "Titulo: " + titulo + ITEM_SEP + "Descripcion: " + descripcion
                 + ITEM_SEP + "Fecha: " + FORMAT.format(fecha) + ITEM_SEP + "Alerta: " + alerta
                 + ITEM_SEP + "Ubicacion: " + ubicacion + ITEM_SEP + "Lat: " + lat + ITEM_SEP
                 + "Lon: " + lon;

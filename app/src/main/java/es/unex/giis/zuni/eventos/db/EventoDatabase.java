@@ -19,4 +19,6 @@ public abstract class EventoDatabase extends RoomDatabase {
         }
         return instance;
     }
+
+    public abstract EventoDao getDao();
 }

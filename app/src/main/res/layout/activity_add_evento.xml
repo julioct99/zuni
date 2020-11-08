@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_add_evento"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <TextView
@@ -49,37 +50,16 @@
         android:text="@string/e_descripcion_string"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <RadioGroup
-        android:id="@+id/descripcionGroup"
-        android:layout_width="381dp"
-        android:layout_height="150dp"
-        android:layout_below="@id/eventoDescripcionLabel"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/eventoDescripcionInput"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/e_enter_description_string"
-            android:inputType="textPersonName" />
-
-    </RadioGroup>
-
     <!-- Time and Date -->
 
     <TextView
         android:id="@+id/eventoUbicacionLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/descripcionGroup"
+        android:layout_below="@+id/eventoDescripcionInput"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:text="@string/e_ubicacion_string"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -95,9 +75,9 @@
         android:text="@string/e_ubicacion_string">
 
         <Spinner
-            android:id="@+id/ubicacionSpinner"
+            android:id="@+id/eventoUbicacionSpinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="40dp" />
 
     </RadioGroup>
 
@@ -123,17 +103,17 @@
         android:text="@string/e_no_date_set_string" />
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/eventoTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/eventoFechaLabel"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="7dp"
-        android:layout_marginRight="43dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="313dp"
+        android:layout_marginTop="3dp"
         android:text="@string/e_no_time_set_string" />
 
     <Button
-        android:id="@+id/eventoFechaInput"
+        android:id="@+id/eventoFechaButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/eventoDate"
@@ -142,14 +122,12 @@
         android:layout_marginTop="3dp"
         android:text="@string/e_choose_date_string" />
 
-    <!-- Buttons -->
-
     <Button
-        android:id="@+id/eventoHoraInput"
+        android:id="@+id/eventoHoraButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/time"
-        android:layout_alignTop="@id/eventoFechaInput"
+        android:layout_below="@id/eventoTime"
+        android:layout_alignTop="@id/eventoFechaButton"
         android:layout_alignParentRight="true"
         android:layout_marginTop="3dp"
         android:layout_marginRight="15dp"
@@ -168,18 +146,14 @@
 
     <Button
         android:id="@+id/resetButton"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="62dp"
-        android:layout_marginLeft="62dp"
-        android:layout_marginEnd="61dp"
-        android:layout_marginRight="61dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="54dp"
+        android:layout_marginRight="54dp"
+        android:layout_marginBottom="14dp"
         android:layout_toStartOf="@+id/submitButton"
         android:layout_toLeftOf="@+id/submitButton"
-        android:layout_toEndOf="@+id/cancelButton"
-        android:layout_toRightOf="@+id/cancelButton"
         android:text="@string/e_reset_string" />
 
     <Button
@@ -191,5 +165,20 @@
         android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
         android:text="@string/e_submit_string" />
+
+    <EditText
+        android:id="@+id/eventoDescripcionInput"
+        android:layout_width="387dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/eventoDescripcionLabel"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/e_enter_description_string"
+        android:inputType="textMultiLine" />
 
 </RelativeLayout>
