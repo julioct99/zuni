@@ -13,7 +13,9 @@ import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import es.unex.giis.zuni.R;
 import es.unex.giis.zuni.porhoras.Hourly;
@@ -101,10 +103,15 @@ public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyVi
 
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(holder.mItem.getDt()*1000);
-        SimpleDateFormat sdf = new SimpleDateFormat("HH");
+        SimpleDateFormat sdf = new SimpleDateFormat("DD/MM/YYYY HH:mm");
         String dateString = sdf.format(c.getTime());
 
-        holder.hora.setText(dateString.concat(":00"));
+
+        holder.hora.setText(new SimpleDateFormat("HH:mm", Locale.ENGLISH)
+                .format(new Date((holder.mItem.getDt()) * 1000l)));
+
+        //Timestamp ts = new Timestamp((holder.mItem.getDt()*1000));
+        //holder.hora.setText(ts.toString());
 
         String input = holder.mItem.getWeather().get(0).getDescription();
         String output = input.substring(0, 1).toUpperCase() + input.substring(1);
