@@ -1,5 +1,6 @@
 package es.unex.giis.zuni.ui.eventos;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,6 +31,8 @@ public class EventosFragment extends Fragment {
 
     // Codigo para peticion de añadir evento
     private static final int ADD_EVENTO_REQUEST = 0;
+    // Codigo para peticion de eliminar evento
+    private static final int DELETE_EVENTO_REQUEST = 1;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -71,7 +74,7 @@ public class EventosFragment extends Fragment {
 
                 Evento.packageIntent(intent, item);
 
-                startActivity(intent);
+                startActivityForResult(intent, DELETE_EVENTO_REQUEST);
 
                 // ToDo ... Detalles del evento
             }
@@ -94,7 +97,38 @@ public class EventosFragment extends Fragment {
         Snackbar.make(getView(), "Evento añadido", Snackbar.LENGTH_LONG);
 
         if (requestCode == ADD_EVENTO_REQUEST){
-            Snackbar.make(mRecyclerView, "Evento añadido", Snackbar.LENGTH_LONG);
+            if (resultCode == Activity.RESULT_OK){
+                Evento evento = new Evento(data);
+
+                /* INSERTAR EVENTO EN LA BASE DE DATOS */
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        long id = EventoDatabase.getInstance(getActivity())
+                                .getDao()
+                                .insert(evento);
+
+                        evento.setId(id);
+
+                        AppExecutors.getInstance().mainThread().execute(() -> mAdapter.add(evento));
+                    }
+                });
+            }
+        }
+        else if (requestCode == DELETE_EVENTO_REQUEST){
+            if (resultCode == Activity.RESULT_OK){
+                Evento evento = new Evento(data);
+
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        EventoDatabase.getInstance(getActivity()).getDao()
+                                .delete(evento.getId());
+                    }
+                });
+
+                AppExecutors.getInstance().mainThread().execute(() -> mAdapter.remove(evento));
+            }
         }
     }
 
@@ -106,8 +140,8 @@ public class EventosFragment extends Fragment {
 
         // Load saved ToDoItems, if necessary
 
-        if (mAdapter.getItemCount() == 0)
-            loadItems();
+        // if (mAdapter.getItemCount() == 0)
+        loadItems();
     }
 
     @Override
@@ -132,8 +166,6 @@ public class EventosFragment extends Fragment {
     /* CARGAR LOS ELEMENTOS --------------------------------------------------------------------- */
 
     private void loadItems() {
-        // ToDoItemCRUD crud = ToDoItemCRUD.getInstance(this);
-        // List<ToDoItem> items = crud.getAll();
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {

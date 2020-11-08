@@ -138,7 +138,10 @@ public class AddEventoActivity extends AppCompatActivity {
 
                 mDescripcion.setText(eventoCreado.toString());
 
-                /* INSERTAR EVENTO EN LA BASE DE DATOS */
+                /*
+
+
+                // INSERTAR EVENTO EN LA BASE DE DATOS
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
@@ -148,6 +151,8 @@ public class AddEventoActivity extends AppCompatActivity {
                     }
                 });
 
+                */
+                setResult(RESULT_OK, data);
                 finish();
             }
         });

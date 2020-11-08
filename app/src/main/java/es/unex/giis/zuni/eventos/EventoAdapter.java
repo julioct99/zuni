@@ -65,6 +65,11 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    public void remove(Evento item){
+        mItems.remove(item);
+        notifyDataSetChanged();
+    }
+
     public void clear() {
         mItems.clear();
         notifyDataSetChanged();

@@ -33,6 +33,7 @@ public class DetallesEventoActivity extends AppCompatActivity {
         bDeleteEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
@@ -40,6 +41,8 @@ public class DetallesEventoActivity extends AppCompatActivity {
                                       .delete(evento.getId());
                     }
                 });
+                */
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
