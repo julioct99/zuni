@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,6 +56,8 @@ public class EventosFragment extends Fragment {
 
         mRecyclerView = root.findViewById(R.id.eventos_recycler_view);
 
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -114,12 +117,13 @@ public class EventosFragment extends Fragment {
         // ALTERNATIVE: Save all ToDoItems
     }
 
+
     @Override
     public void onDestroy() {
         // ToDoItemCRUD crud = ToDoItemCRUD.getInstance(this);
         // crud.close();
 
-        EventoDatabase.getInstance(getActivity()).close();
+        // EventoDatabase.getInstance(getActivity()).close();
 
         super.onDestroy();
     }
