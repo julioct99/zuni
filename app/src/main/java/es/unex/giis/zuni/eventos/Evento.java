@@ -178,6 +178,7 @@ public class Evento {
 
     @Ignore
     public static void packageIntent(Intent intent, Evento e){
+        intent.putExtra(Evento.ID, e.getId());
         intent.putExtra(Evento.TITULO, e.getTitulo());
         intent.putExtra(Evento.DESCRIPCION, e.getDescripcion());
         intent.putExtra(Evento.FECHA, e.getFecha().toString());
