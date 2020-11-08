@@ -11,7 +11,6 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,6 +30,7 @@ import es.unex.giis.zuni.openweather.DailyNetworkLoaderRunnable;
 
 public class PrevisionesFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
+
     private EditText city;
     private DailyAdapter adapter;
     private RecyclerView recyclerView;
@@ -87,6 +87,7 @@ public class PrevisionesFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(layoutManager);
+
 
         String [] opciones = {"Monterrubio de la Serena","Caceres","Nueva York"};
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,opciones);
