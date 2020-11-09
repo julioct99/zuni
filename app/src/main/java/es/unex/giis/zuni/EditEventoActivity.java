@@ -61,11 +61,6 @@ public class EditEventoActivity extends AppCompatActivity {
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(EditEventoActivity.this,
                 android.R.layout.simple_spinner_item,opciones);
         mUbicacion.setAdapter(spinnerAdapter);
-        mUbicacion.setSelection(0);
-
-
-        // Fecha y hora por defecto
-        // setDefaultDateTime();
 
 
         /* SE OBTIENE EL EVENTO DEL INTENT */
@@ -161,8 +156,6 @@ public class EditEventoActivity extends AppCompatActivity {
                         lon);
 
                 Evento eventoCreado = new Evento(data);
-
-                // mDescripcion.setText(eventoCreado.toString());
 
                 setResult(RESULT_OK, data);
                 finish();

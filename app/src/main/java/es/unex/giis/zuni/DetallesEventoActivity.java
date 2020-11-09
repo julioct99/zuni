@@ -42,17 +42,7 @@ public class DetallesEventoActivity extends AppCompatActivity {
         Evento eventoIntent = new Evento(intent);
 
 
-        /* SE OBTIENE EL EVENTO DE LA BD */
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                evento = EventoDatabase.getInstance(DetallesEventoActivity.this).getDao()
-                        .getEvento(evento.getId());
-
-                AppExecutors.getInstance().mainThread().execute(() ->
-                        tv.setText(evento.toString()));
-            }
-        });
+        cargarEvento();
 
 
         /* BOTON DE BORRAR EVENTO */
@@ -82,18 +72,17 @@ public class DetallesEventoActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    /* CARGA EL EVENTO DESDE LA BASE DE DATOS --------------------------------------------------- */
+    private void cargarEvento(){
         /* SE OBTIENE EL EVENTO DE LA BD */
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
+                // Se asigna el evento de la BD a la variable global de la clase.
                 evento = EventoDatabase.getInstance(DetallesEventoActivity.this).getDao()
                         .getEvento(evento.getId());
 
-                AppExecutors.getInstance().mainThread().execute(() ->
-                        tv.setText(evento.toString()));
+                AppExecutors.getInstance().mainThread().execute(() ->tv.setText(evento.toString()));
             }
         });
     }
@@ -116,12 +105,9 @@ public class DetallesEventoActivity extends AppCompatActivity {
                         int id = EventoDatabase.getInstance(DetallesEventoActivity.this)
                                 .getDao()
                                 .update(eventoEditado);
-                        /*
-                        tv = findViewById(R.id.detallesEventoTV);
 
-                        AppExecutors.getInstance().mainThread().execute(() ->
-                                tv.setText(eventoEditado.toString()));
-                                */
+                        // Se recarga el evento de esta clase para obtener el nuevo objeto
+                        AppExecutors.getInstance().mainThread().execute(() -> cargarEvento());
                     }
                 });
             }
