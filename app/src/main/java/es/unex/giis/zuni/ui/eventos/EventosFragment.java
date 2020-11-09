@@ -75,8 +75,6 @@ public class EventosFragment extends Fragment {
                 Evento.packageIntent(intent, item);
 
                 startActivityForResult(intent, DELETE_EVENTO_REQUEST);
-
-                // ToDo ... Detalles del evento
             }
         });
 

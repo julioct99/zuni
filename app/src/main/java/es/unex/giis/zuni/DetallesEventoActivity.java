@@ -2,11 +2,16 @@ package es.unex.giis.zuni;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
+
+import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -17,60 +22,109 @@ import es.unex.giis.zuni.openweather.AppExecutors;
 
 public class DetallesEventoActivity extends AppCompatActivity {
 
+    // Codigo para peticion de añadir evento
+    private static final int EDIT_EVENTO_REQUEST = 2;
+
+    private Evento evento;
+
+    private TextView tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_evento);
 
-        TextView tv = findViewById(R.id.detallesEventoTV);
+        tv = findViewById(R.id.detallesEventoTV);
 
         Intent intent = getIntent();
 
-        Evento evento = new Evento(intent);
-        tv.setText(evento.toString());
+        evento = new Evento(intent);
+        Evento eventoIntent = new Evento(intent);
 
+
+        /* SE OBTIENE EL EVENTO DE LA BD */
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                evento = EventoDatabase.getInstance(DetallesEventoActivity.this).getDao()
+                        .getEvento(evento.getId());
+
+                AppExecutors.getInstance().mainThread().execute(() ->
+                        tv.setText(evento.toString()));
+            }
+        });
+
+
+        /* BOTON DE BORRAR EVENTO */
         Button bDeleteEvento = findViewById(R.id.deleteEventoButton);
         bDeleteEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        EventoDatabase.getInstance(DetallesEventoActivity.this).getDao()
-                                      .delete(evento.getId());
-                    }
-                });
-                */
                 setResult(RESULT_OK, intent);
                 finish();
             }
         });
 
+
+        /* BOTON DE EDITAR EVENTO */
+        Button bEditEvento = findViewById(R.id.editEventoButton);
+        bEditEvento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetallesEventoActivity.this,
+                        EditEventoActivity.class);
+
+                Evento.packageIntent(intent, evento);
+
+                startActivityForResult(intent, EDIT_EVENTO_REQUEST);
+            }
+        });
     }
 
 
-    /* CICLO DE VIDA DEL ACTIVITY --------------------------------------------------------------- */
     @Override
     public void onResume() {
         super.onResume();
+        /* SE OBTIENE EL EVENTO DE LA BD */
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                evento = EventoDatabase.getInstance(DetallesEventoActivity.this).getDao()
+                        .getEvento(evento.getId());
 
+                AppExecutors.getInstance().mainThread().execute(() ->
+                        tv.setText(evento.toString()));
+            }
+        });
     }
 
+
+    /* SE ESPERA EL RESULTADO DE LA OPERACION EDIT_EVENTO_REQUEST ------------------------------- */
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
 
-        // ALTERNATIVE: Save all ToDoItems
-    }
+        if (requestCode == EDIT_EVENTO_REQUEST){
+            if (resultCode == Activity.RESULT_OK){
+                Evento eventoEditado = new Evento(data);
+                eventoEditado.setId(evento.getId());
 
-    @Override
-    public void onDestroy() {
-        // ToDoItemCRUD crud = ToDoItemCRUD.getInstance(this);
-        // crud.close();
+                /* ACTUALIZAR EVENTO EN LA BASE DE DATOS */
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        int id = EventoDatabase.getInstance(DetallesEventoActivity.this)
+                                .getDao()
+                                .update(eventoEditado);
+                        /*
+                        tv = findViewById(R.id.detallesEventoTV);
 
-        // EventoDatabase.getInstance(DetallesEventoActivity.this).close();
-
-        super.onDestroy();
+                        AppExecutors.getInstance().mainThread().execute(() ->
+                                tv.setText(eventoEditado.toString()));
+                                */
+                    }
+                });
+            }
+        }
     }
 }

@@ -64,7 +64,7 @@ public class Evento {
     private String titulo;
     private String descripcion;
     @TypeConverters(FechaConverter.class)
-    private Date fecha = new Date();
+    private Date fecha;
     @TypeConverters(AlertaConverter.class)
     private Alerta alerta = Alerta.BAJA;
     private String ubicacion;

@@ -14,6 +14,9 @@ public interface EventoDao {
     @Query("SELECT * FROM eventos")
     public List<Evento> getAll();
 
+    @Query("SELECT * FROM eventos WHERE id = :eventoId")
+    public Evento getEvento(long eventoId);
+
     @Insert
     public long insert(Evento item);
 

@@ -108,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/eventoFechaLabel"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="313dp"
+        android:layout_marginLeft="310dp"
         android:layout_marginTop="3dp"
         android:text="@string/e_no_time_set_string" />
 
@@ -146,14 +146,18 @@
 
     <Button
         android:id="@+id/resetButton"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="54dp"
-        android:layout_marginRight="54dp"
+        android:layout_marginStart="154dp"
+        android:layout_marginLeft="154dp"
+        android:layout_marginEnd="157dp"
+        android:layout_marginRight="157dp"
         android:layout_marginBottom="14dp"
-        android:layout_toStartOf="@+id/submitButton"
-        android:layout_toLeftOf="@+id/submitButton"
         android:text="@string/e_reset_string" />
 
     <Button
@@ -175,7 +179,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="15dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="@string/e_enter_description_string"
