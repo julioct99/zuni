@@ -31,9 +31,7 @@ import es.unex.giis.zuni.openweather.AppExecutors;
 import es.unex.giis.zuni.openweather.HistoricalNetworkLoaderRunnable;
 import es.unex.giis.zuni.ui.detalles.DetallesFragment;
 
-public class HistoricoFragment extends Fragment {
-    private EditText EditText_city;
-    private Spinner spinner1, spinner2;
+public class HistoricoFragmentSave extends Fragment {
     private Button button1, button2;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -42,26 +40,24 @@ public class HistoricoFragment extends Fragment {
 
 
     public void act1(View v){
-        String cityname = EditText_city.getText().toString();
+        String cityname = "";
 
         if (cityname.equals("")){
             Snackbar.make(v, getString(R.string.Historical_save_err1_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
             return;
         }
 
-        Log.i("Historico", "Se ha pulsado el boto de guardar historico por nombre");
+        Log.i("Historico", "Se ha pulsado el boto de guardar el historico");
         Snackbar.make(v, getString(R.string.Historical_save_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
     }
 
 
 
     public void act2(View v){
-        String cityname = EditText_city.getText().toString();
-        Log.i("Historico", "Se ha pulsado el boto de guardar historico de la localización guardada");
-        Snackbar.make(v, getString(R.string.Historical_save_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
-        HistoricoFragmentSave fragment = new HistoricoFragmentSave();
-        //fragment.setArguments(bn);
-        //getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment).addToBackStack(null).commit(); //MAL
+        Log.i("Historico", "Se ha pulsado el boton de ir hacia atras");
+        Snackbar.make(v, "Ir hacia atras...", Snackbar.LENGTH_SHORT).show();
+
+        HistoricoFragment fragment = new HistoricoFragment();
         //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment).addToBackStack(null).commit();
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment).commit();
     }
@@ -69,24 +65,16 @@ public class HistoricoFragment extends Fragment {
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_historico, container, false);
-        EditText_city = root.findViewById(R.id.et_city);
-        spinner1 = root.findViewById(R.id.spinner1);
-        spinner2 = root.findViewById(R.id.spinner2);
+        View root = inflater.inflate(R.layout.fragment_historico_save, container, false);
         button1 = root.findViewById(R.id.button1);
         button2 = root.findViewById(R.id.button2);
 
-        JsonReader reader = new JsonReader(new InputStreamReader(getResources().openRawResource(R.raw.country_codes)));
-        List<CountryCode> countryCodes = Arrays.asList(new Gson().fromJson(reader, CountryCode[].class));
-        ArrayAdapter<CountryCode> spinnerAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,countryCodes);
-        spinner1.setAdapter(spinnerAdapter);
-        spinner1.setSelection(208);
-
+        //Snackbar.make(root, "Surprise :D", Snackbar.LENGTH_SHORT).show();
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                act1(v); //Busqueda del historico de "ayer" de la ciudad (indicada en city) y se guarda en la base de datos
+                act1(v); //Guarda el historico buscado en la base de datos de historicos
             }
         });
 
@@ -94,7 +82,7 @@ public class HistoricoFragment extends Fragment {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                act2(v); //Busqueda del historico de "ayer" de la ciudad guardada (indicada en spinner2) y se guarda en la base de datos
+                act2(v); //Ir hacia atrás
             }
         });
 
