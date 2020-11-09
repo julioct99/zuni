@@ -42,8 +42,6 @@ public class EventosFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_eventos, container, false);
-        // final TextView textView = root.findViewById(R.id.text_eventos);
-        // textView.setText("This is Eventos fragment");
 
 
         /* FAB -> AÑADIR EVENTO ------------------------------------------------------------------*/
@@ -58,14 +56,13 @@ public class EventosFragment extends Fragment {
 
 
         mRecyclerView = root.findViewById(R.id.eventos_recycler_view);
-
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
-
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
+        /* LISTENER DE CLICK EN LOS ITEMS DE LA LISTA ------------------------------------------- */
         mAdapter = new EventoAdapter(getActivity(), new EventoAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Evento item) {
@@ -75,25 +72,18 @@ public class EventosFragment extends Fragment {
                 Evento.packageIntent(intent, item);
 
                 startActivityForResult(intent, DELETE_EVENTO_REQUEST);
-
-                // ToDo ... Detalles del evento
             }
         });
 
 
         mRecyclerView.setAdapter(mAdapter);
-
-
         EventoDatabase.getInstance(getActivity());
-
-
         return root;
     }
 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        // super.onActivityResult(requestCode, resultCode, data);
         Snackbar.make(getView(), "Evento añadido", Snackbar.LENGTH_LONG);
 
         if (requestCode == ADD_EVENTO_REQUEST){
@@ -134,32 +124,11 @@ public class EventosFragment extends Fragment {
 
 
     /* CICLO DE VIDA DEL ACTIVITY --------------------------------------------------------------- */
+
     @Override
     public void onResume() {
         super.onResume();
-
-        // Load saved ToDoItems, if necessary
-
-        // if (mAdapter.getItemCount() == 0)
         loadItems();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        // ALTERNATIVE: Save all ToDoItems
-    }
-
-
-    @Override
-    public void onDestroy() {
-        // ToDoItemCRUD crud = ToDoItemCRUD.getInstance(this);
-        // crud.close();
-
-        // EventoDatabase.getInstance(getActivity()).close();
-
-        super.onDestroy();
     }
 
 

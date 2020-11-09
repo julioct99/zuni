@@ -18,17 +18,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.Calendar;
 import java.util.Date;
 
 import es.unex.giis.zuni.eventos.Evento;
-import es.unex.giis.zuni.eventos.db.EventoDao;
 import es.unex.giis.zuni.eventos.db.EventoDatabase;
 import es.unex.giis.zuni.openweather.AppExecutors;
 
-public class AddEventoActivity extends AppCompatActivity {
+public class EditEventoActivity extends AppCompatActivity {
+
+    private Evento evento;
 
     // 7 Dias en milisegundos
     private static final int SEVEN_DAYS = 604800000;
@@ -50,7 +49,6 @@ public class AddEventoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_evento);
 
-
         /* SE INICIALIZAN LOS INPUTS ------------------------------------------------------------ */
         mTitulo = findViewById(R.id.eventoTituloInput);
         mDescripcion = findViewById(R.id.eventoDescripcionInput);
@@ -60,14 +58,37 @@ public class AddEventoActivity extends AppCompatActivity {
         timeView = findViewById(R.id.eventoTime);
 
         String [] opciones = {"Monterrubio de la Serena","Caceres","Nueva York"};
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(AddEventoActivity.this,
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(EditEventoActivity.this,
                 android.R.layout.simple_spinner_item,opciones);
         mUbicacion.setAdapter(spinnerAdapter);
-        mUbicacion.setSelection(0);
 
 
-        // Fecha y hora por defecto
-        setDefaultDateTime();
+        /* SE OBTIENE EL EVENTO DEL INTENT */
+        evento = new Evento(getIntent());
+        Evento eventoIntent = new Evento(getIntent());
+
+        /* SE OBTIENE EL EVENTO DE LA BD */
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                evento = EventoDatabase.getInstance(EditEventoActivity.this).getDao()
+                        .getEvento(eventoIntent.getId());
+
+                AppExecutors.getInstance().mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        /* SE CARGAN LOS ATRIBUTOS DEL EVENTO EN LOS INPUTS --------------------- */
+                        mTitulo.setText(evento.getTitulo());
+                        mDescripcion.setText(evento.getDescripcion());
+
+                        int posicionSpinner = spinnerAdapter.getPosition(evento.getUbicacion());
+                        mUbicacion.setSelection(posicionSpinner);
+
+                        cargarFechaYHora(evento);
+                    }
+                });
+            }
+        });
 
 
         /* Listener para el boton de fecha ------------------------------------------------------ */
@@ -136,8 +157,6 @@ public class AddEventoActivity extends AppCompatActivity {
 
                 Evento eventoCreado = new Evento(data);
 
-                mDescripcion.setText(eventoCreado.toString());
-
                 setResult(RESULT_OK, data);
                 finish();
             }
@@ -148,15 +167,9 @@ public class AddEventoActivity extends AppCompatActivity {
 
 
     /* METODOS AUXILIARES ----------------------------------------------------------------------- */
-
-
-    private void setDefaultDateTime(){
-        // Por defecto es el tiempo actual + 7 dias
-        mFecha = new Date();
-        mFecha = new Date(mFecha.getTime() + SEVEN_DAYS);
-
+    private void setDateTime(Date date){
         Calendar c = Calendar.getInstance();
-        c.setTime(mFecha);
+        c.setTime(date);
 
         setDateString(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
 
@@ -166,6 +179,20 @@ public class AddEventoActivity extends AppCompatActivity {
                 c.get(Calendar.MILLISECOND));
 
         timeView.setText(timeString);
+    }
+
+
+    private void setDefaultDateTime(){
+        // Por defecto es el tiempo actual + 7 dias
+        mFecha = new Date();
+        mFecha = new Date(mFecha.getTime() + SEVEN_DAYS);
+
+        setDateTime(mFecha);
+    }
+
+
+    private void cargarFechaYHora(Evento evento){
+        setDateTime(evento.getFecha());
     }
 
 
@@ -264,7 +291,7 @@ public class AddEventoActivity extends AppCompatActivity {
     }
 
     private void showDatePickerDialog() {
-        DialogFragment newFragment = new DatePickerFragment();
+        DialogFragment newFragment = new EditEventoActivity.DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
     }
 
@@ -295,7 +322,7 @@ public class AddEventoActivity extends AppCompatActivity {
     }
 
     private void showTimePickerDialog() {
-        DialogFragment newFragment = new TimePickerFragment();
+        DialogFragment newFragment = new EditEventoActivity.TimePickerFragment();
         newFragment.show(getFragmentManager(), "timePicker");
     }
 

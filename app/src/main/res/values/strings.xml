@@ -24,6 +24,9 @@
     <string name="e_choose_date_string">Choose Date</string>
     <string name="e_choose_time_string">Choose Time</string>
     <string name="e_enter_title_string">Enter title</string>
+
+    <string name="e_delete_evento">Delete</string>
+    <string name="e_edit_evento">Edit</string>
     <!-- *************************************************************************************** -->
 
     <string name="menu_previsiones">Daily Forecast</string>

@@ -24,6 +24,9 @@
     <string name="e_choose_date_string">Elige fecha</string>
     <string name="e_choose_time_string">Elige hora</string>
     <string name="e_enter_title_string">Introduce titulo</string>
+
+    <string name="e_delete_evento">Eliminar</string>
+    <string name="e_edit_evento">Editar</string>
     <!-- *************************************************************************************** -->
 
     <string name="menu_previsiones">Tiempo diario</string>
