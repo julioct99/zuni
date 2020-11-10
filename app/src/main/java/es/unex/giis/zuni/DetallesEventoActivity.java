@@ -1,6 +1,8 @@
 package es.unex.giis.zuni;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,16 +11,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.w3c.dom.Text;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 
+import es.unex.giis.zuni.adapter.MeteoHoraAdapter;
+import es.unex.giis.zuni.api.porhoras.Hourly;
 import es.unex.giis.zuni.eventos.Evento;
 import es.unex.giis.zuni.eventos.db.EventoDatabase;
 import es.unex.giis.zuni.openweather.AppExecutors;
+import es.unex.giis.zuni.openweather.MeteoHoraNetworkLoaderRunnable;
 
 public class DetallesEventoActivity extends AppCompatActivity {
 
@@ -27,27 +34,41 @@ public class DetallesEventoActivity extends AppCompatActivity {
 
     private Evento evento;
 
-    private TextView tv;
+    private TextView descripcionTV;
+    private TextView tituloTV;
+    private TextView ubicacionTV;
+    private TextView fechaTV;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    MeteoHoraAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_evento);
 
-        tv = findViewById(R.id.detallesEventoTV);
+        descripcionTV = findViewById(R.id.descripcionEventoTV);
+        tituloTV = findViewById(R.id.tituloEventoTV);
+        ubicacionTV = findViewById(R.id.ubicacionEventoTV);
+        fechaTV = findViewById(R.id.fechaEventoTV);
 
         Intent intent = getIntent();
 
         evento = new Evento(intent);
         Evento eventoIntent = new Evento(intent);
 
+        mRecyclerView = findViewById(R.id.listaPrevisionesEvento);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(DetallesEventoActivity.this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         cargarEvento();
 
 
         /* BOTON DE BORRAR EVENTO */
-        Button bDeleteEvento = findViewById(R.id.deleteEventoButton);
-        bDeleteEvento.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton deleteEventoFab = findViewById(R.id.deleteEventoFab);
+        deleteEventoFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setResult(RESULT_OK, intent);
@@ -57,8 +78,8 @@ public class DetallesEventoActivity extends AppCompatActivity {
 
 
         /* BOTON DE EDITAR EVENTO */
-        Button bEditEvento = findViewById(R.id.editEventoButton);
-        bEditEvento.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton editEventoFab = findViewById(R.id.editEventoFab);
+        editEventoFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DetallesEventoActivity.this,
@@ -72,6 +93,28 @@ public class DetallesEventoActivity extends AppCompatActivity {
     }
 
 
+
+    /* CARGAR PREVISIONES EN EL ADAPTER */
+    private void cargarPrevisiones(Evento evento){
+        mAdapter = new MeteoHoraAdapter(new ArrayList<Hourly>());
+        AppExecutors.getInstance().networkIO().execute(new MeteoHoraNetworkLoaderRunnable(
+                mAdapter::swap, evento.getLat(), evento.getLon()
+        ));
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+
+    /* MUESTRA LOS ATRIBUTOS DEL EVENTO EN LA PANTALLA ------------------------------------------ */
+    private void mostrarInfoEvento(Evento evento){
+        descripcionTV.setText(evento.getDescripcion());
+        tituloTV.setText(evento.getTitulo());
+        ubicacionTV.setText(evento.getUbicacion());
+        fechaTV.setText(Evento.FORMAT.format(evento.getFecha()));
+
+        cargarPrevisiones(evento);
+    }
+
+
     /* CARGA EL EVENTO DESDE LA BASE DE DATOS --------------------------------------------------- */
     private void cargarEvento(){
         /* SE OBTIENE EL EVENTO DE LA BD */
@@ -82,7 +125,7 @@ public class DetallesEventoActivity extends AppCompatActivity {
                 evento = EventoDatabase.getInstance(DetallesEventoActivity.this).getDao()
                         .getEvento(evento.getId());
 
-                AppExecutors.getInstance().mainThread().execute(() ->tv.setText(evento.toString()));
+                AppExecutors.getInstance().mainThread().execute(() -> mostrarInfoEvento(evento));
             }
         });
     }

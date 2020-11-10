@@ -67,7 +67,7 @@ public class EditEventoActivity extends AppCompatActivity {
         evento = new Evento(getIntent());
         Evento eventoIntent = new Evento(getIntent());
 
-        /* SE OBTIENE EL EVENTO DE LA BD */
+        /* SE OBTIENE EL EVENTO DE LA BD  */
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
@@ -84,7 +84,7 @@ public class EditEventoActivity extends AppCompatActivity {
                         int posicionSpinner = spinnerAdapter.getPosition(evento.getUbicacion());
                         mUbicacion.setSelection(posicionSpinner);
 
-                        cargarFechaYHora(evento);
+                        setDateTime(evento.getFecha());
                     }
                 });
             }
@@ -188,11 +188,6 @@ public class EditEventoActivity extends AppCompatActivity {
         mFecha = new Date(mFecha.getTime() + SEVEN_DAYS);
 
         setDateTime(mFecha);
-    }
-
-
-    private void cargarFechaYHora(Evento evento){
-        setDateTime(evento.getFecha());
     }
 
 

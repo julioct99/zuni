@@ -120,6 +120,12 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.MyViewHolder
         return mDataset.size();
     }
 
+
+    public List<Datum> getDataset(){
+        return this.mDataset;
+    }
+
+
     public void swap(List<Datum> dataset){
         mDataset = dataset;
         notifyDataSetChanged();
