@@ -1,5 +1,7 @@
 package es.unex.giis.zuni.ui.historico;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +34,8 @@ import es.unex.giis.zuni.openweather.HistoricalNetworkLoaderRunnable;
 import es.unex.giis.zuni.ui.detalles.DetallesFragment;
 
 public class HistoricoFragment extends Fragment {
+    private static final int REQUEST_SAVE_RESULT = 1;
+
     private EditText EditText_city;
     private Spinner spinner1, spinner2;
     private Button button1, button2;
@@ -58,15 +62,40 @@ public class HistoricoFragment extends Fragment {
     public void act2(View v){
         String cityname = EditText_city.getText().toString();
         Log.i("Historico", "Se ha pulsado el boto de guardar historico de la localización guardada");
-        Snackbar.make(v, getString(R.string.Historical_save_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
-        HistoricoFragmentSave fragment = new HistoricoFragmentSave();
+        //Snackbar.make(v, getString(R.string.Historical_save_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
+
+        //HistoricoFragmentSave fragment = new HistoricoFragmentSave();
         //fragment.setArguments(bn);
         //getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment).addToBackStack(null).commit(); //MAL
         //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment).addToBackStack(null).commit();
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment).commit();
+        //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment).commit();
+
+        startSaveActivity();
     }
 
 
+    private void startSaveActivity() {
+        Intent i = new Intent(getActivity(), HistoricoActivitySave.class);
+        startActivityForResult(i, REQUEST_SAVE_RESULT);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (REQUEST_SAVE_RESULT == requestCode){
+            if (Activity.RESULT_OK == resultCode){
+                Log.i("ASD", "Es el request code y el result code");
+            }
+            else {
+                Log.i("ASD", "Es el request code pero no result code");
+                Snackbar.make(getView(), getString(R.string.Historical_save_cancel_msg), Snackbar.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            Log.i("ASD", "No es el request code");
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_historico, container, false);

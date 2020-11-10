@@ -17,9 +17,11 @@
     <string name="img_description1">Imagen de la condicion meteorologica</string>
     <string name="GO">GO!</string>
     <string name="Save">Save</string>
-    <string name="Back">Back</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Historical_save_window_name">Save Historical</string>
     <string name="Historical_save_msg">Historical added (yesterday) of city</string>
     <string name="Historical_save_err1_msg">You must enter a name in the Text Box</string>
+    <string name="Historical_save_cancel_msg">The historical save action was aborted</string>
     <string name="Max" translatable="false">Max:</string>
     <string name="Min" translatable="false">Min:</string>
     <string name="H">Precip:</string>
