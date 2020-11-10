@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.w3c.dom.Text;
@@ -46,8 +47,8 @@ public class DetallesEventoActivity extends AppCompatActivity {
 
 
         /* BOTON DE BORRAR EVENTO */
-        Button bDeleteEvento = findViewById(R.id.deleteEventoButton);
-        bDeleteEvento.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton deleteEventoFab = findViewById(R.id.deleteEventoFab);
+        deleteEventoFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setResult(RESULT_OK, intent);
@@ -57,8 +58,8 @@ public class DetallesEventoActivity extends AppCompatActivity {
 
 
         /* BOTON DE EDITAR EVENTO */
-        Button bEditEvento = findViewById(R.id.editEventoButton);
-        bEditEvento.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton editEventoFab = findViewById(R.id.editEventoFab);
+        editEventoFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DetallesEventoActivity.this,
