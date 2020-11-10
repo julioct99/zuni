@@ -64,11 +64,7 @@ public class HistoricoFragment extends Fragment {
         Log.i("Historico", "Se ha pulsado el boto de guardar historico de la localización guardada");
         //Snackbar.make(v, getString(R.string.Historical_save_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
 
-        //HistoricoFragmentSave fragment = new HistoricoFragmentSave();
-        //fragment.setArguments(bn);
-        //getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment).addToBackStack(null).commit(); //MAL
-        //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment).addToBackStack(null).commit();
-        //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, fragment).commit();
+
 
         startSaveActivity();
     }
