@@ -45,7 +45,7 @@ public class HistoricoFragment extends Fragment {
     private HistoricalAdapter adapter;
 
 
-    public void act1(View v){
+    private void act1(View v){
         String cityname = EditText_city.getText().toString();
 
         if (cityname.equals("")){
@@ -59,11 +59,10 @@ public class HistoricoFragment extends Fragment {
 
 
 
-    public void act2(View v){
+    private void act2(View v){
         String cityname = EditText_city.getText().toString();
         Log.i("Historico", "Se ha pulsado el boto de guardar historico de la localización guardada");
         //Snackbar.make(v, getString(R.string.Historical_save_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
-
 
 
         startSaveActivity();
@@ -127,7 +126,7 @@ public class HistoricoFragment extends Fragment {
 
         //Por defecto se muestran los historicos guardados de la ubicacion predeterminada (ajuste 2 de las preferencias)
 
-        Log.e("HOLAAAAAAAAAAAA","3");
+        //Log.e("HOLAAAAAAAAAAAA","3");
         recyclerView = (RecyclerView) root.findViewById(R.id.listHistorical);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(root.getContext());
