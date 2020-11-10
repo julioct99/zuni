@@ -14,6 +14,8 @@
     <string name="cancel_string">Cancelar</string>
     <string name="reset_string">Reset</string>
     <string name="submit_string">Guardar</string>
+
+    <string name="menu_ubicaciones">Ubicaciones</string>
     <string name="e_ubicacion_string">Ubicacion</string>
     <string name="e_title_string">Titulo</string>
     <string name="e_descripcion_string">Descripcion</string>

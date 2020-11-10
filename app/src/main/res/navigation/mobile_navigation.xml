@@ -34,4 +34,10 @@
         android:name="es.unex.giis.zuni.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/nav_ubicaciones"
+        android:name="es.unex.giis.zuni.ui.ubicaciones.UbicacionesFragment"
+        android:label="@string/menu_ubicaciones"
+        tools:layout="@layout/fragment_ubicaciones" />
 </navigation>
