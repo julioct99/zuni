@@ -28,14 +28,20 @@ public class DetallesEventoActivity extends AppCompatActivity {
 
     private Evento evento;
 
-    private TextView tv;
+    private TextView descripcionTV;
+    private TextView tituloTV;
+    private TextView ubicacionTV;
+    private TextView fechaTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_evento);
 
-        tv = findViewById(R.id.detallesEventoTV);
+        descripcionTV = findViewById(R.id.descripcionEventoTV);
+        tituloTV = findViewById(R.id.tituloEventoTV);
+        ubicacionTV = findViewById(R.id.ubicacionEventoTV);
+        fechaTV = findViewById(R.id.fechaEventoTV);
 
         Intent intent = getIntent();
 
@@ -73,6 +79,17 @@ public class DetallesEventoActivity extends AppCompatActivity {
     }
 
 
+
+
+    /* MUESTRA LOS ATRIBUTOS DEL EVENTO EN LA PANTALLA ------------------------------------------ */
+    private void mostrarInfoEvento(Evento evento){
+        descripcionTV.setText(evento.getDescripcion());
+        tituloTV.setText(evento.getTitulo());
+        ubicacionTV.setText(evento.getUbicacion());
+        fechaTV.setText(Evento.FORMAT.format(evento.getFecha()));
+    }
+
+
     /* CARGA EL EVENTO DESDE LA BASE DE DATOS --------------------------------------------------- */
     private void cargarEvento(){
         /* SE OBTIENE EL EVENTO DE LA BD */
@@ -83,7 +100,7 @@ public class DetallesEventoActivity extends AppCompatActivity {
                 evento = EventoDatabase.getInstance(DetallesEventoActivity.this).getDao()
                         .getEvento(evento.getId());
 
-                AppExecutors.getInstance().mainThread().execute(() ->tv.setText(evento.toString()));
+                AppExecutors.getInstance().mainThread().execute(() -> mostrarInfoEvento(evento));
             }
         });
     }
