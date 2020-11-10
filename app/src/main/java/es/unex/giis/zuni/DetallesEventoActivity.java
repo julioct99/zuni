@@ -1,6 +1,8 @@
 package es.unex.giis.zuni;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,11 +17,15 @@ import com.google.android.material.snackbar.Snackbar;
 import org.w3c.dom.Text;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 
+import es.unex.giis.zuni.adapter.MeteoHoraAdapter;
+import es.unex.giis.zuni.api.porhoras.Hourly;
 import es.unex.giis.zuni.eventos.Evento;
 import es.unex.giis.zuni.eventos.db.EventoDatabase;
 import es.unex.giis.zuni.openweather.AppExecutors;
+import es.unex.giis.zuni.openweather.MeteoHoraNetworkLoaderRunnable;
 
 public class DetallesEventoActivity extends AppCompatActivity {
 
@@ -32,6 +38,10 @@ public class DetallesEventoActivity extends AppCompatActivity {
     private TextView tituloTV;
     private TextView ubicacionTV;
     private TextView fechaTV;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    MeteoHoraAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +58,10 @@ public class DetallesEventoActivity extends AppCompatActivity {
         evento = new Evento(intent);
         Evento eventoIntent = new Evento(intent);
 
+        mRecyclerView = findViewById(R.id.listaPrevisionesEvento);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(DetallesEventoActivity.this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         cargarEvento();
 
@@ -80,6 +94,15 @@ public class DetallesEventoActivity extends AppCompatActivity {
 
 
 
+    /* CARGAR PREVISIONES EN EL ADAPTER */
+    private void cargarPrevisiones(Evento evento){
+        mAdapter = new MeteoHoraAdapter(new ArrayList<Hourly>());
+        AppExecutors.getInstance().networkIO().execute(new MeteoHoraNetworkLoaderRunnable(
+                mAdapter::swap, evento.getLat(), evento.getLon()
+        ));
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
 
     /* MUESTRA LOS ATRIBUTOS DEL EVENTO EN LA PANTALLA ------------------------------------------ */
     private void mostrarInfoEvento(Evento evento){
@@ -87,6 +110,8 @@ public class DetallesEventoActivity extends AppCompatActivity {
         tituloTV.setText(evento.getTitulo());
         ubicacionTV.setText(evento.getUbicacion());
         fechaTV.setText(Evento.FORMAT.format(evento.getFecha()));
+
+        cargarPrevisiones(evento);
     }
 
 

@@ -56,6 +56,7 @@ public class EventosFragment extends Fragment {
 
 
         mRecyclerView = root.findViewById(R.id.eventos_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
         mLayoutManager = new LinearLayoutManager(getActivity());

@@ -6,9 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".DetallesEventoActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listaPrevisionesEvento"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="310dp"
         android:background="@color/background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,36 +31,34 @@
             android:layout_marginStart="28dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:textAllCaps="false"
-            android:textColor="#E1E1E1"
-            android:textSize="35sp"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF"
+            android:textSize="38sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/ubicacionEventoTV"
-            android:layout_width="150dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
             android:layout_marginLeft="28dp"
-            android:layout_marginTop="8dp"
-            android:textColor="#E1E1E1"
-            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tituloEventoTV" />
 
         <TextView
             android:id="@+id/fechaEventoTV"
-            android:layout_width="190dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="8dp"
-            android:textColor="#E1E1E1"
-            android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@+id/ubicacionEventoTV"
-            app:layout_constraintTop_toBottomOf="@+id/tituloEventoTV" />
+            android:layout_marginStart="28dp"
+            android:layout_marginLeft="28dp"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ubicacionEventoTV" />
 
         <TextView
             android:id="@+id/descripcionEventoTV"
@@ -59,9 +67,9 @@
             android:layout_marginStart="28dp"
             android:layout_marginLeft="28dp"
             android:layout_marginTop="20dp"
-            android:textColor="#E1E1E1"
+            android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ubicacionEventoTV" />
+            app:layout_constraintTop_toBottomOf="@+id/fechaEventoTV" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -87,10 +95,18 @@
         android:layout_margin="@dimen/fab_margin"
         android:layout_marginEnd="48dp"
         android:layout_marginRight="48dp"
-        android:backgroundTint="@color/colorAccent"
+        android:backgroundTint="@color/background"
+        app:backgroundTint="#00FFFFFF"
         android:tint="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/deleteEventoFab"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <TextView
+        android:id="@+id/eventoTestTV"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
