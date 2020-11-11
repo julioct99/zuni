@@ -62,17 +62,13 @@ public class DetallesEventoActivity extends AppCompatActivity {
         ubicacionTV = findViewById(R.id.ubicacionEventoTV);
         fechaTV = findViewById(R.id.fechaEventoTV);
 
-        //
         noPrevisionesTV = findViewById(R.id.noPrevisionesTV);
         fechaDisponibleTV = findViewById(R.id.fechaDisponibleEventoTV);
-        //
 
         Intent intent = getIntent();
 
         evento = new Evento(intent);
         Evento eventoIntent = new Evento(intent);
-
-
 
         mRecyclerView = findViewById(R.id.listaPrevisionesEvento);
         mRecyclerView.setHasFixedSize(true);
@@ -82,7 +78,7 @@ public class DetallesEventoActivity extends AppCompatActivity {
         cargarEvento();
 
 
-        /* BOTON DE BORRAR EVENTO */
+        /* BOTON DE BORRAR EVENTO --------------------------------------------------------------- */
         FloatingActionButton deleteEventoFab = findViewById(R.id.deleteEventoFab);
         deleteEventoFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +89,7 @@ public class DetallesEventoActivity extends AppCompatActivity {
         });
 
 
-        /* BOTON DE EDITAR EVENTO */
+        /* BOTON DE EDITAR EVENTO --------------------------------------------------------------- */
         FloatingActionButton editEventoFab = findViewById(R.id.editEventoFab);
         editEventoFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,18 +102,6 @@ public class DetallesEventoActivity extends AppCompatActivity {
                 startActivityForResult(intent, EDIT_EVENTO_REQUEST);
             }
         });
-    }
-
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        if(dAdapter != null){
-            dAdapter.clear();
-        }
-        noPrevisionesTV.setVisibility(View.VISIBLE);
-        fechaDisponibleTV.setVisibility(View.VISIBLE);
-        cargarEvento();
     }
 
 
@@ -184,6 +168,12 @@ public class DetallesEventoActivity extends AppCompatActivity {
                         int id = EventoDatabase.getInstance(DetallesEventoActivity.this)
                                 .getDao()
                                 .update(eventoEditado);
+
+                        if(dAdapter != null){
+                            dAdapter.clear();
+                        }
+                        noPrevisionesTV.setVisibility(View.VISIBLE);
+                        fechaDisponibleTV.setVisibility(View.VISIBLE);
 
                         // Se recarga el evento de esta clase para obtener el nuevo objeto
                         AppExecutors.getInstance().mainThread().execute(() -> cargarEvento());
