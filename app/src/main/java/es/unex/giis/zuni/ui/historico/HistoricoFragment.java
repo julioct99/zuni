@@ -34,6 +34,7 @@ import es.unex.giis.zuni.openweather.AppExecutors;
 import es.unex.giis.zuni.openweather.HistoricalNetworkLoaderRunnable;
 import es.unex.giis.zuni.ui.detalles.DetallesFragment;
 
+@SuppressWarnings("ALL")
 public class HistoricoFragment extends Fragment {
     private static final int REQUEST_SAVE_RESULT = 1;
 
@@ -49,7 +50,9 @@ public class HistoricoFragment extends Fragment {
     private void act1(View v){
         //Get the data from the view
         String cityname = EditText_city.getText().toString();
-        String countrycode = spinner2.getSelectedItem().toString().substring(0,2);
+        String countrycode = spinner1.getSelectedItem().toString().substring(0,2);
+
+        Log.i("Historico", "Se ha pulsado el boto de busqueda de \"" + cityname + "\" en el country \"" + countrycode + "\"");
 
         if (cityname.equals("")){
             Snackbar.make(v, getString(R.string.Historical_save_err1_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
@@ -68,7 +71,7 @@ public class HistoricoFragment extends Fragment {
 
     private void act2(View v){
         //Get the data from the view
-        String seleccion = spinner2.getSelectedItem().toString();
+        //String seleccion = spinner2.getSelectedItem().toString();
 
 
 
@@ -137,9 +140,9 @@ public class HistoricoFragment extends Fragment {
 
         //Por defecto se muestran los historicos guardados de la ubicacion predeterminada (ajuste 2 de las preferencias)
 
-        //Log.e("HOLAAAAAAAAAAAA","3");
+        Log.i("Historico","Se cargan los historicos guardados en el recycler view");
         recyclerView = (RecyclerView) root.findViewById(R.id.listHistorical);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true); //esto hay que ponerlo siempre (no se pa que)
         layoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(layoutManager);
         HistoricalAdapter adapter=new HistoricalAdapter(new ArrayList<>());
