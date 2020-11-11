@@ -29,6 +29,7 @@ import java.util.List;
 import es.unex.giis.zuni.R;
 import es.unex.giis.zuni.adapter.HistoricalAdapter;
 import es.unex.giis.zuni.countrycodes.CountryCode;
+import es.unex.giis.zuni.historical.Historical;
 import es.unex.giis.zuni.openweather.AppExecutors;
 import es.unex.giis.zuni.openweather.HistoricalNetworkLoaderRunnable;
 import es.unex.giis.zuni.ui.detalles.DetallesFragment;
@@ -46,12 +47,18 @@ public class HistoricoFragment extends Fragment {
 
 
     private void act1(View v){
+        //Get the data from the view
         String cityname = EditText_city.getText().toString();
+        String countrycode = spinner2.getSelectedItem().toString().substring(0,2);
 
         if (cityname.equals("")){
             Snackbar.make(v, getString(R.string.Historical_save_err1_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
             return;
         }
+
+
+        //Get the historical from the API
+        adapter = new HistoricalAdapter(new ArrayList<Historical>());
 
         Log.i("Historico", "Se ha pulsado el boto de guardar historico por nombre");
         Snackbar.make(v, getString(R.string.Historical_save_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
@@ -60,7 +67,11 @@ public class HistoricoFragment extends Fragment {
 
 
     private void act2(View v){
-        String cityname = EditText_city.getText().toString();
+        //Get the data from the view
+        String seleccion = spinner2.getSelectedItem().toString();
+
+
+
         Log.i("Historico", "Se ha pulsado el boto de guardar historico de la localización guardada");
         //Snackbar.make(v, getString(R.string.Historical_save_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
 
