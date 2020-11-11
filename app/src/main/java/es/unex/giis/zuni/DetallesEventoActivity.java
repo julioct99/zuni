@@ -109,18 +109,6 @@ public class DetallesEventoActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public void onResume(){
-        super.onResume();
-        if(dAdapter != null){
-            dAdapter.clear();
-        }
-        noPrevisionesTV.setVisibility(View.VISIBLE);
-        fechaDisponibleTV.setVisibility(View.VISIBLE);
-        cargarEvento();
-    }
-
-
     /* CARGAR PREVISIONES EN EL ADAPTER --------------------------------------------------------- */
     private void cargarPrevisiones(Evento evento){
         dAdapter = new DailyAdapter(new ArrayList<>());
@@ -184,6 +172,13 @@ public class DetallesEventoActivity extends AppCompatActivity {
                         int id = EventoDatabase.getInstance(DetallesEventoActivity.this)
                                 .getDao()
                                 .update(eventoEditado);
+
+                        if(dAdapter != null){
+                            dAdapter.clear();
+                        }
+                        noPrevisionesTV.setVisibility(View.VISIBLE);
+                        fechaDisponibleTV.setVisibility(View.VISIBLE);
+                        // cargarEvento();
 
                         // Se recarga el evento de esta clase para obtener el nuevo objeto
                         AppExecutors.getInstance().mainThread().execute(() -> cargarEvento());
