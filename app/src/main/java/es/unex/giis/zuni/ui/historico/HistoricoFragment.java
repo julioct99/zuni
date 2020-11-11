@@ -29,10 +29,12 @@ import java.util.List;
 import es.unex.giis.zuni.R;
 import es.unex.giis.zuni.adapter.HistoricalAdapter;
 import es.unex.giis.zuni.countrycodes.CountryCode;
+import es.unex.giis.zuni.historical.Historical;
 import es.unex.giis.zuni.openweather.AppExecutors;
 import es.unex.giis.zuni.openweather.HistoricalNetworkLoaderRunnable;
 import es.unex.giis.zuni.ui.detalles.DetallesFragment;
 
+@SuppressWarnings("ALL")
 public class HistoricoFragment extends Fragment {
     private static final int REQUEST_SAVE_RESULT = 1;
 
@@ -46,12 +48,20 @@ public class HistoricoFragment extends Fragment {
 
 
     private void act1(View v){
+        //Get the data from the view
         String cityname = EditText_city.getText().toString();
+        String countrycode = spinner1.getSelectedItem().toString().substring(0,2);
+
+        Log.i("Historico", "Se ha pulsado el boto de busqueda de \"" + cityname + "\" en el country \"" + countrycode + "\"");
 
         if (cityname.equals("")){
             Snackbar.make(v, getString(R.string.Historical_save_err1_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
             return;
         }
+
+
+        //Get the historical from the API
+        adapter = new HistoricalAdapter(new ArrayList<Historical>());
 
         Log.i("Historico", "Se ha pulsado el boto de guardar historico por nombre");
         Snackbar.make(v, getString(R.string.Historical_save_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
@@ -60,7 +70,11 @@ public class HistoricoFragment extends Fragment {
 
 
     private void act2(View v){
-        String cityname = EditText_city.getText().toString();
+        //Get the data from the view
+        //String seleccion = spinner2.getSelectedItem().toString();
+
+
+
         Log.i("Historico", "Se ha pulsado el boto de guardar historico de la localización guardada");
         //Snackbar.make(v, getString(R.string.Historical_save_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
 
@@ -126,9 +140,9 @@ public class HistoricoFragment extends Fragment {
 
         //Por defecto se muestran los historicos guardados de la ubicacion predeterminada (ajuste 2 de las preferencias)
 
-        //Log.e("HOLAAAAAAAAAAAA","3");
+        Log.i("Historico","Se cargan los historicos guardados en el recycler view");
         recyclerView = (RecyclerView) root.findViewById(R.id.listHistorical);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true); //esto hay que ponerlo siempre (no se pa que)
         layoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(layoutManager);
         HistoricalAdapter adapter=new HistoricalAdapter(new ArrayList<>());
