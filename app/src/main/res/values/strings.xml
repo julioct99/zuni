@@ -9,7 +9,7 @@
     <string name="action_settings">Settings</string>
 
     <!-- Eventos   ***************************************************************************** -->
-    <string name="e_fecha_evento_string" translatable="false">Date:</string>
+    <string name="e_fecha_evento_string">Date:</string>
 
     <string name="e_cancel_string" translatable="false">Cancel</string>
     <string name="e_reset_string" translatable="false">Reset</string>

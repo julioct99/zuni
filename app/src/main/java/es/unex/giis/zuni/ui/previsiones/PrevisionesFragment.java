@@ -94,6 +94,8 @@ public class PrevisionesFragment extends Fragment {
         spinner.setAdapter(spinnerAdapter);
         spinner.setSelection(0);
 
+
+
         JsonReader reader = new JsonReader(new InputStreamReader(getResources().openRawResource(R.raw.country_codes)));
         List<CountryCode> countryCodes = Arrays.asList(new Gson().fromJson(reader, CountryCode[].class));
         ArrayAdapter<CountryCode> spinnerAdapter2 = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,countryCodes);
