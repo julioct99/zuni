@@ -9,11 +9,12 @@
     <string name="action_settings">Settings</string>
 
     <!-- Eventos   ***************************************************************************** -->
-    <string name="e_fecha_evento_string" translatable="false">Date:</string>
+    <string name="e_fecha_evento_string">Date:</string>
 
-    <string name="e_cancel_string" translatable="false">Cancel</string>
-    <string name="e_reset_string" translatable="false">Reset</string>
-    <string name="e_submit_string" translatable="false">Submit</string>
+    <string name="e_cancel_string">Cancel</string>
+    <string name="e_reset_string">Reset</string>
+    <string name="e_submit_string">Submit</string>
+
     <string name="e_ubicacion_string">Location</string>
     <string name="e_title_string">Title</string>
     <string name="e_descripcion_string">Description</string>
@@ -50,6 +51,4 @@
         <item>Abuya</item>
         <item>Reikiavik</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
