@@ -14,6 +14,9 @@
         <activity android:name=".EditEventoActivity"></activity>
         <activity android:name=".DetallesEventoActivity" />
         <activity android:name=".AddEventoActivity" />
+        <activity android:name=".EditUbicacionActivity"></activity>
+        <activity android:name=".DetallesUbicacionActivity" />
+        <activity android:name=".AddUbicacionActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
