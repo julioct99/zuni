@@ -19,13 +19,18 @@ import org.w3c.dom.Text;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import es.unex.giis.zuni.adapter.DailyAdapter;
 import es.unex.giis.zuni.adapter.MeteoHoraAdapter;
+import es.unex.giis.zuni.api.daily.Datum;
 import es.unex.giis.zuni.api.porhoras.Hourly;
 import es.unex.giis.zuni.eventos.Evento;
 import es.unex.giis.zuni.eventos.db.EventoDatabase;
 import es.unex.giis.zuni.openweather.AppExecutors;
+import es.unex.giis.zuni.openweather.DailyNetworkLoaderRunnable;
 import es.unex.giis.zuni.openweather.MeteoHoraNetworkLoaderRunnable;
+import es.unex.giis.zuni.utils.DateRangeChecker;
 
 public class DetallesEventoActivity extends AppCompatActivity {
 
@@ -39,9 +44,13 @@ public class DetallesEventoActivity extends AppCompatActivity {
     private TextView ubicacionTV;
     private TextView fechaTV;
 
+    private TextView noPrevisionesTV;
+    private TextView fechaDisponibleTV;
+
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-    MeteoHoraAdapter mAdapter;
+    MeteoHoraAdapter mhAdapter;
+    DailyAdapter dAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +62,17 @@ public class DetallesEventoActivity extends AppCompatActivity {
         ubicacionTV = findViewById(R.id.ubicacionEventoTV);
         fechaTV = findViewById(R.id.fechaEventoTV);
 
+        //
+        noPrevisionesTV = findViewById(R.id.noPrevisionesTV);
+        fechaDisponibleTV = findViewById(R.id.fechaDisponibleEventoTV);
+        //
+
         Intent intent = getIntent();
 
         evento = new Evento(intent);
         Evento eventoIntent = new Evento(intent);
+
+
 
         mRecyclerView = findViewById(R.id.listaPrevisionesEvento);
         mRecyclerView.setHasFixedSize(true);
@@ -93,14 +109,26 @@ public class DetallesEventoActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(dAdapter != null){
+            dAdapter.clear();
+        }
+        noPrevisionesTV.setVisibility(View.VISIBLE);
+        fechaDisponibleTV.setVisibility(View.VISIBLE);
+        cargarEvento();
+    }
 
-    /* CARGAR PREVISIONES EN EL ADAPTER */
+
+    /* CARGAR PREVISIONES EN EL ADAPTER --------------------------------------------------------- */
     private void cargarPrevisiones(Evento evento){
-        mAdapter = new MeteoHoraAdapter(new ArrayList<Hourly>());
-        AppExecutors.getInstance().networkIO().execute(new MeteoHoraNetworkLoaderRunnable(
-                mAdapter::swap, evento.getLat(), evento.getLon()
+        dAdapter = new DailyAdapter(new ArrayList<>());
+        AppExecutors.getInstance().networkIO().execute(new DailyNetworkLoaderRunnable(
+                dAdapter::swap, evento.getLat(), evento.getLon()
+
         ));
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(dAdapter);
     }
 
 
@@ -109,9 +137,17 @@ public class DetallesEventoActivity extends AppCompatActivity {
         descripcionTV.setText(evento.getDescripcion());
         tituloTV.setText(evento.getTitulo());
         ubicacionTV.setText(evento.getUbicacion());
-        fechaTV.setText(Evento.FORMAT.format(evento.getFecha()));
+        fechaTV.setText(evento.getFecha().toString());
 
-        cargarPrevisiones(evento);
+        // Se comprueba si la fecha del evento es en menos de 14 dias
+        DateRangeChecker drc = new DateRangeChecker();
+        if(drc.dateWithinDays(evento.getFecha(), 14)){
+            noPrevisionesTV.setVisibility(View.INVISIBLE);
+            fechaDisponibleTV.setVisibility(View.INVISIBLE);
+            cargarPrevisiones(evento);
+        } else {
+            fechaDisponibleTV.setText(drc.substractDays(evento.getFecha(), 14).toString());
+        }
     }
 
 

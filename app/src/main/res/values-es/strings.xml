@@ -9,13 +9,12 @@
     <string name="action_settings">Configuracion</string>
 
     <!-- Eventos   ***************************************************************************** -->
-    <string name="fecha_evento_string">Fecha:</string>
+    <string name="e_fecha_evento_string">Fecha:</string>
 
-    <string name="cancel_string">Cancelar</string>
-    <string name="reset_string">Reset</string>
-    <string name="submit_string">Guardar</string>
+    <string name="e_cancel_string">Cancelar</string>
+    <string name="e_reset_string">Reset</string>
+    <string name="e_submit_string">Guardar</string>
 
-    <string name="menu_ubicaciones">Ubicaciones</string>
     <string name="e_ubicacion_string">Ubicacion</string>
     <string name="e_title_string">Titulo</string>
     <string name="e_descripcion_string">Descripcion</string>
@@ -31,6 +30,7 @@
     <string name="e_edit_evento">Editar</string>
     <!-- *************************************************************************************** -->
 
+    <string name="menu_ubicaciones">Ubicaciones</string>
     <string name="menu_previsiones">Tiempo diario</string>
     <string name="menu_historico">Tiempo historico</string>
     <string name="menu_eventos">Eventos</string>

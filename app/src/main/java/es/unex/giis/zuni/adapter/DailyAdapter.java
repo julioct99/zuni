@@ -125,6 +125,11 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.MyViewHolder
         return this.mDataset;
     }
 
+    public void clear(){
+        int size = mDataset.size();
+        mDataset.clear();
+        notifyItemRangeRemoved(0, size);
+    }
 
     public void swap(List<Datum> dataset){
         mDataset = dataset;
