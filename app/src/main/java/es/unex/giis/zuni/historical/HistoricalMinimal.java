@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class HistoricalMinimal implements Serializable {
+    private String cityname;
+    private String countrycode;
+
     private Integer Dt;
     private String description;
     private Integer sunrise;
@@ -13,6 +16,24 @@ public class HistoricalMinimal implements Serializable {
     private Double windSpeed;
     private Integer humidity;
     private String main;
+
+
+    public String getCityname() {
+        return cityname;
+    }
+
+    public void setCityname(String cityname) {
+        this.cityname = cityname;
+    }
+
+    public String getCountrycode() {
+        return countrycode;
+    }
+
+    public void setCountrycode(String countrycode) {
+        this.countrycode = countrycode;
+    }
+
 
     public Integer getDt() {
         return Dt;
@@ -85,6 +106,14 @@ public class HistoricalMinimal implements Serializable {
     public void setMain(String main) {
         this.main = main;
     }
+
+
+    public void initFromHistorical(Historical h, String cityname, String countrycode){
+        this.setCityname(cityname);
+        this.setCountrycode(countrycode);
+        this.initFromHistorical(h);
+    }
+
 
 
     public void initFromHistorical(Historical h){
