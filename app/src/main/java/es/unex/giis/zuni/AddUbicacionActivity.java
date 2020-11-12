@@ -134,9 +134,6 @@ public class AddUbicacionActivity extends AppCompatActivity {
                 String ubicacion = mUbicacion.getText().toString();
 
                 String spinner = spinner3.getSelectedItem().toString();
-                Double lat = getLat(ubicacion);
-                Double lon = getLon(ubicacion);
-
 
                 /* Empaquetar el evento en un intent */
                 Intent data = new Intent();
@@ -154,106 +151,6 @@ public class AddUbicacionActivity extends AppCompatActivity {
     }
 
 
-    /* METODOS AUXILIARES ----------------------------------------------------------------------- */
-    //---------------------------------------------------CAMBIARRRRR------------------------------------
-    public Double getLat(String ubicacion) {
-        Double lat = 0.0;
-        switch (ubicacion) {
-            case "Monterrubio de la Serena":
-                lat = 38.58844;
-                break;
-            case "Caceres":
-                lat = 39.48932;
-                break;
-            case "Nueva York":
-                lat = 40.68908;
-                break;
-        }
-        return lat;
-    }
-
-
-    public Double getLon(String ubicacion) {
-        Double lon = 0.0;
-        switch (ubicacion) {
-            case "Monterrubio de la Serena":
-                lon = -5.44484;
-                break;
-            case "Caceres":
-                lon = -6.36581;
-                break;
-            case "Nueva York":
-                lon = -73.95861;
-                break;
-        }
-        return lon;
-    }
-
-
-    /* DIÁLOGO PARA FECHA ----------------------------------------------------------------------- */
-/*
-    public static class DatePickerFragment extends DialogFragment implements
-            DatePickerDialog.OnDateSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-            // Use the current date as the default date in the picker
-
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            setDateString(year, monthOfYear, dayOfMonth);
-
-            dateView.setText(dateString);
-        }
-    }
-
-    private void showDatePickerDialog() {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getFragmentManager(), "datePicker");
-    }
-
-*/
-    /* DIÁLOGO PARA HORA ------------------------------------------------------------------------ */
-/*
-    public static class TimePickerFragment extends DialogFragment implements
-            TimePickerDialog.OnTimeSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-            // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
-
-            // Create a new instance of TimePickerDialog and return
-            return new TimePickerDialog(getActivity(), this, hour, minute,
-                    true);
-        }
-
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            setTimeString(hourOfDay, minute, 0);
-
-            timeView.setText(timeString);
-        }
-    }
-
-    private void showTimePickerDialog() {
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getFragmentManager(), "timePicker");
-    }
-
-*/
     /*LOG --------------------------------------------------------------------------------------- */
     private void log(String msg) {
         try {

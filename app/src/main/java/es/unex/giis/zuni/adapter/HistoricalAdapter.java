@@ -26,7 +26,7 @@ public class HistoricalAdapter extends RecyclerView.Adapter<HistoricalAdapter.My
         public MyViewHolder(View v) {
             super(v);
             mView=v;
-            text = v.findViewById(R.id.text_historical);
+
         }
     }
 
