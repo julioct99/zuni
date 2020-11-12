@@ -59,7 +59,6 @@ public class HistoricalAdapter extends RecyclerView.Adapter<HistoricalAdapter.My
 
             bt_erase = v.findViewById(R.id.bt_erase);
             bt_erase.setOnClickListener(this);
-
         }
 
         @Override
