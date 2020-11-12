@@ -69,9 +69,7 @@ public class EventosFragment extends Fragment {
             public void onItemClick(Evento item) {
 
                 Intent intent = new Intent(getActivity(), DetallesEventoActivity.class);
-
                 Evento.packageIntent(intent, item);
-
                 startActivityForResult(intent, DELETE_EVENTO_REQUEST);
             }
         });

@@ -136,8 +136,6 @@ public class AddEventoActivity extends AppCompatActivity {
 
                 Evento eventoCreado = new Evento(data);
 
-                mDescripcion.setText(eventoCreado.toString());
-
                 setResult(RESULT_OK, data);
                 finish();
             }
@@ -245,7 +243,6 @@ public class AddEventoActivity extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
 
             // Use the current date as the default date in the picker
-
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
@@ -258,7 +255,6 @@ public class AddEventoActivity extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             setDateString(year, monthOfYear, dayOfMonth);
-
             dateView.setText(dateString);
         }
     }
