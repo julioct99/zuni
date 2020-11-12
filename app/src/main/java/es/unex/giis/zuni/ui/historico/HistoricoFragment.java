@@ -31,6 +31,7 @@ import es.unex.giis.zuni.adapter.HistoricalAdapter;
 import es.unex.giis.zuni.countrycodes.CountryCode;
 import es.unex.giis.zuni.geocode.GeoCode;
 import es.unex.giis.zuni.historical.Historical;
+import es.unex.giis.zuni.historical.HistoricalMinimal;
 import es.unex.giis.zuni.openweather.AppExecutors;
 import es.unex.giis.zuni.openweather.GeoCodeNetworkLoaderRunnable;
 import es.unex.giis.zuni.openweather.HistoricalNetworkLoaderRunnable;
@@ -64,7 +65,7 @@ public class HistoricoFragment extends Fragment {
         Log.i("Historico", "Se ha pulsado el boto de busqueda de \"" + cityname + "\" en el country \"" + countrycode + "\"");
 
         if (cityname.equals("")){
-            Snackbar.make(v, getString(R.string.Historical_save_err1_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(v, getString(R.string.Historical_search_err1_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
             return;
         }
 
@@ -73,6 +74,7 @@ public class HistoricoFragment extends Fragment {
         AppExecutors.getInstance().networkIO().execute(new GeoCodeNetworkLoaderRunnable(
                 this::setUbicacion,cityname.replace(" ","%20"), countrycode
         ));
+        Log.i("Historico", "Se ha recuperado la ubicacion por nombre lat: " + Double.toString(lat) + " long: " + Double.toString(lon));
 
 
         //Get the historical from the API
@@ -80,22 +82,30 @@ public class HistoricoFragment extends Fragment {
         AppExecutors.getInstance().networkIO().execute(new HistoricalNetworkLoaderRunnable(
                 this::setHistorical,39.47649,-6.37224,1604361600
         ));
+        Log.i("Historico", "Se ha recuperado el hisorico por la ubicacion");
 
 
         if (histoData == null){
-            Snackbar.make(v, getString(R.string.Historical_save_err1_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(v, getString(R.string.Historical_search_err2_msg), Snackbar.LENGTH_SHORT).show();
+            Log.e("Historico", "No se ha devuelto un historico valido");
             return;
         }
+        Log.i("Historico", "Se ha devuelto un historico valido");
 
 
         //Se invoca la nueva pantalla y se añade el dato
         Intent i = new Intent(getActivity(), HistoricoActivitySave.class);
-        //i.putExtra("Historico1", histoData); //TODO arreglar esto (hacer un empaquetador de un Historico en un Intent)
+        HistoricalMinimal hm = new HistoricalMinimal();
+        hm.initFromHistorical(histoData);
+        i.putExtra("data", hm);
+        //histoData.packageIntoIntent(i, histoData);
+        i.putExtra("cityname", cityname);
+        i.putExtra("countrycode", countrycode);
         startActivityForResult(i, REQUEST_SAVE_RESULT);
 
 
-        Log.i("Historico", "Se ha pulsado el boto de guardar historico por nombre");
-        Snackbar.make(v, getString(R.string.Historical_save_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
+        Log.i("Historico", "Se ha pulsado el boto de buscar historico por nombre");
+        //Snackbar.make(v, getString(R.string.Historical_save_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
     }
 
 

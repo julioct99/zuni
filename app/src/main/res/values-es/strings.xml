@@ -43,7 +43,8 @@
     <string name="Cancel">Cancelar</string>
     <string name="Historical_save_window_name">Guardar Historico</string>
     <string name="Historical_save_msg">Se ha añadido el historico (ayer) de</string>
-    <string name="Historical_save_err1_msg">Debes introducir un nombre en el Cuadro de Texto</string>
+    <string name="Historical_search_err1_msg">Debes introducir un nombre en el Cuadro de Texto</string>
+    <string name="Historical_search_err2_msg">ERROR: No se puede obtener el historico</string>
     <string name="Historical_save_cancel_msg">Se ha abortado la acción de guardar el histórico</string>
     <string name="H">Precip.:</string>
     <string name="WS">Vel. viento:</string>

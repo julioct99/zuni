@@ -44,7 +44,7 @@ public class HistoricalNetworkLoaderRunnable implements Runnable {
             if(historical!=null) {
                 Log.i("Historico API","Se ha recibido un historico valido de la API");
                 if(historical.getCurrent()!=null) {
-                    Log.i("Historico API","2");
+                    Log.i("Historico API","Se procede a enviar el Historico recivido a l Listener");
                     //Log.e("Historico API",historical.getCurrent().get);
                     ArrayList<Historical> historicalList = new ArrayList<Historical>();
                     historicalList.add(historical);

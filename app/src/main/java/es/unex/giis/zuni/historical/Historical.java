@@ -6,9 +6,10 @@ import android.content.Intent;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Historical {
+public class Historical{
 
     @SerializedName("lat")
     @Expose
@@ -77,7 +78,21 @@ public class Historical {
         this.hourly = hourly;
     }
 
-    public void packageIntoIntent(Intent i){
+    /*public void packageIntoIntent(Intent i, Historical obj){
+        i.putExtra("HistoricalItem", obj);
+    }
 
+    public Historical(Intent i){
+        Historical tmp = (Historical) i.getSerializableExtra("HistoricalItem");
+
+        this.setLat(tmp.getLat());
+        this.setLon(tmp.getLon());
+        this.setTimezone(tmp.getTimezone());
+        this.setTimezoneOffset(tmp.getTimezoneOffset());
+        this.setCurrent(tmp.getCurrent());
+        this.setHourly(tmp.getHourly());
+    }*/
+
+    public Historical(){
     }
 }
