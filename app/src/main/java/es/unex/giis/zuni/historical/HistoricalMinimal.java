@@ -7,6 +7,9 @@ public class HistoricalMinimal implements Serializable {
     private String cityname;
     private String countrycode;
 
+    private Double lat;
+    private Double lon;
+
     private Integer Dt;
     private String description;
     private Integer sunrise;
@@ -32,6 +35,23 @@ public class HistoricalMinimal implements Serializable {
 
     public void setCountrycode(String countrycode) {
         this.countrycode = countrycode;
+    }
+
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLon() {
+        return lon;
+    }
+
+    public void setLon(Double lon) {
+        this.lon = lon;
     }
 
 
@@ -117,6 +137,9 @@ public class HistoricalMinimal implements Serializable {
 
 
     public void initFromHistorical(Historical h){
+        this.setLat(h.getLat());
+        this.setLon(h.getLon());
+
         this.setDt(h.getCurrent().getDt());
         this.setDescription(h.getCurrent().getWeather().get(0).getDescription());
         this.setMain(h.getCurrent().getWeather().get(0).getMain());
@@ -150,6 +173,9 @@ public class HistoricalMinimal implements Serializable {
 
         Weather w = new Weather();
         Current c = new Current();
+
+        h.setLat(this.getLat());
+        h.setLon(this.getLon());
 
         c.setDt(this.getDt());
 
