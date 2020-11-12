@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import es.unex.giis.zuni.R;
 import es.unex.giis.zuni.adapter.HistoricalAdapter;
+import es.unex.giis.zuni.adapter.HistoricalAdapterListener;
 import es.unex.giis.zuni.historical.Historical;
 import es.unex.giis.zuni.historical.HistoricalMinimal;
 import es.unex.giis.zuni.openweather.AppExecutors;
@@ -117,7 +118,7 @@ public class HistoricoActivitySave extends AppCompatActivity {
         tv_city.setText(name);
 
         //Cargar el RecyclerView
-        recyclerView = (RecyclerView) findViewById(R.id.listHistorical);
+        recyclerView = findViewById(R.id.listHistorical);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getBaseContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -125,26 +126,17 @@ public class HistoricoActivitySave extends AppCompatActivity {
         //Mostrar el dato en el RecyclerView
         ArrayList<Historical> histoList = new ArrayList<Historical>();
         histoList.add(histoData);
-        HistoricalAdapter adapter = new HistoricalAdapter(histoList);
+        HistoricalAdapter adapter = new HistoricalAdapter(histoList, new HistoricalAdapterListener() {
+            @Override
+            public void imageButtonViewOnClick(View v, int position) {
+                //Todo Insertar codigo aqui
+                //Aqui no se debe hacer nada porque el element no esta en la base de datos (sino que se va a añadir a ella)
+                Snackbar.make(v, getText(R.string.Historical_remove_err_msg), Snackbar.LENGTH_SHORT).show();
+            }
+        });
         recyclerView.setAdapter(adapter);
 
 
-
-        //Por defecto se muestran los historicos guardados de la ubicacion predeterminada (ajuste 2 de las preferencias)
-
-        /*Log.e("HOLAAAAAAAAAAAA","3");
-        recyclerView = (RecyclerView) findViewById(R.id.listHistorical);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getBaseContext());
-        recyclerView.setLayoutManager(layoutManager);
-        HistoricalAdapter adapter=new HistoricalAdapter(new ArrayList<>());
-
-        AppExecutors.getInstance().networkIO().execute(new HistoricalNetworkLoaderRunnable(
-                adapter::swap,39.47649,-6.37224,1604361600
-        ));
-        recyclerView.setAdapter(adapter);*/
-
-
-        Log.i("Historico", "Se ha cargado el Activity de guardar un historico");
+        Log.i("Historico Save", "Se ha cargado el Activity de guardar un historico");
     }
 }

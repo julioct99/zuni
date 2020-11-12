@@ -49,5 +49,7 @@
     <string name="H">Precip.:</string>
     <string name="WS">Vel. viento:</string>
     <string name="introduceCity">Introduce una ciudad...</string>
+    <string name="Historical_remove_err_msg">Este historico no puede ser borrado</string>
+    <string name="Search">Buscar</string>
 
 </resources>

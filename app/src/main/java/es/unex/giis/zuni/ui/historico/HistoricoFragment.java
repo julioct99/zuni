@@ -28,6 +28,7 @@ import java.util.List;
 
 import es.unex.giis.zuni.R;
 import es.unex.giis.zuni.adapter.HistoricalAdapter;
+import es.unex.giis.zuni.adapter.HistoricalAdapterListener;
 import es.unex.giis.zuni.countrycodes.CountryCode;
 import es.unex.giis.zuni.geocode.GeoCode;
 import es.unex.giis.zuni.historical.Historical;
@@ -45,7 +46,7 @@ public class HistoricoFragment extends Fragment {
 
     private EditText EditText_city;
     private Spinner spinner1, spinner2;
-    private Button button1, button2;
+    private Button button1, button2, buttonAdd;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
 
@@ -119,7 +120,13 @@ public class HistoricoFragment extends Fragment {
 
         //Get the historical from the
         Long timeS = (System.currentTimeMillis()) / 1000 - 86400; //Carga el timestamp en segundos de ayer
-        adapter = new HistoricalAdapter(new ArrayList<Historical>());
+        adapter = new HistoricalAdapter(new ArrayList<Historical>(), new HistoricalAdapterListener() {
+            @Override
+            public void imageButtonViewOnClick(View v, int position) {
+                //TODO Añadir aqui el codigo
+                Snackbar.make(v, "ASDF", Snackbar.LENGTH_SHORT).show();
+            }
+        });
         AppExecutors.getInstance().networkIO().execute(new HistoricalNetworkLoaderRunnable(
                 this::setHistorical,lat,lon,timeS
         ));
@@ -173,7 +180,13 @@ public class HistoricoFragment extends Fragment {
 
 
         Long timeS = (System.currentTimeMillis()) / 1000 - 86400; //Carga el timestamp en segundos de ayer
-        adapter = new HistoricalAdapter(new ArrayList<>());
+        adapter = new HistoricalAdapter(new ArrayList<>(), new HistoricalAdapterListener() {
+            @Override
+            public void imageButtonViewOnClick(View v, int position) {
+                Snackbar.make(v, "Esto es una prueba del boton de borrado en la clase HistoricoFragent", Snackbar.LENGTH_SHORT).show();
+                //TODO Añadir aqui el codigo
+            }
+        });
 
         AppExecutors.getInstance().networkIO().execute(new HistoricalNetworkLoaderRunnable(
                 adapter::swap,lat,lon,timeS
@@ -192,6 +205,21 @@ public class HistoricoFragment extends Fragment {
 
         //startSaveActivity();
     }
+
+
+
+
+
+
+
+
+    private void act3(View v){
+        //TODO Abrir la actividad de guardar historico usando un intent
+    }
+
+
+
+
 
 
     private void setUbicacion(GeoCode geoCode) {
@@ -243,6 +271,7 @@ public class HistoricoFragment extends Fragment {
         spinner2 = root.findViewById(R.id.spinner2);
         button1 = root.findViewById(R.id.button1);
         button2 = root.findViewById(R.id.button2);
+        buttonAdd = root.findViewById(R.id.addHistorical);
 
         JsonReader reader = new JsonReader(new InputStreamReader(getResources().openRawResource(R.raw.country_codes)));
         List<CountryCode> countryCodes = Arrays.asList(new Gson().fromJson(reader, CountryCode[].class));
@@ -254,6 +283,7 @@ public class HistoricoFragment extends Fragment {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("Historico", "Se ha pulsado el boton de buscar historico segun el nombre de la ciudad");
                 act1(v); //Busqueda del historico de "ayer" de la ciudad (indicada en city) y se guarda en la base de datos
             }
         });
@@ -262,8 +292,17 @@ public class HistoricoFragment extends Fragment {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("Historico", "Se ha pulsado el boto de guardar historico de la localización guardada");
+                Log.i("Historico", "Se ha pulsado el boton de buscar historico de la localización guardada");
                 act2(); //Busqueda del historico de "ayer" de la ciudad guardada (indicada en spinner2) y se guarda en la base de datos
+            }
+        });
+
+
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("Historico", "Se ha pulsado el boton de añadir un nuevo historico");
+                act3(v);
             }
         });
 
