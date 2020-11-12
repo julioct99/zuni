@@ -43,7 +43,8 @@
     <string name="Cancel">Cancel</string>
     <string name="Historical_save_window_name">Save Historical</string>
     <string name="Historical_save_msg">Historical added (yesterday) of city</string>
-    <string name="Historical_save_err1_msg">You must enter a name in the Text Box</string>
+    <string name="Historical_search_err1_msg">You must enter a name in the Text Box</string>
+    <string name="Historical_search_err2_msg">ERROR: Can not get the Historical Data</string>
     <string name="Historical_save_cancel_msg">The historical save action was aborted</string>
     <string name="Max" translatable="false">Max:</string>
     <string name="Min" translatable="false">Min:</string>

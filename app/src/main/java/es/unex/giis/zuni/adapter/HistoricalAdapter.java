@@ -13,13 +13,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import es.unex.giis.zuni.R;
 import es.unex.giis.zuni.historical.Historical;
+import es.unex.giis.zuni.historical.Hourly;
 
 public class HistoricalAdapter extends RecyclerView.Adapter<HistoricalAdapter.MyViewHolder> {
+    final Integer KelvinOffset = 273;
     private List<Historical> mDataset;
 
     // Provide a reference to the views for each data item
@@ -86,7 +93,59 @@ public class HistoricalAdapter extends RecyclerView.Adapter<HistoricalAdapter.My
         holder.mItem = mDataset.get(position);
 
 
-        holder.tv_day.setText("TEST");
+        //holder.tv_day.setText("TEST");
+        holder.tv_day.setText(new SimpleDateFormat("E, dd MMM yyyy", Locale.ENGLISH).format(new Date((holder.mItem.getCurrent().getDt()) * 1000l)));
+        holder.tv_description.setText(holder.mItem.getCurrent().getWeather().get(0).getDescription());
+
+
+        //Esto es para hacer el cambio de Timestamp a HH:MM:SS para que sea bonito
+        Calendar c1 = Calendar.getInstance();
+        c1.setTimeInMillis(((holder.mItem.getCurrent().getSunrise())*1000l));
+        SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm");
+        String dateSunrise = sdf1.format(c1.getTime());
+        holder.tv_sunrise.setText(dateSunrise);
+
+        Calendar c2 = Calendar.getInstance();
+        c2.setTimeInMillis(((holder.mItem.getCurrent().getSunset())*1000l));
+        SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
+        String dateSunset = sdf2.format(c2.getTime());
+        holder.tv_sunset.setText(dateSunset);
+
+        //Calculate max and min Temperature
+        Double tmpMax = null;
+        Double tmpMin = null;
+
+        for(Hourly i : holder.mItem.getHourly()){
+            if (tmpMax == null)
+                tmpMax = i.getTemp();
+            else if (tmpMax < i.getTemp())
+                tmpMax = i.getTemp();
+
+            if (tmpMin == null)
+                tmpMin = i.getTemp();
+            else if (tmpMin > i.getTemp())
+                tmpMin = i.getTemp();
+        }
+
+        holder.tv_max.setText(new DecimalFormat("###.##").format(tmpMax - KelvinOffset).concat(" ºC"));
+        holder.tv_min.setText(new DecimalFormat("###.##").format(tmpMin - KelvinOffset).concat(" ºC"));
+
+        holder.tv_humidity.setText(Integer.toString(holder.mItem.getCurrent().getHumidity()).concat("%"));
+        holder.tv_ws.setText(new DecimalFormat("###.##").format(holder.mItem.getCurrent().getWindSpeed()).concat(" m/s"));
+
+
+        if(holder.mItem.getCurrent().getWeather().get(0).getMain().toLowerCase().contains("thunder") || holder.mItem.getCurrent().getWeather().get(0).getMain().toLowerCase().contains("storm") )
+            holder.image_condition.setImageResource(R.drawable.tormenta);
+        else if(holder.mItem.getCurrent().getWeather().get(0).getMain().toLowerCase().contains("drizzle") || holder.mItem.getCurrent().getWeather().get(0).getMain().toLowerCase().contains("rain") )
+            holder.image_condition.setImageResource(R.drawable.lluvia);
+        else if(holder.mItem.getCurrent().getWeather().get(0).getMain().toLowerCase().contains("snow"))
+            holder.image_condition.setImageResource(R.drawable.nieve);
+        else if(holder.mItem.getCurrent().getWeather().get(0).getMain().toLowerCase().contains("clear"))
+            holder.image_condition.setImageResource(R.drawable.sol);
+        else if(holder.mItem.getCurrent().getWeather().get(0).getMain().toLowerCase().contains("clouds"))
+            holder.image_condition.setImageResource(R.drawable.nube);
+        else
+            holder.image_condition.setImageResource(R.drawable.sol);
 
     }
 
