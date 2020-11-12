@@ -37,24 +37,18 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_ubicaciones">Locations</string>
     <string name="CURRENT">CURRENT</string>
-    <string name="img_description1">Imagen de la condicion meteorologica</string>
+    <string name="img_description1">Meteorologic image</string>
     <string name="GO">GO!</string>
     <string name="Save">Save</string>
     <string name="Cancel">Cancel</string>
     <string name="Historical_save_window_name">Save Historical</string>
     <string name="Historical_save_msg">Historical added (yesterday) of city</string>
-    <string name="Historical_save_err1_msg">You must enter a name in the Text Box</string>
+    <string name="Historical_search_err1_msg">You must enter a name in the Text Box</string>
+    <string name="Historical_search_err2_msg">ERROR: Can not get the Historical Data</string>
     <string name="Historical_save_cancel_msg">The historical save action was aborted</string>
     <string name="Max" translatable="false">Max:</string>
     <string name="Min" translatable="false">Min:</string>
     <string name="H">Precip:</string>
     <string name="WS">Wind Speed:</string>
     <string name="introduceCity">Introduce a city...</string>
-    <string-array name="cities">
-        <item>Monterrubio de la Serena</item>
-        <item>Caceres</item>
-        <item>Badajoz</item>
-        <item>Abuya</item>
-        <item>Reikiavik</item>
-    </string-array>
 </resources>

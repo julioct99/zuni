@@ -16,10 +16,20 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
+import java.security.Timestamp;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import es.unex.giis.zuni.adapter.DailyAdapter;
 import es.unex.giis.zuni.adapter.MeteoHoraAdapter;
@@ -52,6 +62,7 @@ public class DetallesEventoActivity extends AppCompatActivity {
     MeteoHoraAdapter mhAdapter;
     DailyAdapter dAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +89,7 @@ public class DetallesEventoActivity extends AppCompatActivity {
         cargarEvento();
 
 
-        /* BOTON DE BORRAR EVENTO --------------------------------------------------------------- */
+        /* BOTON DE BORRAR EVENTO */
         FloatingActionButton deleteEventoFab = findViewById(R.id.deleteEventoFab);
         deleteEventoFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +100,7 @@ public class DetallesEventoActivity extends AppCompatActivity {
         });
 
 
-        /* BOTON DE EDITAR EVENTO --------------------------------------------------------------- */
+        /* BOTON DE EDITAR EVENTO */
         FloatingActionButton editEventoFab = findViewById(R.id.editEventoFab);
         editEventoFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,10 +120,28 @@ public class DetallesEventoActivity extends AppCompatActivity {
     private void cargarPrevisiones(Evento evento){
         dAdapter = new DailyAdapter(new ArrayList<>());
         AppExecutors.getInstance().networkIO().execute(new DailyNetworkLoaderRunnable(
-                dAdapter::swap, evento.getLat(), evento.getLon()
-
+                this::gruleman, evento.getLat(), evento.getLon()
         ));
         mRecyclerView.setAdapter(dAdapter);
+    }
+
+
+    public void gruleman(List<Datum> dataset){
+        Date fechaEvento = evento.getFecha();
+        Date now = new Date();
+        now.setHours(0);
+
+        int days = (int)( (fechaEvento.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+
+        // descripcionTV.setText(String.valueOf(days));
+
+        List<Datum> newDataset = new ArrayList<Datum>();
+        if(days == 0){
+            newDataset.add(dataset.get(0));
+        } else {
+            newDataset.add(dataset.get(days));
+        }
+        dAdapter.swap(newDataset);
     }
 
 
@@ -169,14 +198,18 @@ public class DetallesEventoActivity extends AppCompatActivity {
                                 .getDao()
                                 .update(eventoEditado);
 
-                        if(dAdapter != null){
-                            dAdapter.clear();
-                        }
-                        noPrevisionesTV.setVisibility(View.VISIBLE);
-                        fechaDisponibleTV.setVisibility(View.VISIBLE);
-
                         // Se recarga el evento de esta clase para obtener el nuevo objeto
-                        AppExecutors.getInstance().mainThread().execute(() -> cargarEvento());
+                        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(dAdapter != null){
+                                    dAdapter.clear();
+                                }
+                                noPrevisionesTV.setVisibility(View.VISIBLE);
+                                fechaDisponibleTV.setVisibility(View.VISIBLE);
+                                cargarEvento();
+                            }
+                        });
                     }
                 });
             }

@@ -79,6 +79,9 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.MyViewHolder
                 holder.image_condition.setImageResource(R.drawable.sol);
         else if(holder.mItem.getWeather().getDescription().contains("Clouds") || holder.mItem.getWeather().getDescription().contains("cloud"))
                 holder.image_condition.setImageResource(R.drawable.nube);
+        else if(holder.mItem.getWeather().getDescription().contains("Mist") || holder.mItem.getWeather().getDescription().contains("mist"))
+            holder.image_condition.setImageResource(R.drawable.niebla);
+
 
         DecimalFormatSymbols simbolos = new DecimalFormatSymbols();
         simbolos.setDecimalSeparator('.');
