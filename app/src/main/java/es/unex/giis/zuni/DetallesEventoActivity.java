@@ -198,14 +198,18 @@ public class DetallesEventoActivity extends AppCompatActivity {
                                 .getDao()
                                 .update(eventoEditado);
 
-                        if(dAdapter != null){
-                            dAdapter.clear();
-                        }
-                        noPrevisionesTV.setVisibility(View.VISIBLE);
-                        fechaDisponibleTV.setVisibility(View.VISIBLE);
-
                         // Se recarga el evento de esta clase para obtener el nuevo objeto
-                        AppExecutors.getInstance().mainThread().execute(() -> cargarEvento());
+                        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(dAdapter != null){
+                                    dAdapter.clear();
+                                }
+                                noPrevisionesTV.setVisibility(View.VISIBLE);
+                                fechaDisponibleTV.setVisibility(View.VISIBLE);
+                                cargarEvento();
+                            }
+                        });
                     }
                 });
             }
