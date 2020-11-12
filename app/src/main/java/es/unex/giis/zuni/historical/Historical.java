@@ -1,6 +1,8 @@
 
 package es.unex.giis.zuni.historical;
 
+import android.content.Intent;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -75,4 +77,7 @@ public class Historical {
         this.hourly = hourly;
     }
 
+    public void packageIntoIntent(Intent i){
+
+    }
 }
