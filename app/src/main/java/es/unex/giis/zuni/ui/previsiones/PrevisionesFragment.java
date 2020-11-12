@@ -1,13 +1,17 @@
 package es.unex.giis.zuni.ui.previsiones;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -27,6 +31,8 @@ import es.unex.giis.zuni.adapter.DailyAdapter;
 import es.unex.giis.zuni.countrycodes.CountryCode;
 import es.unex.giis.zuni.openweather.AppExecutors;
 import es.unex.giis.zuni.openweather.DailyNetworkLoaderRunnable;
+import es.unex.giis.zuni.ubicaciones.Ubicacion;
+import es.unex.giis.zuni.ubicaciones.db.UbicacionDatabase;
 
 public class PrevisionesFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
@@ -38,7 +44,7 @@ public class PrevisionesFragment extends Fragment {
     private Button button, button2;
     private static String seleccion;
     private double lat, lon;
-
+    static List<Ubicacion> ubis = null;
     public void act2(){
         seleccion = city.getText().toString();
         adapter=new DailyAdapter(new ArrayList<>());
@@ -48,26 +54,33 @@ public class PrevisionesFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+    public void cargarSpinner(){
+        ArrayAdapter<Ubicacion> spinnerAdapter =
+                new ArrayAdapter(getContext(),  android.R.layout.simple_spinner_dropdown_item, ubis);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
+        act1();
+    }
+
+    private void loadItems() {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                ubis = UbicacionDatabase.getInstance(getActivity()).getDao().getAll();
+                AppExecutors.getInstance().mainThread().execute(() -> cargarSpinner());
+            }
+        });
+    }
+
     public void act1(){
-        seleccion = spinner.getSelectedItem().toString();
+        Ubicacion seleccionada = (Ubicacion) spinner.getSelectedItem();
+        seleccion = seleccionada.getUbicacion();
+
+        lat=seleccionada.getLat();
+        lon=seleccionada.getLon();
+
         adapter=new DailyAdapter(new ArrayList<>());
-        switch(seleccion){
-            case "Monterrubio de la Serena":
-                lat=38.59758;
-                lon=-5.43701;
-                break;
-            case "Caceres":
-                lat=39.47649;
-                lon=-6.37224;
-                break;
-            case "Nueva York":
-                lat=40.71427;
-                lon=-74.00597;
-                break;
-            default:
-                lat=0;
-                lon=0;
-        }
+
         AppExecutors.getInstance().networkIO().execute(new DailyNetworkLoaderRunnable(
                 adapter::swap,lat,lon
         ));
@@ -88,19 +101,18 @@ public class PrevisionesFragment extends Fragment {
         layoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-
-        String [] opciones = {"Monterrubio de la Serena","Caceres","Nueva York"};
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,opciones);
-        spinner.setAdapter(spinnerAdapter);
-        spinner.setSelection(0);
+        loadItems();
 
         JsonReader reader = new JsonReader(new InputStreamReader(getResources().openRawResource(R.raw.country_codes)));
         List<CountryCode> countryCodes = Arrays.asList(new Gson().fromJson(reader, CountryCode[].class));
         ArrayAdapter<CountryCode> spinnerAdapter2 = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,countryCodes);
         spinner2.setAdapter(spinnerAdapter2);
         spinner2.setSelection(208);
-        
-        act1();
+
+        //if(ubis!=null && ubis.size()>0) {
+        //    spinner.setSelection(0);
+        //    act1();
+        //}
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

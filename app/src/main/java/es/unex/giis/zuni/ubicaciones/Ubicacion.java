@@ -2,6 +2,7 @@ package es.unex.giis.zuni.ubicaciones;
 
         import android.content.Intent;
 
+        import androidx.annotation.NonNull;
         import androidx.room.Ignore;
         import androidx.room.Entity;
         import androidx.room.PrimaryKey;
@@ -101,10 +102,16 @@ public class Ubicacion {
         intent.putExtra(Evento.LON, u.getLon());
     }
 
-    public String toString(){
-        return "ID: " + id + ITEM_SEP + "Ubicacion: " + ubicacion + "Lat: " + lat + ITEM_SEP
-                + "Lon: " + lon;
+
+    @Override
+    public String toString() {
+        return id + " - " + ubicacion;
     }
+
+    //public String toString(){
+    //    return "ID: " + id + ITEM_SEP + "Ubicacion: " + ubicacion + "Lat: " + lat + ITEM_SEP
+    //            + "Lon: " + lon;
+    //}
 
     public String toLog() {
         return "ID: " + id + ITEM_SEP + "Ubicacion: " + ubicacion + "Lat: " + lat + ITEM_SEP

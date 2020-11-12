@@ -134,8 +134,8 @@ public class AddUbicacionActivity extends AppCompatActivity {
                 String ubicacion = mUbicacion.getText().toString();
 
                 String spinner = spinner3.getSelectedItem().toString();
-                Double lat = getLat(ubicacion);
-                Double lon = getLon(ubicacion);
+                //Double lat = getLat(ubicacion);
+                //Double lon = getLon(ubicacion);
 
 
                 /* Empaquetar el evento en un intent */

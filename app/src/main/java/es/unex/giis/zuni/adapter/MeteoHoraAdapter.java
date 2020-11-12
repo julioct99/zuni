@@ -92,6 +92,8 @@ public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyVi
             case "Clouds":
                 holder.image.setImageResource(R.drawable.nube);
                 break;
+            case "Mist":
+                holder.image.setImageResource(R.drawable.niebla);
         }
 
         DecimalFormatSymbols simbolos = new DecimalFormatSymbols();

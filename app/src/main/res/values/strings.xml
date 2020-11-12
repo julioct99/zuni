@@ -37,7 +37,7 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_ubicaciones">Locations</string>
     <string name="CURRENT">CURRENT</string>
-    <string name="img_description1">Imagen de la condicion meteorologica</string>
+    <string name="img_description1">Meteorologic image</string>
     <string name="GO">GO!</string>
     <string name="Save">Save</string>
     <string name="Cancel">Cancel</string>
@@ -50,11 +50,4 @@
     <string name="H">Precip:</string>
     <string name="WS">Wind Speed:</string>
     <string name="introduceCity">Introduce a city...</string>
-    <string-array name="cities">
-        <item>Monterrubio de la Serena</item>
-        <item>Caceres</item>
-        <item>Badajoz</item>
-        <item>Abuya</item>
-        <item>Reikiavik</item>
-    </string-array>
 </resources>
