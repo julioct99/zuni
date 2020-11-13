@@ -22,11 +22,14 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import es.unex.giis.zuni.eventos.Evento;
 import es.unex.giis.zuni.eventos.db.EventoDao;
 import es.unex.giis.zuni.eventos.db.EventoDatabase;
 import es.unex.giis.zuni.openweather.AppExecutors;
+import es.unex.giis.zuni.ubicaciones.Ubicacion;
+import es.unex.giis.zuni.ubicaciones.db.UbicacionDatabase;
 
 public class AddEventoActivity extends AppCompatActivity {
 
@@ -34,6 +37,8 @@ public class AddEventoActivity extends AppCompatActivity {
     private static final int SEVEN_DAYS = 604800000;
 
     private static final String TAG = "Zuni-AddEvento";
+
+    private static List<Ubicacion> ubicaciones = null;
 
     private static String timeString;
     private static String dateString;
@@ -59,12 +64,8 @@ public class AddEventoActivity extends AppCompatActivity {
         dateView = findViewById(R.id.eventoDate);
         timeView = findViewById(R.id.eventoTime);
 
-        String [] opciones = {"Monterrubio de la Serena","Caceres","Nueva York"};
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(AddEventoActivity.this,
-                android.R.layout.simple_spinner_item,opciones);
-        mUbicacion.setAdapter(spinnerAdapter);
-        mUbicacion.setSelection(0);
-
+        // Carga las ubicaciones en el spinner
+        cargarUbicaciones();
 
         // Fecha y hora por defecto
         setDefaultDateTime();
@@ -124,9 +125,12 @@ public class AddEventoActivity extends AppCompatActivity {
                 String descripcion = mDescripcion.getText().toString();
                 String fullDate = dateString + " " + timeString;
                 Evento.Alerta alerta = getAlerta();
-                String ubicacion = mUbicacion.getSelectedItem().toString();
-                Double lat = getLat(ubicacion);
-                Double lon = getLon(ubicacion);
+
+                Ubicacion uSeleccionada = (Ubicacion) mUbicacion.getSelectedItem();
+
+                String ubicacion = uSeleccionada.getUbicacion();
+                Double lat = uSeleccionada.getLat();
+                Double lon = uSeleccionada.getLon();
 
 
                 /* Empaquetar el evento en un intent */
@@ -146,6 +150,29 @@ public class AddEventoActivity extends AppCompatActivity {
 
 
     /* METODOS AUXILIARES ----------------------------------------------------------------------- */
+
+
+    /* CARGA EL SPINNER CON LA LISTA DE UBICACIONES --------------------------------------------- */
+    private void cargarSpinner(){
+        ArrayAdapter<Ubicacion> spinnerAdapter =
+                new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
+                        ubicaciones);
+                mUbicacion.setAdapter(spinnerAdapter);
+    }
+
+
+    /* OBTIENE LA LISTA DE UBICACIONES DE LA BASE DE DATOS -------------------------------------- */
+    private void cargarUbicaciones(){
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                ubicaciones = UbicacionDatabase.getInstance(AddEventoActivity.this)
+                        .getDao()
+                        .getAll();
+                AppExecutors.getInstance().mainThread().execute(() -> cargarSpinner());
+            }
+        });
+    }
 
 
     private void setDefaultDateTime(){
@@ -197,40 +224,6 @@ public class AddEventoActivity extends AppCompatActivity {
 
     public Evento.Alerta getAlerta(){
         return Evento.Alerta.BAJA;
-    }
-
-
-    public Double getLat(String ubicacion){
-        Double lat = 0.0;
-        switch (ubicacion){
-            case "Monterrubio de la Serena":
-                lat = 38.58844;
-                break;
-            case "Caceres":
-                lat = 39.48932;
-                break;
-            case "Nueva York":
-                lat = 40.68908;
-                break;
-        }
-        return lat;
-    }
-
-
-    public Double getLon(String ubicacion){
-        Double lon = 0.0;
-        switch (ubicacion){
-            case "Monterrubio de la Serena":
-                lon = -5.44484;
-                break;
-            case "Caceres":
-                lon = -6.36581;
-                break;
-            case "Nueva York":
-                lon = -73.95861;
-                break;
-        }
-        return lon;
     }
 
 
