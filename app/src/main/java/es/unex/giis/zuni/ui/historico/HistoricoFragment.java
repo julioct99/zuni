@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -46,7 +47,8 @@ public class HistoricoFragment extends Fragment {
 
     private EditText EditText_city;
     private Spinner spinner1, spinner2;
-    private Button button1, button2, buttonAdd;
+    private Button button1, button2;
+    FloatingActionButton buttonAdd;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
 
@@ -64,14 +66,15 @@ public class HistoricoFragment extends Fragment {
     //Variable para la carga de Room de las ubicaciones
     static List<Ubicacion> ubis = null;
     private static String seleccion;
+    ArrayAdapter<Ubicacion> spinnerAdapter;
 
     //Variable para la actividad que se esta ejecutando
     private int actNum;
 
-
+//TODO IMPORTANT Hacer Room
     //********************************* CARGA DEL SPINER DE UBICACIONES *********************************
     public void cargarSpinner(){
-        ArrayAdapter<Ubicacion> spinnerAdapter =
+        spinnerAdapter =
                 new ArrayAdapter(getContext(),  android.R.layout.simple_spinner_dropdown_item, ubis);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(spinnerAdapter);
@@ -92,6 +95,7 @@ public class HistoricoFragment extends Fragment {
 
     //********************************* ACCIONES DE LA GUI *********************************
     private void act1(View v){
+        //TODO Arreglar boton
         //Tell that is running the act1
         actNum = 1;
 
@@ -167,6 +171,7 @@ public class HistoricoFragment extends Fragment {
 
 
     private void act2(){
+        //TODO Arreglar boton
         //Tell taht is running act2
         actNum = 2;
 
@@ -215,6 +220,29 @@ public class HistoricoFragment extends Fragment {
 
     private void act3(View v){
         //TODO Abrir la actividad de guardar historico usando un intent
+
+        //Se invoca la nueva pantalla y se añade el dato
+        Intent i = new Intent(getActivity(), HistoricoActivitySave.class);
+
+        //Pasarle la lista de ubicaciones
+        Bundle b = new Bundle();
+
+        int cnt = spinnerAdapter.getCount();
+        i.putExtra("ubiCount", cnt);
+
+        for (int x = 0; x < cnt; x++){
+            String pName = spinnerAdapter.getItem(x).getUbicacion();
+            Double pLat = spinnerAdapter.getItem(x).getLat();
+            Double pLon = spinnerAdapter.getItem(x).getLon();
+
+            String extraname = "ubi"+x;
+
+            i.putExtra(extraname+"name", pName);
+            i.putExtra(extraname+"lat", pLat);
+            i.putExtra(extraname+"lon", pLon);
+        }
+
+        startActivityForResult(i, REQUEST_SAVE_RESULT);
     }
 
 
