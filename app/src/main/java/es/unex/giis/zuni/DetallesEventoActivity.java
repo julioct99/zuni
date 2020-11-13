@@ -120,25 +120,23 @@ public class DetallesEventoActivity extends AppCompatActivity {
     private void cargarPrevisiones(Evento evento){
         dAdapter = new DailyAdapter(new ArrayList<>());
         AppExecutors.getInstance().networkIO().execute(new DailyNetworkLoaderRunnable(
-                this::gruleman, evento.getLat(), evento.getLon()
+                this::obtenerPrevisionEvento, evento.getLat(), evento.getLon()
         ));
         mRecyclerView.setAdapter(dAdapter);
     }
 
 
-    public void gruleman(List<Datum> dataset){
+    public void obtenerPrevisionEvento(List<Datum> dataset){
         Date fechaEvento = evento.getFecha();
         Date now = new Date();
         now.setHours(0);
+        now.setMinutes(0);
+        now.setSeconds(0);
 
-        int days = (int)( (fechaEvento.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-
-        // descripcionTV.setText(String.valueOf(days));
+        int days = (int)( (fechaEvento.getTime() - now.getTime() + 1000) / (1000 * 60 * 60 * 24));
 
         List<Datum> newDataset = new ArrayList<Datum>();
-        if(days == 0){
-            newDataset.add(dataset.get(0));
-        } else {
+        if(days >= 0) {
             newDataset.add(dataset.get(days));
         }
         dAdapter.swap(newDataset);

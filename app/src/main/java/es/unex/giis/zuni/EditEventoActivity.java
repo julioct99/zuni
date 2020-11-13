@@ -20,10 +20,13 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import es.unex.giis.zuni.eventos.Evento;
 import es.unex.giis.zuni.eventos.db.EventoDatabase;
 import es.unex.giis.zuni.openweather.AppExecutors;
+import es.unex.giis.zuni.ubicaciones.Ubicacion;
+import es.unex.giis.zuni.ubicaciones.db.UbicacionDatabase;
 
 public class EditEventoActivity extends AppCompatActivity {
 
@@ -33,6 +36,9 @@ public class EditEventoActivity extends AppCompatActivity {
     private static final int SEVEN_DAYS = 604800000;
 
     private static final String TAG = "Zuni-AddEvento";
+
+    private static List<Ubicacion> ubicaciones = null;
+    private ArrayAdapter<Ubicacion> spinnerAdapter;
 
     private static String timeString;
     private static String dateString;
@@ -57,10 +63,8 @@ public class EditEventoActivity extends AppCompatActivity {
         dateView = findViewById(R.id.eventoDate);
         timeView = findViewById(R.id.eventoTime);
 
-        String [] opciones = {"Monterrubio de la Serena","Caceres","Nueva York"};
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(EditEventoActivity.this,
-                android.R.layout.simple_spinner_item,opciones);
-        mUbicacion.setAdapter(spinnerAdapter);
+        // Carga las ubicaciones en el spinner
+        // cargarUbicaciones();
 
 
         /* SE OBTIENE EL EVENTO DEL INTENT */
@@ -81,8 +85,7 @@ public class EditEventoActivity extends AppCompatActivity {
                         mTitulo.setText(evento.getTitulo());
                         mDescripcion.setText(evento.getDescripcion());
 
-                        int posicionSpinner = spinnerAdapter.getPosition(evento.getUbicacion());
-                        mUbicacion.setSelection(posicionSpinner);
+                        cargarUbicaciones();
 
                         setDateTime(evento.getFecha());
                     }
@@ -145,9 +148,12 @@ public class EditEventoActivity extends AppCompatActivity {
                 String descripcion = mDescripcion.getText().toString();
                 String fullDate = dateString + " " + timeString;
                 Evento.Alerta alerta = getAlerta();
-                String ubicacion = mUbicacion.getSelectedItem().toString();
-                Double lat = getLat(ubicacion);
-                Double lon = getLon(ubicacion);
+
+                Ubicacion uSeleccionada = (Ubicacion) mUbicacion.getSelectedItem();
+
+                String ubicacion = uSeleccionada.getUbicacion();
+                Double lat = uSeleccionada.getLat();
+                Double lon = uSeleccionada.getLon();
 
 
                 /* Empaquetar el evento en un intent */
@@ -167,6 +173,42 @@ public class EditEventoActivity extends AppCompatActivity {
 
 
     /* METODOS AUXILIARES ----------------------------------------------------------------------- */
+
+
+    /* CARGA EL SPINNER CON LA LISTA DE UBICACIONES --------------------------------------------- */
+    private void cargarSpinner(){
+        spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
+                        ubicaciones);
+        mUbicacion.setAdapter(spinnerAdapter);
+
+        Ubicacion ubicacionEvento = new Ubicacion(0, evento.getUbicacion(),
+                evento.getLat(), evento.getLon());
+
+        boolean encontrado = false;
+        for (int i = 0; i < ubicaciones.size() && !encontrado; i++) {
+            if(ubicaciones.get(i).getUbicacion().equals(ubicacionEvento.getUbicacion())){
+                mUbicacion.setSelection(i);
+                encontrado = true;
+            }
+        }
+    }
+
+
+    /* OBTIENE LA LISTA DE UBICACIONES DE LA BASE DE DATOS -------------------------------------- */
+    private void cargarUbicaciones(){
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                ubicaciones = UbicacionDatabase.getInstance(EditEventoActivity.this)
+                        .getDao()
+                        .getAll();
+                AppExecutors.getInstance().mainThread().execute(() -> cargarSpinner());
+            }
+        });
+    }
+
+
+
     private void setDateTime(Date date){
         Calendar c = Calendar.getInstance();
         c.setTime(date);
@@ -224,40 +266,6 @@ public class EditEventoActivity extends AppCompatActivity {
     }
 
 
-    public Double getLat(String ubicacion){
-        Double lat = 0.0;
-        switch (ubicacion){
-            case "Monterrubio de la Serena":
-                lat = 38.58844;
-                break;
-            case "Caceres":
-                lat = 39.48932;
-                break;
-            case "Nueva York":
-                lat = 40.68908;
-                break;
-        }
-        return lat;
-    }
-
-
-    public Double getLon(String ubicacion){
-        Double lon = 0.0;
-        switch (ubicacion){
-            case "Monterrubio de la Serena":
-                lon = -5.44484;
-                break;
-            case "Caceres":
-                lon = -6.36581;
-                break;
-            case "Nueva York":
-                lon = -73.95861;
-                break;
-        }
-        return lon;
-    }
-
-
     /* DIÁLOGO PARA FECHA ----------------------------------------------------------------------- */
 
     public static class DatePickerFragment extends DialogFragment implements
@@ -274,7 +282,9 @@ public class EditEventoActivity extends AppCompatActivity {
             int day = c.get(Calendar.DAY_OF_MONTH);
 
             // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+            DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
+            dialog.getDatePicker().setMinDate(System.currentTimeMillis());
+            return dialog;
         }
 
         @Override
