@@ -1,25 +1,55 @@
 package es.unex.giis.zuni.historical;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
+@Entity(tableName = "historicals")
 public class HistoricalMinimal implements Serializable {
+
+    @PrimaryKey(autoGenerate = true)
+    private long id;
+    @ColumnInfo(name = "cityname")
     private String cityname;
+    @ColumnInfo(name = "countrycode")
     private String countrycode;
 
+    @ColumnInfo(name = "lat")
     private Double lat;
+    @ColumnInfo(name = "lon")
     private Double lon;
 
+    @ColumnInfo(name = "Dt")
     private Integer Dt;
+    @ColumnInfo(name = "description")
     private String description;
+    @ColumnInfo(name = "sunrise")
     private Integer sunrise;
+    @ColumnInfo(name = "sunset")
     private Integer sunset;
+    @ColumnInfo(name = "tmpMax")
     private Double tmpMax;
+    @ColumnInfo(name = "tmpMin")
     private Double tmpMin;
+    @ColumnInfo(name = "windSpeed")
     private Double windSpeed;
+    @ColumnInfo(name = "humidity")
     private Integer humidity;
+    @ColumnInfo(name = "main")
     private String main;
 
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getCityname() {
         return cityname;
@@ -127,7 +157,7 @@ public class HistoricalMinimal implements Serializable {
         this.main = main;
     }
 
-
+    @Ignore
     public void initFromHistorical(Historical h, String cityname, String countrycode){
         this.setCityname(cityname);
         this.setCountrycode(countrycode);
@@ -135,7 +165,7 @@ public class HistoricalMinimal implements Serializable {
     }
 
 
-
+    @Ignore
     public void initFromHistorical(Historical h){
         this.setLat(h.getLat());
         this.setLon(h.getLon());
@@ -167,7 +197,7 @@ public class HistoricalMinimal implements Serializable {
         this.setTmpMax(auxMax);
         this.setTmpMin(auxMin);
     }
-
+    @Ignore
     public Historical convertIntoHistorical(){
         Historical h = new Historical();
 

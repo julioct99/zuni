@@ -16,16 +16,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import es.unex.giis.zuni.R;
 import es.unex.giis.zuni.adapter.HistoricalAdapter;
 import es.unex.giis.zuni.adapter.HistoricalAdapterListener;
+import es.unex.giis.zuni.countrycodes.CountryCode;
+import es.unex.giis.zuni.geocode.GeoCode;
 import es.unex.giis.zuni.historical.Historical;
 import es.unex.giis.zuni.historical.HistoricalMinimal;
 import es.unex.giis.zuni.openweather.AppExecutors;
+import es.unex.giis.zuni.openweather.GeoCodeNetworkLoaderRunnable;
+import es.unex.giis.zuni.openweather.HistoricalNetworkLoaderRunnable;
 import es.unex.giis.zuni.ubicaciones.Ubicacion;
 import es.unex.giis.zuni.ubicaciones.db.UbicacionDatabase;
 
@@ -44,6 +52,11 @@ public class HistoricoActivitySave extends AppCompatActivity {
     //Variable del Intent de invocacion
     private Intent myIntent;
 
+    //Variables for GeoCode API
+    private String cityname, countrycode;
+    private double lon, lat;
+    private String geoName;
+
     //Variable del historico
     private Historical histoData;
 
@@ -52,9 +65,193 @@ public class HistoricoActivitySave extends AppCompatActivity {
     private static String seleccion;
     ArrayAdapter<Ubicacion> spinnerAdapter;
 
+    //Variable para la actividad que se esta ejecutando
+    private int actNum;
+    private View myView;
+
+
+
+
+    //********************************* APPEXECUTOR RETURN FUNCTIONS *********************************
+
+    private void setUbicacion(GeoCode geoCode) {
+        lat = Double.parseDouble(geoCode.getLatt());
+        lon = Double.parseDouble(geoCode.getLongt());
+        geoName = geoCode.getStandard().getCity();
+        act1p2();
+    }
+
+    //Metodo para que el Thread de recuperación de 1 historico pueda guardar el dato dentro de esta clase
+    private void setHistorical(List<Historical> dataset){
+        histoData = dataset.get(0);
+        if (actNum == 1)
+            disp1();
+        else if(actNum == 2)
+            disp2();
+    }
+
+
+
+
+    //********************************* BUTTON ACTIONS *********************************
 
     public void act1(View v){
         //TODO Hacer funcion de busqueda en la api
+        //Tell that is running the act1
+        actNum = 1;
+
+        //Save the view
+        myView = v;
+
+        //Get the data from the view
+        cityname = et_city.getText().toString().trim();
+        countrycode = spinner1.getSelectedItem().toString().substring(0,2);
+
+        Log.i("Historico ACT1", "Se ha pulsado el boto de busqueda de \"" + cityname + "\" en el country \"" + countrycode + "\"");
+
+        if (cityname.equals("")){
+            Snackbar.make(v, getString(R.string.Historical_search_err1_msg) + " " + cityname, Snackbar.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        //Get coordinates from the GeoCode API
+        AppExecutors.getInstance().networkIO().execute(new GeoCodeNetworkLoaderRunnable(
+                this::setUbicacion,cityname.replace(" ","%20"), countrycode
+        ));
+    }
+
+    private void act1p2(){
+        //Load the second part of the act1 after the Thread 1
+        Log.i("Historico ACT1", "Se ha recuperado la ubicacion por nombre lat: " + Double.toString(lat) + " long: " + Double.toString(lon));
+
+        //Get the historical from the
+        long timeS = (System.currentTimeMillis()) / 1000 - 86400; //Carga el timestamp en segundos de ayer
+        /*adapter = new HistoricalAdapter(new ArrayList<Historical>(), new HistoricalAdapterListener() {
+            @Override
+            public void imageButtonViewOnClick(View v, int position) {
+                //TODO Añadir aqui el codigo
+                Snackbar.make(v, "ASDF", Snackbar.LENGTH_SHORT).show();
+            }
+        });*/
+        AppExecutors.getInstance().networkIO().execute(new HistoricalNetworkLoaderRunnable(
+                this::setHistorical,lat,lon,timeS
+        ));
+    }
+
+
+    private void disp1(){
+        //Display results from act1 after the Thread 2
+        Log.i("Historico ACT1", "Se ha recuperado el hisorico por la ubicacion");
+
+        if (histoData == null){
+            Snackbar.make(myView, getString(R.string.Historical_search_err2_msg), Snackbar.LENGTH_SHORT).show();
+            Log.e("Historico ACT1", "No se ha devuelto un historico valido");
+            return;
+        }
+        Log.i("Historico ACT1", "Se ha devuelto un historico valido");
+
+
+
+
+        //Mostrar el dato en el RecyclerView
+        ArrayList<Historical> histoList = new ArrayList<Historical>();
+        histoList.add(histoData);
+        HistoricalAdapter adapter = new HistoricalAdapter(histoList, new HistoricalAdapterListener() {
+            @Override
+            public void imageButtonViewOnClick(View v, int position) {
+                //Todo Insertar codigo aqui
+                //Aqui no se debe hacer nada porque el element no esta en la base de datos (sino que se va a añadir a ella)
+                Snackbar.make(v, getText(R.string.Historical_remove_err_msg), Snackbar.LENGTH_SHORT).show();
+            }
+        });
+        recyclerView.setAdapter(adapter);
+
+
+        Snackbar.make(myView, getString(R.string.Historical_search_msg1) + " " + cityname, Snackbar.LENGTH_SHORT).show();
+        Log.i("Historico ACT1", "Se ha pulsado el boton de buscar historico por nombre");
+    }
+
+
+
+
+
+
+    public void act2(View v){
+        //TODO Hacer funcion de busqueda en la api
+        //TODO Arreglar boton
+        //Tell that is running act2
+        actNum = 2;
+
+        //Save the view
+        myView = v;
+
+        //Get the location data from the spiner selected location
+        Ubicacion seleccionada = (Ubicacion) spinner2.getSelectedItem();
+        seleccion = seleccionada.getUbicacion();
+
+        lat=seleccionada.getLat();
+        lon=seleccionada.getLon();
+        cityname = seleccionada.getUbicacion();
+
+
+
+        long timeS = (System.currentTimeMillis()) / 1000 - 86400; //Carga el timestamp en segundos de ayer
+        adapter = new HistoricalAdapter(new ArrayList<>(), new HistoricalAdapterListener() {
+            @Override
+            public void imageButtonViewOnClick(View v, int position) {
+                Snackbar.make(v, "Esto es una prueba del boton de borrado en la clase HistoricoFragent", Snackbar.LENGTH_SHORT).show();
+                //TODO Añadir aqui el codigo
+            }
+        });
+
+        AppExecutors.getInstance().networkIO().execute(new HistoricalNetworkLoaderRunnable(
+                this::setHistorical,lat,lon,timeS
+        ));
+        recyclerView.setAdapter(adapter);
+    }
+
+
+    private void disp2(){
+        //Display results from act2 after the Thread 1
+
+        if (histoData == null){
+            Snackbar.make(myView, getString(R.string.Historical_search_err2_msg), Snackbar.LENGTH_SHORT).show();
+            Log.e("Historico ACT1", "No se ha devuelto un historico valido");
+            return;
+        }
+        Log.i("Historico ACT1", "Se ha devuelto un historico valido");
+
+
+        //Mostrar el dato en el RecyclerView
+        ArrayList<Historical> histoList = new ArrayList<Historical>();
+        histoList.add(histoData);
+        HistoricalAdapter adapter = new HistoricalAdapter(histoList, new HistoricalAdapterListener() {
+            @Override
+            public void imageButtonViewOnClick(View v, int position) {
+                //Todo Insertar codigo aqui
+                //Aqui no se debe hacer nada porque el element no esta en la base de datos (sino que se va a añadir a ella)
+                Snackbar.make(v, getText(R.string.Historical_remove_err_msg), Snackbar.LENGTH_SHORT).show();
+            }
+        });
+        recyclerView.setAdapter(adapter);
+
+        Snackbar.make(myView, getString(R.string.Historical_search_msg1) + " " + cityname, Snackbar.LENGTH_SHORT).show();
+        Log.i("Historico ACT1", "Se ha pulsado el boton de buscar historico por nombre");
+    }
+
+
+
+
+
+
+
+    public void act3(View v){
+        //TODO Hacer guardado en Room
+        //Perform saving
+
+        //Save the view
+        myView = v;
 
         String cityname = "";
 
@@ -67,21 +264,7 @@ public class HistoricoActivitySave extends AppCompatActivity {
     }
 
 
-
-    public void act2(View v){
-        //TODO Hacer funcion de busqueda en la api
-
-    }
-
-
-    public void act3(View v){
-        //TODO Hacer guardado en Room
-        //Perform saving
-    }
-
-
     public void act4(View v){
-        //TODO Hacer cancelacion
         //Abort saving
         Log.i("Historico", "Se ha pulsado el boton de cancelar");
 
@@ -104,6 +287,14 @@ public class HistoricoActivitySave extends AppCompatActivity {
         buttonSave1 = findViewById(R.id.buttonSave1);
         buttonSave2 = findViewById(R.id.buttonSave2);
         //goBackButton = findViewById(R.id.GoBackButton);
+
+        //Inicializar Recycler View
+        recyclerView = findViewById(R.id.listHistorical);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getBaseContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+
 
         //Snackbar.make(root, "Surprise :D", Snackbar.LENGTH_SHORT).show();
 
@@ -188,6 +379,15 @@ public class HistoricoActivitySave extends AppCompatActivity {
         }
 
 
+
+        //Cargar el spinner de CountryCodes
+        JsonReader reader = new JsonReader(new InputStreamReader(getResources().openRawResource(R.raw.country_codes)));
+        List<CountryCode> countryCodes = Arrays.asList(new Gson().fromJson(reader, CountryCode[].class));
+        ArrayAdapter<CountryCode> spinnerAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,countryCodes);
+        spinner1.setAdapter(spinnerAdapter);
+        spinner1.setSelection(208);
+
+
         //Cargar la lista de ubicaciones guardadas
         loadItems();
 
@@ -210,19 +410,6 @@ public class HistoricoActivitySave extends AppCompatActivity {
 
 
     private void loadItems() {
-        /*Intent i = getIntent();
-        int cnt = i.getIntExtra("ubiCount", 0);
-
-        ubis = new List<Ubicacion>();
-        spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, ubis);
-
-        for (int x = 0; x < cnt; x--){
-            String extraname = "ubi"+x;
-
-            String pName = i.getStringExtra(extraname+"name");
-            Double pLat = i.getDoubleExtra(extraname+"lat", 0);
-            Double pLon = i.getDoubleExtra(extraname+"lon", 0);
-        }*/
         Context mainCont = this;
 
         AppExecutors.getInstance().diskIO().execute(new Runnable() {

@@ -53,4 +53,5 @@
     <string name="introduceCity">Introduce a city...</string>
     <string name="Historical_remove_err_msg">This historical can not be removed</string>
     <string name="Search">Search</string>
+    <string name="Historical_search_msg1">Showing historical of</string>
 </resources>

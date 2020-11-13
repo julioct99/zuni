@@ -223,25 +223,6 @@ public class HistoricoFragment extends Fragment {
 
         //Se invoca la nueva pantalla y se añade el dato
         Intent i = new Intent(getActivity(), HistoricoActivitySave.class);
-
-        //Pasarle la lista de ubicaciones
-        Bundle b = new Bundle();
-
-        int cnt = spinnerAdapter.getCount();
-        i.putExtra("ubiCount", cnt);
-
-        for (int x = 0; x < cnt; x++){
-            String pName = spinnerAdapter.getItem(x).getUbicacion();
-            Double pLat = spinnerAdapter.getItem(x).getLat();
-            Double pLon = spinnerAdapter.getItem(x).getLon();
-
-            String extraname = "ubi"+x;
-
-            i.putExtra(extraname+"name", pName);
-            i.putExtra(extraname+"lat", pLat);
-            i.putExtra(extraname+"lon", pLon);
-        }
-
         startActivityForResult(i, REQUEST_SAVE_RESULT);
     }
 
@@ -301,6 +282,7 @@ public class HistoricoFragment extends Fragment {
         button2 = root.findViewById(R.id.button2);
         buttonAdd = root.findViewById(R.id.addHistorical);
 
+        //Cargar el spinner de CountryCodes
         JsonReader reader = new JsonReader(new InputStreamReader(getResources().openRawResource(R.raw.country_codes)));
         List<CountryCode> countryCodes = Arrays.asList(new Gson().fromJson(reader, CountryCode[].class));
         ArrayAdapter<CountryCode> spinnerAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,countryCodes);

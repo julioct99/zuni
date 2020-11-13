@@ -51,5 +51,6 @@
     <string name="introduceCity">Introduce una ciudad...</string>
     <string name="Historical_remove_err_msg">Este historico no puede ser borrado</string>
     <string name="Search">Buscar</string>
+    <string name="Historical_search_msg1">Mostrando historico de</string>
 
 </resources>
