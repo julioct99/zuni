@@ -42,7 +42,7 @@
     <string name="Save">Save</string>
     <string name="Cancel">Cancel</string>
     <string name="Historical_save_window_name">Save Historical</string>
-    <string name="Historical_save_msg">Historical added (yesterday) of city</string>
+    <string name="Historical_save_msg1">Historical added (yesterday) of city</string>
     <string name="Historical_search_err1_msg">You must enter a name in the Text Box</string>
     <string name="Historical_search_err2_msg">ERROR: Can not get the Historical Data</string>
     <string name="Historical_save_cancel_msg">The historical save action was aborted</string>
@@ -51,4 +51,9 @@
     <string name="H">Precip:</string>
     <string name="WS">Wind Speed:</string>
     <string name="introduceCity">Introduce a city...</string>
+    <string name="Historical_remove_err_msg">This historical can not be removed</string>
+    <string name="Search">Search</string>
+    <string name="Historical_search_msg1">Showing historical of</string>
+    <string name="Historical_save_err1_msg">No historical was recovered</string>
+    <string name="Historical_save_ok_msg">Historical added successfully</string>
 </resources>

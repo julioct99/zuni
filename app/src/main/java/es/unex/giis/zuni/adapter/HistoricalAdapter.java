@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.lang.ref.WeakReference;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,19 +30,27 @@ public class HistoricalAdapter extends RecyclerView.Adapter<HistoricalAdapter.My
     final Integer KelvinOffset = 273;
     private List<Historical> mDataset;
 
+    //Variable for the button Listener
+    private final HistoricalAdapterListener listener;
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView image_condition, image_sunrise, image_sunset;
-        public TextView tv_day, tv_description, tv_sunrise, tv_sunset, tv_max,tv_min,tv_humidity,tv_ws;
+        public TextView tv_day, tv_description, tv_sunrise, tv_sunset, tv_max, tv_min, tv_humidity, tv_ws;
         public ImageButton bt_erase;
         public View mView;
 
         public Historical mItem;
 
-        public MyViewHolder(View v) {
+        private WeakReference<HistoricalAdapterListener> listenerRef;
+
+        public MyViewHolder(View v, HistoricalAdapterListener listener) {
             super(v);
+
+            listenerRef = new WeakReference<>(listener);
+
             mView=v;
 
             image_condition = v.findViewById(R.id.image_condition);
@@ -59,23 +68,26 @@ public class HistoricalAdapter extends RecyclerView.Adapter<HistoricalAdapter.My
 
             bt_erase = v.findViewById(R.id.bt_erase);
             bt_erase.setOnClickListener(this);
+
         }
 
         @Override
         public void onClick(View v) {
             //Accion a ejecutar en el elemento
-            Snackbar.make(v, "Esto es una prueba del boton de borrado", Snackbar.LENGTH_SHORT).show();
+            //Snackbar.make(v, "Esto es una prueba del boton de borrado", Snackbar.LENGTH_SHORT).show();
 
             //Se debe vincular mediante una interface al fragment del Historico. Mirar proceso en:
             //https://stackoverflow.com/questions/30284067/handle-button-click-inside-a-row-in-recyclerview
+            listenerRef.get().imageButtonViewOnClick(v, getAdapterPosition());
         }
 
 
 
     }
 
-    public HistoricalAdapter(ArrayList<Historical> myDataset) {
+    public HistoricalAdapter(ArrayList<Historical> myDataset, HistoricalAdapterListener listener) {
         mDataset = myDataset;
+        this.listener = listener;
     }
 
 
@@ -83,7 +95,7 @@ public class HistoricalAdapter extends RecyclerView.Adapter<HistoricalAdapter.My
     public HistoricalAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_historical, parent, false);
-        return new MyViewHolder(v);
+        return new MyViewHolder(v, listener);
     }
 
     // Replace the contents of a view (invoked by the layout manager)

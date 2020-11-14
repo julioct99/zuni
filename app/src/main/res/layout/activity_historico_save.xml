@@ -68,9 +68,89 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <EditText
+            android:id="@+id/et_city"
+            android:layout_width="180dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#FFFFFF"
+            android:ems="10"
+            android:hint="@string/introduceCity"
+            android:inputType="textPersonName"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:dropDownSelector="@color/background"
+            app:layout_constraintEnd_toStartOf="@+id/buttonSearch1"
+            app:layout_constraintStart_toEndOf="@+id/et_city"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/buttonSearch1"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/Search"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <Spinner
+            android:id="@+id/spinner2"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="#FFF7F7"
+            app:layout_constraintEnd_toStartOf="@+id/buttonSearch1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_city" />
+
+        <Button
+            android:id="@+id/buttonSearch2"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/Search"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonSearch1" />
+
+
+
+
+        <Button
+            android:id="@+id/buttonSave1"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="8dp"
@@ -82,22 +162,22 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/spinner2" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/buttonSave2"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:background="@color/colorPrimary"
             android:text="@string/Cancel"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/spinner2" />
 
         <TextView
             android:id="@+id/tv_city"
@@ -114,9 +194,9 @@
             android:textAlignment="center"
             android:gravity="center_horizontal"
             android:text=""
-            app:layout_constraintStart_toEndOf="@+id/button2"
-            app:layout_constraintEnd_toStartOf="@+id/button1"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/buttonSave2"
+            app:layout_constraintEnd_toStartOf="@+id/buttonSave1"
+            app:layout_constraintTop_toBottomOf="@+id/spinner2" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listHistorical"
@@ -128,7 +208,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintTop_toBottomOf="@+id/button2"/>
+            app:layout_constraintTop_toBottomOf="@+id/buttonSave2"/>
         <!--            app:layout_constraintEnd_toEndOf="parent"-->
         <!--            app:layout_constraintHorizontal_bias="0.0"-->
         <!--            app:layout_constraintStart_toStartOf="parent"-->
@@ -140,4 +220,3 @@
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>
-
