@@ -17,6 +17,9 @@ public interface HistoricalMinimalDAO {
     @Query("SELECT * FROM historicals WHERE id = :id")
     public HistoricalMinimal getHistorical(long id);
 
+    @Query("SELECT * FROM historicals WHERE cityname = :cityname")
+    public List<HistoricalMinimal> getHistoricalsByCityname(String cityname);
+
     @Insert
     public long insert(HistoricalMinimal item);
 
