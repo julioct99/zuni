@@ -54,5 +54,4 @@
     <string name="Historical_search_msg1">Mostrando historico de</string>
     <string name="Historical_save_err1_msg">No se ha recuperado ningun historico</string>
     <string name="Historical_save_ok_msg">Se ha añadido el historico correctamente</string>
-
 </resources>

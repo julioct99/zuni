@@ -54,7 +54,7 @@ public class DetallesFragment extends Fragment {
                 new ArrayAdapter(getContext(),  android.R.layout.simple_spinner_dropdown_item, ubis);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
-        act1();
+        // act1();
     }
 
     private void loadItems() {
