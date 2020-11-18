@@ -34,7 +34,6 @@
     <string name="menu_historico">Historical weather</string>
     <string name="menu_eventos">Events</string>
     <string name="menu_detalles">Today Forecast</string>
-    <string name="menu_settings">Settings</string>
     <string name="menu_ubicaciones">Locations</string>
     <string name="CURRENT">CURRENT</string>
     <string name="img_description1">Meteorologic image</string>

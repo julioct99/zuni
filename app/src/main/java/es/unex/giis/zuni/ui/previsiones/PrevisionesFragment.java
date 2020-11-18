@@ -59,7 +59,19 @@ public class PrevisionesFragment extends Fragment {
                 new ArrayAdapter(getContext(),  android.R.layout.simple_spinner_dropdown_item, ubis);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
-        // act1();
+
+        if(ubis!=null && ubis.size()>0){
+            boolean enc = false;
+            for(int i=0;i<ubis.size() && !enc;i++){
+                if(ubis.get(i).getBanderaUbiFav()){
+                    enc=true;
+                    spinner.setSelection(i);
+                    act1();
+                }
+            }
+            if(!enc)
+                spinner.setSelection(0);
+        }
     }
 
     private void loadItems() {
@@ -87,6 +99,12 @@ public class PrevisionesFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadItems();
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_previsiones, container, false);
@@ -108,6 +126,8 @@ public class PrevisionesFragment extends Fragment {
         ArrayAdapter<CountryCode> spinnerAdapter2 = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,countryCodes);
         spinner2.setAdapter(spinnerAdapter2);
         spinner2.setSelection(208);
+
+
 
         //if(ubis!=null && ubis.size()>0) {
         //    spinner.setSelection(0);

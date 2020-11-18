@@ -158,6 +158,19 @@ public class AddEventoActivity extends AppCompatActivity {
                 new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                         ubicaciones);
                 mUbicacion.setAdapter(spinnerAdapter);
+
+        if(ubicaciones!=null && ubicaciones.size()>0){
+            boolean enc = false;
+            for(int i=0;i<ubicaciones.size() && !enc;i++){
+                if(ubicaciones.get(i).getBanderaUbiFav()){
+                    enc=true;
+                    mUbicacion.setSelection(i);
+
+                }
+            }
+            if(!enc)
+                mUbicacion.setSelection(0);
+        }
     }
 
 
