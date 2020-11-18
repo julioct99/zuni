@@ -7,8 +7,6 @@ package es.unex.giis.zuni.ubicaciones;
         import androidx.room.Entity;
         import androidx.room.PrimaryKey;
 
-        import es.unex.giis.zuni.eventos.Evento;
-
 
 /* --------------------------------
     Clase Ubicacion: Version 1.0
@@ -30,6 +28,8 @@ public class Ubicacion {
     public final static String LAT = "lat";
     @Ignore
     public final static String LON = "lon";
+    @Ignore
+    public final static String BANDERAUBIFAV = "banderaubifav" ;
 
 
     /* ATRIBUTOS -------------------------------------------------------------------------------- */
@@ -40,24 +40,37 @@ public class Ubicacion {
     private String ubicacion;
     private Double lat;     // Latitud
     private Double lon;     // Longitud
+    private Boolean banderaUbiFav;
 
 
     /* CONSTRUCTORES ---------------------------------------------------------------------------- */
 
+    public Ubicacion (long id,String ubicacion, Double lat, Double lon, Boolean banderaUbiFav){
+        this.id = id;
+        this.ubicacion = ubicacion;
+        this.lat = lat;
+        this.lon = lon;
+        this.banderaUbiFav = banderaUbiFav;
+
+    }
+
+    @Ignore
     public Ubicacion (long id,String ubicacion, Double lat, Double lon){
         this.id = id;
         this.ubicacion = ubicacion;
         this.lat = lat;
         this.lon = lon;
+        this.banderaUbiFav = false;
 
     }
 
-    @Ignore
-    Ubicacion(String ubicacion, Double lat, Double lon){
 
+    @Ignore
+    Ubicacion(String ubicacion, Double lat, Double lon, Boolean banderaUbiFav){
         this.ubicacion = ubicacion;
         this.lat = lat;
         this.lon = lon;
+        this.banderaUbiFav = banderaUbiFav;
     }
 
 
@@ -66,8 +79,9 @@ public class Ubicacion {
     public Ubicacion(Intent intent){
         id=intent.getLongExtra(Ubicacion.ID,0);
         ubicacion = intent.getStringExtra(Ubicacion.UBICACION);
-        lat = intent.getDoubleExtra(Evento.LAT, 0);
-        lon = intent.getDoubleExtra(Evento.LON, 0);
+        lat = intent.getDoubleExtra(Ubicacion.LAT, 0);
+        lon = intent.getDoubleExtra(Ubicacion.LON, 0);
+        banderaUbiFav = intent.getBooleanExtra(Ubicacion.BANDERAUBIFAV,false);
     }
 
 
@@ -85,12 +99,24 @@ public class Ubicacion {
     public Double getLon() { return this.lon; }
     public void setLon(Double lon) { this.lon = lon; }
 
+    public Boolean getBanderaUbiFav() { return this.banderaUbiFav; }
+    public void setBanderaUbiFav(Boolean banderaUbiFav) { this.banderaUbiFav = banderaUbiFav; }
+
     /* METODOS ADICIONALES ---------------------------------------------------------------------- */
 
+    public static void packageIntent(Intent intent, String ubicacion, Double lat, Double lon, Boolean banderaUbiFav){
+        intent.putExtra(Ubicacion.UBICACION, ubicacion);
+        intent.putExtra(Ubicacion.LAT, lat);
+        intent.putExtra(Ubicacion.LON, lon);
+        intent.putExtra(Ubicacion.BANDERAUBIFAV,banderaUbiFav);
+
+    }
+    @Ignore
     public static void packageIntent(Intent intent, String ubicacion, Double lat, Double lon){
         intent.putExtra(Ubicacion.UBICACION, ubicacion);
-        intent.putExtra(Evento.LAT, lat);
-        intent.putExtra(Evento.LON, lon);
+        intent.putExtra(Ubicacion.LAT, lat);
+        intent.putExtra(Ubicacion.LON, lon);
+        intent.putExtra(Ubicacion.BANDERAUBIFAV,false);
 
     }
 
@@ -98,8 +124,9 @@ public class Ubicacion {
     public static void packageIntent(Intent intent, Ubicacion u){
         intent.putExtra(Ubicacion.ID, u.getId());
         intent.putExtra(Ubicacion.UBICACION, u.getUbicacion());
-        intent.putExtra(Evento.LAT, u.getLat());
-        intent.putExtra(Evento.LON, u.getLon());
+        intent.putExtra(Ubicacion.LAT, u.getLat());
+        intent.putExtra(Ubicacion.LON, u.getLon());
+        intent.putExtra(Ubicacion.BANDERAUBIFAV,u.getBanderaUbiFav());
     }
 
 
@@ -110,11 +137,11 @@ public class Ubicacion {
 
     //public String toString(){
     //    return "ID: " + id + ITEM_SEP + "Ubicacion: " + ubicacion + "Lat: " + lat + ITEM_SEP
-    //            + "Lon: " + lon;
+    //            + "Lon: " + lon + ITEM_SEP + "BanderaUbiFav: " + banderaUbiFav;
     //}
 
     public String toLog() {
         return "ID: " + id + ITEM_SEP + "Ubicacion: " + ubicacion + "Lat: " + lat + ITEM_SEP
-                + "Lon: " + lon;
+                + "Lon: " + lon + ITEM_SEP + "BanderaUbiFav: " + banderaUbiFav;
     }
 }

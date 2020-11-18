@@ -1,5 +1,6 @@
 package es.unex.giis.zuni;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,11 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
 import es.unex.giis.zuni.adapter.DailyAdapter;
 import es.unex.giis.zuni.adapter.MeteoHoraAdapter;
+import es.unex.giis.zuni.eventos.Evento;
+import es.unex.giis.zuni.eventos.db.EventoDatabase;
 import es.unex.giis.zuni.openweather.AppExecutors;
 import es.unex.giis.zuni.openweather.DailyNetworkLoaderRunnable;
 import es.unex.giis.zuni.ubicaciones.Ubicacion;
@@ -23,7 +27,7 @@ import es.unex.giis.zuni.ubicaciones.db.UbicacionDatabase;
 
 public class DetallesUbicacionActivity extends AppCompatActivity {
     // Codigo para peticion de añadir ubicacion
-    private static final int EDIT_UBICACION_REQUEST = 2;
+    private static final int FAV_UBICACION_REQUEST = 2;
 
 
     private Ubicacion ubicacion;
@@ -72,21 +76,20 @@ public class DetallesUbicacionActivity extends AppCompatActivity {
         });
 
 
-        /* BOTON DE EDITAR UBICACION --------------------------------------------------------------- */
-        FloatingActionButton editUbicacionFab = findViewById(R.id.editUbicacionFab);
-        editUbicacionFab.setOnClickListener(new View.OnClickListener() {
+        /* BOTON DE PONER LA UBICACION COMO PREDETERMINADA--------------------------------------------------------------- */
+        FloatingActionButton favUbicacionFab = findViewById(R.id.favUbicacionFab);
+        favUbicacionFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DetallesUbicacionActivity.this,
-                        EditUbicacionActivity.class);
+                        FavUbicacionActivity.class);
 
                 Ubicacion.packageIntent(intent, ubicacion);
 
-                startActivityForResult(intent, EDIT_UBICACION_REQUEST);
+                startActivityForResult(intent, FAV_UBICACION_REQUEST);
             }
         });
     }
-
 
     /* CARGAR PREVISIONES EN EL ADAPTER --------------------------------------------------------- */
     private void cargarPrevisiones(Ubicacion ubicacion) {
@@ -102,14 +105,18 @@ public class DetallesUbicacionActivity extends AppCompatActivity {
     /* MUESTRA LOS ATRIBUTOS DE LA UBICACION EN LA PANTALLA ------------------------------------------ */
     private void mostrarInfoUbicacion(Ubicacion ubicacion) {
 
-        ubicacionTV.setText(ubicacion.getUbicacion());
+        if(ubicacion.getBanderaUbiFav()) {
+            ubicacionTV.setText(ubicacion.getUbicacion().concat(" (Ubicación predeterminada)"));
+        }else{
+            ubicacionTV.setText(ubicacion.getUbicacion());
+        }
 
         cargarPrevisiones(ubicacion);
 
     }
 
 
-    /* CARGA EL EVENTO DESDE LA BASE DE DATOS --------------------------------------------------- */
+    /* CARGA EL UBICACION DESDE LA BASE DE DATOS --------------------------------------------------- */
     private void cargarUbicacion() {
         /* SE OBTIENE LA UBICACION DE LA BD */
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
@@ -123,5 +130,43 @@ public class DetallesUbicacionActivity extends AppCompatActivity {
             }
         });
     }
-}
+
+    /* SE ESPERA EL RESULTADO DE LA OPERACION FAV_UBICACION_REQUEST ------------------------------- */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == FAV_UBICACION_REQUEST){
+            if (resultCode == Activity.RESULT_OK){
+                Ubicacion ubicacionFav = new Ubicacion(data);
+                ubicacionFav.setId(ubicacion.getId());
+
+                //PONER LA UBICACION CON (Ubicación predeterminada)
+                ubicacionTV.setText(ubicacion.getUbicacion());
+
+                /* ACTUALIZAR UBICACION EN LA BASE DE DATOS */
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        int id = UbicacionDatabase.getInstance(DetallesUbicacionActivity.this)
+                                .getDao()
+                                .update(ubicacionFav);
+
+                        // Se recarga la ubicacion de esta clase para obtener el nuevo objeto
+                        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(dAdapter != null){
+                                    dAdapter.clear();
+                                }
+
+                                cargarUbicacion();
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    }
+ }
 

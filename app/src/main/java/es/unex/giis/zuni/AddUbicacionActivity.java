@@ -97,7 +97,7 @@ public class AddUbicacionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AppExecutors.getInstance().networkIO().execute(new GeoCodeNetworkLoaderRunnable(
-                        this::muestraUbicacion,mUbicacion.getText().toString().replace(" ","%20"),spinner3.getSelectedItem().toString().substring(0,2)
+                        this::muestraUbicacion,mUbicacion.getText().toString().trim().replace(" ","%20"),spinner3.getSelectedItem().toString().substring(0,2)
                 ));
 
             }
@@ -131,7 +131,7 @@ public class AddUbicacionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 /* Obtener los datos del evento */
-                String ubicacion = mUbicacion.getText().toString();
+                String ubicacion = mUbicacion.getText().toString().trim();
 
                 String spinner = spinner3.getSelectedItem().toString();
 

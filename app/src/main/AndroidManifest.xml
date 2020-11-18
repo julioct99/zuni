@@ -15,6 +15,7 @@
         <activity android:name=".DetallesEventoActivity" />
         <activity android:name=".AddEventoActivity" />
         <activity android:name=".EditUbicacionActivity"></activity>
+        <activity android:name=".FavUbicacionActivity"></activity>
         <activity android:name=".DetallesUbicacionActivity" />
         <activity android:name=".AddUbicacionActivity" />
         <activity

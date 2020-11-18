@@ -106,8 +106,12 @@ public class UbicacionAdapter extends RecyclerView.Adapter<UbicacionAdapter.View
         public void bind(final Ubicacion ubicacion, final UbicacionAdapter.OnItemClickListener listener) {
 
             /* Configurar los widgets del elemento */
-            TVubicacion.setText(ubicacion.getUbicacion());
 
+            if(ubicacion.getBanderaUbiFav()) {
+                TVubicacion.setText(ubicacion.getUbicacion().concat(" (Ubicación predeterminada)"));
+            }else{
+                TVubicacion.setText(ubicacion.getUbicacion());
+            }
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
