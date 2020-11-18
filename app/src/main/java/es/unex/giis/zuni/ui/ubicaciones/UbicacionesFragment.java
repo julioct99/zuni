@@ -29,6 +29,7 @@ import es.unex.giis.zuni.ubicaciones.Ubicacion;
 import es.unex.giis.zuni.ubicaciones.UbicacionAdapter;
 import es.unex.giis.zuni.ubicaciones.db.UbicacionDatabase;
 
+
 public class UbicacionesFragment extends Fragment {
 
     // Codigo para peticion de añadir ubicacion
@@ -89,7 +90,7 @@ public class UbicacionesFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK){
                 Ubicacion ubicacion = new Ubicacion(data);
 
-                /* INSERTAR EVENTO EN LA BASE DE DATOS */
+                /* INSERTAR UBICACION EN LA BASE DE DATOS */
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {

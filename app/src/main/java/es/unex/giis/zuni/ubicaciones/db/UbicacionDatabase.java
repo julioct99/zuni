@@ -14,7 +14,7 @@ public abstract class UbicacionDatabase extends RoomDatabase {
     private static UbicacionDatabase instance;
     public static UbicacionDatabase getInstance(Context context){
         if(instance == null){
-            instance = Room.databaseBuilder(context,UbicacionDatabase.class,"ubicaciones.db").build();
+            instance = Room.databaseBuilder(context,UbicacionDatabase.class,"ubicaciones2.db").build();
         }
         return instance;
     }

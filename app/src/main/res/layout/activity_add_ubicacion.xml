@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
     <EditText
         android:id="@+id/ubicacionUbicacionInput"
@@ -15,6 +16,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Madrid"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ubicacionNuevaUbi" />
 
@@ -34,7 +36,7 @@
         android:layout_height="45dp"
         android:layout_marginTop="149dp"
         android:text="Madrid, España"
-        android:textColor="@color/design_default_color_on_secondary"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -60,7 +62,7 @@
         android:layout_marginLeft="56dp"
         android:layout_marginTop="32dp"
         android:text="Nueva ubicación"
-        android:textColor="@color/design_default_color_on_secondary"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,12 +70,12 @@
 
     <Spinner
         android:id="@+id/spinner3"
-        android:background="#FFF7F7"
         android:layout_width="70dp"
         android:layout_height="40dp"
         android:layout_marginStart="36dp"
         android:layout_marginLeft="36dp"
         android:layout_marginTop="100dp"
+        android:background="#FFF7F7"
         android:dropDownSelector="@color/background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.066"
