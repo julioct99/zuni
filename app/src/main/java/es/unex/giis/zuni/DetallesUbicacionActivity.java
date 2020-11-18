@@ -32,8 +32,7 @@ public class DetallesUbicacionActivity extends AppCompatActivity {
 
     private Ubicacion ubicacion;
 
-    private TextView ubicacionTV;
-
+    private TextView ubicacionTV, latitudTV, longitudTV;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     MeteoHoraAdapter mhAdapter;
@@ -46,7 +45,8 @@ public class DetallesUbicacionActivity extends AppCompatActivity {
 
 
         ubicacionTV = findViewById(R.id.ubicacionUbicacionTV);
-
+        latitudTV = findViewById(R.id.tvLatitud);
+        longitudTV = findViewById(R.id.tvLongitud);
 
 
         Intent intent = getIntent();
@@ -56,10 +56,10 @@ public class DetallesUbicacionActivity extends AppCompatActivity {
 
 
 
-        mRecyclerView = findViewById(R.id.listaDetallesUbicacion);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(DetallesUbicacionActivity.this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        //mRecyclerView = findViewById(R.id.listaDetallesUbicacion);
+        //mRecyclerView.setHasFixedSize(true);
+        //mLayoutManager = new LinearLayoutManager(DetallesUbicacionActivity.this);
+        //mRecyclerView.setLayoutManager(mLayoutManager);
 
         cargarUbicacion();
 
@@ -110,8 +110,9 @@ public class DetallesUbicacionActivity extends AppCompatActivity {
         }else{
             ubicacionTV.setText(ubicacion.getUbicacion());
         }
-
-        cargarPrevisiones(ubicacion);
+        //latitudTV.setText(Double.toString(ubicacion.getLat()));
+        //longitudTV.setText(Double.toString(ubicacion.getLon()));
+        //cargarPrevisiones(ubicacion);
 
     }
 

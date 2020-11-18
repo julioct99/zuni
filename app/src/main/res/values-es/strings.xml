@@ -35,7 +35,6 @@
     <string name="menu_historico">Tiempo historico</string>
     <string name="menu_eventos">Eventos</string>
     <string name="menu_detalles">Tiempo de hoy</string>
-    <string name="menu_settings">Configuracion</string>
     <string name="CURRENT">ACTUAL</string>
     <string name="img_description1">Imagen de la condicion meteorologica</string>
     <string name="GO">IR!</string>

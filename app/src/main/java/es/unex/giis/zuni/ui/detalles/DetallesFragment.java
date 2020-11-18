@@ -54,6 +54,19 @@ public class DetallesFragment extends Fragment {
                 new ArrayAdapter(getContext(),  android.R.layout.simple_spinner_dropdown_item, ubis);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
+
+        if(ubis!=null && ubis.size()>0){
+            boolean enc = false;
+            for(int i=0;i<ubis.size() && !enc;i++){
+                if(ubis.get(i).getBanderaUbiFav()){
+                    enc=true;
+                    spinner.setSelection(i);
+                    act1();
+                }
+            }
+            if(!enc)
+                spinner.setSelection(0);
+        }
         // act1();
     }
 
