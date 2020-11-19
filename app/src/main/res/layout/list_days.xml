@@ -11,7 +11,7 @@
         android:id="@+id/contraint_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#9C27B0">
+        android:background="@color/colorPrimaryDark">
 
 
         <ImageView

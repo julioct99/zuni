@@ -14,14 +14,16 @@
         android:layout_marginLeft="55dp"
         android:layout_marginTop="36dp"
         android:ems="10"
+        android:hint="Añade una ubicación"
         android:inputType="textPersonName"
-        android:text="Madrid"
         android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ubicacionNuevaUbi" />
 
     <Button
         android:id="@+id/ubicacionBuscarButton"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="300dp"
         android:layout_height="45dp"
         android:layout_marginTop="29dp"
@@ -35,7 +37,6 @@
         android:layout_width="200dp"
         android:layout_height="45dp"
         android:layout_marginTop="149dp"
-        android:text="Madrid, España"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,6 +46,7 @@
 
     <Button
         android:id="@+id/ubicacionSubmit"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="300dp"
         android:layout_height="45dp"
         android:layout_marginTop="28dp"
@@ -84,6 +86,7 @@
 
     <Button
         android:id="@+id/ubicacionCancel"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
@@ -95,6 +98,7 @@
 
     <Button
         android:id="@+id/ubicacionReset"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="72dp"
