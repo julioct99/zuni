@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -48,7 +49,7 @@ public class DetallesEventoActivity extends AppCompatActivity {
     private static final int EDIT_EVENTO_REQUEST = 2;
 
     private Evento evento;
-
+    private ProgressBar mProgressBar;
     private TextView descripcionTV;
     private TextView tituloTV;
     private TextView ubicacionTV;
@@ -75,7 +76,7 @@ public class DetallesEventoActivity extends AppCompatActivity {
 
         noPrevisionesTV = findViewById(R.id.noPrevisionesTV);
         fechaDisponibleTV = findViewById(R.id.fechaDisponibleEventoTV);
-
+        mProgressBar = findViewById(R.id.progressBar4);
         Intent intent = getIntent();
 
         evento = new Evento(intent);
@@ -118,6 +119,8 @@ public class DetallesEventoActivity extends AppCompatActivity {
 
     /* CARGAR PREVISIONES EN EL ADAPTER --------------------------------------------------------- */
     private void cargarPrevisiones(Evento evento){
+
+        mProgressBar.setVisibility(View.VISIBLE);
         dAdapter = new DailyAdapter(new ArrayList<>());
         AppExecutors.getInstance().networkIO().execute(new DailyNetworkLoaderRunnable(
                 this::obtenerPrevisionEvento, evento.getLat(), evento.getLon()
@@ -139,6 +142,9 @@ public class DetallesEventoActivity extends AppCompatActivity {
         if(days >= 0) {
             newDataset.add(dataset.get(days));
         }
+
+        mProgressBar.setVisibility(View.GONE);
+
         dAdapter.swap(newDataset);
     }
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -50,6 +51,9 @@ public class DetallesFragment extends Fragment {
     private double lat, lon;
     private TextView textViewError;
     static List<Ubicacion> ubis = null;
+
+    private ProgressBar mProgressBar;
+
     public void cargarSpinner(){
         ArrayAdapter<Ubicacion> spinnerAdapter =
                 new ArrayAdapter(getContext(),  android.R.layout.simple_spinner_dropdown_item, ubis);
@@ -84,8 +88,10 @@ public class DetallesFragment extends Fragment {
     public void act2(){
         seleccion = city.getText().toString();
 
-        if(seleccion != null && !seleccion.trim().equals("")){
+        if(seleccion != null){
+            if(!seleccion.trim().equals("")){
 
+                mProgressBar.setVisibility(View.VISIBLE);
             // ----------------------------- CURRENT -----------------------------
 
             adapter1=new CurrentAdapter(new ArrayList<Current>());
@@ -100,7 +106,7 @@ public class DetallesFragment extends Fragment {
                     this::act3,seleccion.replace(" ","%20"),spinner2.getSelectedItem().toString().substring(0,2)
             ));
 
-        }
+        }}
         else{
             Snackbar.make(getView(), getString(R.string.Historical_search_err1_msg), Snackbar.LENGTH_SHORT).show();
         }
@@ -108,12 +114,19 @@ public class DetallesFragment extends Fragment {
 
     private void act3(GeoCode geoCode) {
 
-        adapter=new MeteoHoraAdapter(new ArrayList<Hourly>());
-        AppExecutors.getInstance().networkIO().execute(new MeteoHoraNetworkLoaderRunnable(
-                adapter::swap,Double.parseDouble(geoCode.getLatt()),Double.parseDouble(geoCode.getLongt())
-        ));
-        recyclerView.setAdapter(adapter);
-
+        if(geoCode!=null){
+            if(geoCode.getLatt()!=null){
+                if (geoCode.getLongt()!=null){
+                    if(!geoCode.getLatt().trim().equals("") && !geoCode.getLongt().trim().equals("") ){
+                        adapter=new MeteoHoraAdapter(new ArrayList<Hourly>());
+                        AppExecutors.getInstance().networkIO().execute(new MeteoHoraNetworkLoaderRunnable(
+                                this::swap,Double.parseDouble(geoCode.getLatt()),Double.parseDouble(geoCode.getLongt())
+                        ));
+                        recyclerView.setAdapter(adapter);
+                    }
+                }
+            }
+        }
     }
 
     public void act1(){
@@ -125,7 +138,7 @@ public class DetallesFragment extends Fragment {
             lon = seleccionada.getLon();
             // ----------------------------- CURRENT -----------------------------
 
-
+            mProgressBar.setVisibility(View.VISIBLE);
             adapter1 = new CurrentAdapter(new ArrayList<Current>());
             AppExecutors.getInstance().networkIO().execute(new CurrentNetworkLoaderRunnable(
                     adapter1::swap, lat, lon
@@ -136,7 +149,7 @@ public class DetallesFragment extends Fragment {
 
             adapter = new MeteoHoraAdapter(new ArrayList<Hourly>());
             AppExecutors.getInstance().networkIO().execute(new MeteoHoraNetworkLoaderRunnable(
-                    adapter::swap, lat, lon
+                    this::swap, lat, lon
             ));
             recyclerView.setAdapter(adapter);
         }
@@ -144,6 +157,12 @@ public class DetallesFragment extends Fragment {
             Snackbar.make(getView(), getString(R.string.Historical_search_err3_msg), Snackbar.LENGTH_SHORT).show();
         }
     }
+
+    private void swap(List<Hourly> hourlies) {
+        adapter.swap(hourlies);
+        mProgressBar.setVisibility(View.GONE);
+    }
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -155,7 +174,7 @@ public class DetallesFragment extends Fragment {
 
         button = (Button) root.findViewById(R.id.button);
         button2 = (Button) root.findViewById(R.id.button2);
-
+        mProgressBar = root.findViewById(R.id.progressBar);
 
         recyclerView = (RecyclerView) root.findViewById(R.id.list_items);
         recyclerView.setHasFixedSize(true);
@@ -176,9 +195,6 @@ public class DetallesFragment extends Fragment {
         spinner2.setAdapter(spinnerAdapter2);
         spinner2.setSelection(208);
 
-        //if(ubis!=null && ubis.size()>0) {
-        //    act1();
-        //}
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,28 +208,6 @@ public class DetallesFragment extends Fragment {
                 act2();
             }
         });
-
-
-
-
-        /*
-        // ----------------------------- CURRENT -----------------------------
-
-        adapter1=new CurrentAdapter(new ArrayList<Current>());
-        AppExecutors.getInstance().networkIO().execute(new CurrentNetworkLoaderRunnable(
-                adapter1::swap,lat,lon
-        ));
-        recyclerView1.setAdapter(adapter1);
-
-        // ----------------------------- HORAS -----------------------------
-
-        adapter=new MeteoHoraAdapter(new ArrayList<Hourly>());
-        AppExecutors.getInstance().networkIO().execute(new MeteoHoraNetworkLoaderRunnable(
-                adapter::swap,lat,lon
-        ));
-        recyclerView.setAdapter(adapter);
-
-        */
 
         return root;
     }

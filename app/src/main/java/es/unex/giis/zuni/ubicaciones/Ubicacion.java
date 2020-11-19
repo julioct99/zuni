@@ -132,7 +132,7 @@ public class Ubicacion {
 
     @Override
     public String toString() {
-        return id + " - " + ubicacion;
+        return ubicacion;
     }
 
     //public String toString(){

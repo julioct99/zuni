@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -46,7 +47,7 @@ public class HistoricoActivitySave extends AppCompatActivity {
     //private Button goBackButton;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-
+    private ProgressBar mProgressBar;
     private HistoricalAdapter adapter;
 
     //Variable del Intent de invocacion
@@ -89,6 +90,8 @@ public class HistoricoActivitySave extends AppCompatActivity {
             disp1();
         else if(actNum == 2)
             disp2();
+
+        mProgressBar.setVisibility(View.GONE);
     }
 
 
@@ -117,7 +120,7 @@ public class HistoricoActivitySave extends AppCompatActivity {
             return;
         }
 
-
+        mProgressBar.setVisibility(View.VISIBLE);
         //Get coordinates from the GeoCode API
         AppExecutors.getInstance().networkIO().execute(new GeoCodeNetworkLoaderRunnable(
                 this::setUbicacion,cityname.replace(" ","%20"), countrycode
@@ -160,6 +163,7 @@ public class HistoricoActivitySave extends AppCompatActivity {
                 Snackbar.make(v, getText(R.string.Historical_remove_err_msg), Snackbar.LENGTH_SHORT).show();
             }
         });
+
         recyclerView.setAdapter(adapter);
 
 
@@ -199,7 +203,7 @@ public class HistoricoActivitySave extends AppCompatActivity {
         countrycode = "";
 
 
-
+        mProgressBar.setVisibility(View.VISIBLE);
         long timeS = (System.currentTimeMillis()) / 1000 - 86400; //Carga el timestamp en segundos de ayer
         AppExecutors.getInstance().networkIO().execute(new HistoricalNetworkLoaderRunnable(
                 this::setHistorical,lat,lon,timeS
@@ -294,6 +298,7 @@ public class HistoricoActivitySave extends AppCompatActivity {
         buttonSerach2 = findViewById(R.id.buttonSearch2);
         buttonSave1 = findViewById(R.id.buttonSave1);
         buttonSave2 = findViewById(R.id.buttonSave2);
+        mProgressBar = findViewById(R.id.progressBar5);
         //goBackButton = findViewById(R.id.GoBackButton);
 
         isRecovered = false; //Indicar que aun no se ha recuperado ningun dato

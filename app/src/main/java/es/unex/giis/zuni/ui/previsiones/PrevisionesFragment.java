@@ -1,5 +1,6 @@
 package es.unex.giis.zuni.ui.previsiones;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
@@ -29,6 +31,7 @@ import java.util.List;
 
 import es.unex.giis.zuni.R;
 import es.unex.giis.zuni.adapter.DailyAdapter;
+import es.unex.giis.zuni.api.daily.Datum;
 import es.unex.giis.zuni.countrycodes.CountryCode;
 import es.unex.giis.zuni.openweather.AppExecutors;
 import es.unex.giis.zuni.openweather.DailyNetworkLoaderRunnable;
@@ -37,7 +40,7 @@ import es.unex.giis.zuni.ubicaciones.db.UbicacionDatabase;
 
 public class PrevisionesFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
-
+    private ProgressBar mProgressBar;
     private EditText city;
     private DailyAdapter adapter;
     private RecyclerView recyclerView;
@@ -50,13 +53,15 @@ public class PrevisionesFragment extends Fragment {
         seleccion = city.getText().toString();
 
         if(seleccion != null && !seleccion.trim().equals("")){
-            if(seleccion.trim().equals("")){
+
+            mProgressBar.setVisibility(View.VISIBLE);
+
                 adapter=new DailyAdapter(new ArrayList<>());
                 AppExecutors.getInstance().networkIO().execute(new DailyNetworkLoaderRunnable(
-                        adapter::swap,seleccion,spinner2.getSelectedItem().toString().substring(0,2)
+                        this::swap,seleccion,spinner2.getSelectedItem().toString().substring(0,2)
                 ));
                 recyclerView.setAdapter(adapter);
-            }
+
         }
         else{
             Snackbar.make(getView(), getString(R.string.Historical_search_err1_msg), Snackbar.LENGTH_SHORT).show();
@@ -95,6 +100,7 @@ public class PrevisionesFragment extends Fragment {
 
     public void act1(){
         if(ubis!=null && ubis.size()>0){
+            mProgressBar.setVisibility(View.VISIBLE);
             Ubicacion seleccionada = (Ubicacion) spinner.getSelectedItem();
             seleccion = seleccionada.getUbicacion();
 
@@ -104,13 +110,18 @@ public class PrevisionesFragment extends Fragment {
             adapter=new DailyAdapter(new ArrayList<>());
 
             AppExecutors.getInstance().networkIO().execute(new DailyNetworkLoaderRunnable(
-                    adapter::swap,lat,lon
+                    this::swap,lat,lon
             ));
             recyclerView.setAdapter(adapter);
         }
         else{
             Snackbar.make(getView(), getString(R.string.Historical_search_err3_msg), Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    private void swap(List<Datum> data) {
+        adapter.swap(data);
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -124,6 +135,14 @@ public class PrevisionesFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_previsiones, container, false);
         spinner = (Spinner) root.findViewById(R.id.spinner);
         spinner2 = (Spinner) root.findViewById(R.id.spinner2);
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // In landscape
+            mProgressBar = root.findViewById(R.id.progressBar2);
+        } else {
+            // In portrait
+            mProgressBar = root.findViewById(R.id.progressBar1);
+        }
 
         button = (Button) root.findViewById(R.id.button);
         button2 = (Button) root.findViewById(R.id.button2);
@@ -142,11 +161,6 @@ public class PrevisionesFragment extends Fragment {
         spinner2.setSelection(208);
 
 
-
-        //if(ubis!=null && ubis.size()>0) {
-        //    spinner.setSelection(0);
-        //    act1();
-        //}
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

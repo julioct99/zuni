@@ -134,7 +134,15 @@ public class MeteoHoraAdapter extends RecyclerView.Adapter<MeteoHoraAdapter.MyVi
 
 
     public void swap(List<Hourly> dataset){
-        mDataset = dataset;
+        if(dataset==null) {
+            mDataset=new ArrayList<Hourly>();
+        }
+        else{
+            if(dataset.size()>0)
+                mDataset = dataset;
+            else mDataset=new ArrayList<Hourly>();
+        }
+
         notifyDataSetChanged();
     }
 }

@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -52,7 +53,7 @@ public class AddUbicacionActivity extends AppCompatActivity {
 
     private static final String TAG = "Zuni-AddUbicacion";
 
-
+    private ProgressBar mProgressBar;
     private EditText mUbicacion;
     private TextView mTexto;
     private double lat;
@@ -70,7 +71,7 @@ public class AddUbicacionActivity extends AppCompatActivity {
         mUbicacion = findViewById(R.id.ubicacionUbicacionInput);
         mTexto = findViewById(R.id.ubicacionTextoUbic);
         spinner3 = findViewById(R.id.spinner3);
-
+        mProgressBar = findViewById(R.id.progressBar3);
         //Llamada a API para extraer códigos de país
         JsonReader reader = new JsonReader(new InputStreamReader(getResources().openRawResource(R.raw.country_codes)));
         List<CountryCode> countryCodes = Arrays.asList(new Gson().fromJson(reader, CountryCode[].class));
@@ -96,6 +97,8 @@ public class AddUbicacionActivity extends AppCompatActivity {
         buscarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mProgressBar.setVisibility(View.VISIBLE);
+
                 AppExecutors.getInstance().networkIO().execute(new GeoCodeNetworkLoaderRunnable(
                         this::muestraUbicacion,mUbicacion.getText().toString().trim().replace(" ","%20"),spinner3.getSelectedItem().toString().substring(0,2)
                 ));
@@ -103,9 +106,23 @@ public class AddUbicacionActivity extends AppCompatActivity {
             }
 
             private void muestraUbicacion(GeoCode geoCode) {
-                lat = Double.parseDouble(geoCode.getLatt());
-                lon = Double.parseDouble(geoCode.getLongt());
-                mTexto.setText(geoCode.getStandard().getCity());
+
+                mProgressBar.setVisibility(View.GONE);
+
+                if(geoCode!=null) {
+                    if (geoCode.getLatt() != null) {
+                        if (geoCode.getLongt() != null) {
+                            if (geoCode.getStandard().getCity() != null) {
+                                if (!geoCode.getLatt().trim().equals("") && !geoCode.getLongt().trim().equals("") && !geoCode.getStandard().getCity().trim().equals("")) {
+                                    lat = Double.parseDouble(geoCode.getLatt());
+                                    lon = Double.parseDouble(geoCode.getLongt());
+
+                                    mTexto.setText(geoCode.getStandard().getCity());
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
         });
