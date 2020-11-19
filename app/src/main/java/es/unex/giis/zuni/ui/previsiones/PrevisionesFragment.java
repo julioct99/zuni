@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
@@ -47,11 +48,19 @@ public class PrevisionesFragment extends Fragment {
     static List<Ubicacion> ubis = null;
     public void act2(){
         seleccion = city.getText().toString();
-        adapter=new DailyAdapter(new ArrayList<>());
-        AppExecutors.getInstance().networkIO().execute(new DailyNetworkLoaderRunnable(
-                adapter::swap,seleccion,spinner2.getSelectedItem().toString().substring(0,2)
-        ));
-        recyclerView.setAdapter(adapter);
+
+        if(seleccion != null && !seleccion.trim().equals("")){
+            if(seleccion.trim().equals("")){
+                adapter=new DailyAdapter(new ArrayList<>());
+                AppExecutors.getInstance().networkIO().execute(new DailyNetworkLoaderRunnable(
+                        adapter::swap,seleccion,spinner2.getSelectedItem().toString().substring(0,2)
+                ));
+                recyclerView.setAdapter(adapter);
+            }
+        }
+        else{
+            Snackbar.make(getView(), getString(R.string.Historical_search_err1_msg), Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     public void cargarSpinner(){
@@ -85,18 +94,23 @@ public class PrevisionesFragment extends Fragment {
     }
 
     public void act1(){
-        Ubicacion seleccionada = (Ubicacion) spinner.getSelectedItem();
-        seleccion = seleccionada.getUbicacion();
+        if(ubis!=null && ubis.size()>0){
+            Ubicacion seleccionada = (Ubicacion) spinner.getSelectedItem();
+            seleccion = seleccionada.getUbicacion();
 
-        lat=seleccionada.getLat();
-        lon=seleccionada.getLon();
+            lat=seleccionada.getLat();
+            lon=seleccionada.getLon();
 
-        adapter=new DailyAdapter(new ArrayList<>());
+            adapter=new DailyAdapter(new ArrayList<>());
 
-        AppExecutors.getInstance().networkIO().execute(new DailyNetworkLoaderRunnable(
-                adapter::swap,lat,lon
-        ));
-        recyclerView.setAdapter(adapter);
+            AppExecutors.getInstance().networkIO().execute(new DailyNetworkLoaderRunnable(
+                    adapter::swap,lat,lon
+            ));
+            recyclerView.setAdapter(adapter);
+        }
+        else{
+            Snackbar.make(getView(), getString(R.string.Historical_search_err3_msg), Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     @Override

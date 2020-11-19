@@ -125,23 +125,26 @@ public class AddEventoActivity extends AppCompatActivity {
                 String descripcion = mDescripcion.getText().toString();
                 String fullDate = dateString + " " + timeString;
                 Evento.Alerta alerta = getAlerta();
+                if(ubicaciones!=null && ubicaciones.size()>0){
+                    Ubicacion uSeleccionada = (Ubicacion) mUbicacion.getSelectedItem();
 
-                Ubicacion uSeleccionada = (Ubicacion) mUbicacion.getSelectedItem();
-
-                String ubicacion = uSeleccionada.getUbicacion();
-                Double lat = uSeleccionada.getLat();
-                Double lon = uSeleccionada.getLon();
+                    String ubicacion = uSeleccionada.getUbicacion();
+                    Double lat = uSeleccionada.getLat();
+                    Double lon = uSeleccionada.getLon();
 
 
-                /* Empaquetar el evento en un intent */
-                Intent data = new Intent();
-                Evento.packageIntent(data, titulo, descripcion, fullDate, alerta, ubicacion, lat,
-                        lon);
+                    /* Empaquetar el evento en un intent */
+                    Intent data = new Intent();
+                    Evento.packageIntent(data, titulo, descripcion, fullDate, alerta, ubicacion, lat,lon);
 
-                Evento eventoCreado = new Evento(data);
+                    Evento eventoCreado = new Evento(data);
 
-                setResult(RESULT_OK, data);
-                finish();
+                    setResult(RESULT_OK, data);
+                    finish();
+                }
+                else{
+                    Snackbar.make(v, getString(R.string.Historical_search_err3_msg), Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -154,12 +157,15 @@ public class AddEventoActivity extends AppCompatActivity {
 
     /* CARGA EL SPINNER CON LA LISTA DE UBICACIONES --------------------------------------------- */
     private void cargarSpinner(){
+
+        if(ubicaciones!=null && ubicaciones.size()>0){
+
         ArrayAdapter<Ubicacion> spinnerAdapter =
                 new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                         ubicaciones);
                 mUbicacion.setAdapter(spinnerAdapter);
 
-        if(ubicaciones!=null && ubicaciones.size()>0){
+
             boolean enc = false;
             for(int i=0;i<ubicaciones.size() && !enc;i++){
                 if(ubicaciones.get(i).getBanderaUbiFav()){
@@ -170,6 +176,7 @@ public class AddEventoActivity extends AppCompatActivity {
             }
             if(!enc)
                 mUbicacion.setSelection(0);
+
         }
     }
 

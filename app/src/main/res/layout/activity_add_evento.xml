@@ -74,19 +74,22 @@
 
     <RadioGroup
         android:id="@+id/ubicacionGroup"
-        android:layout_width="381dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_below="@id/eventoUbicacionLabel"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:text="@string/e_ubicacion_string">
 
         <Spinner
             android:id="@+id/eventoUbicacionSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:background="@color/colorAccent"
             android:textColor="#E3E3E3" />
 

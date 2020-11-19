@@ -43,7 +43,8 @@
     <string name="Historical_save_window_name">Save Historical</string>
     <string name="Historical_save_msg1">Historical added (yesterday) of city</string>
     <string name="Historical_search_err1_msg">You must enter a name in the Text Box</string>
-    <string name="Historical_search_err2_msg">ERROR: Can not get the Historical Data</string>
+    <string name="Historical_search_err2_msg">Can not get the Historical Data</string>
+    <string name="Historical_search_err3_msg">There is no locations in the list. Add it from Locations menu</string>
     <string name="Historical_save_cancel_msg">The historical save action was aborted</string>
     <string name="Max" translatable="false">Max:</string>
     <string name="Min" translatable="false">Min:</string>

@@ -18,6 +18,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -148,7 +150,7 @@ public class EditEventoActivity extends AppCompatActivity {
                 String descripcion = mDescripcion.getText().toString();
                 String fullDate = dateString + " " + timeString;
                 Evento.Alerta alerta = getAlerta();
-
+                if(ubicaciones!=null && ubicaciones.size()>0){
                 Ubicacion uSeleccionada = (Ubicacion) mUbicacion.getSelectedItem();
 
                 String ubicacion = uSeleccionada.getUbicacion();
@@ -165,6 +167,10 @@ public class EditEventoActivity extends AppCompatActivity {
 
                 setResult(RESULT_OK, data);
                 finish();
+                }
+                else{
+                    Snackbar.make(v, getString(R.string.Historical_search_err3_msg), Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }
